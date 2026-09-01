@@ -118,15 +118,15 @@
         label {
             display: block;
             font-size: 0.85rem;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             opacity: 0.9;
         }
 
-        /* EMOJIS SELECTION GRID (0 a 10) */
+        /* 5 SMILES SELECTION GRID */
         .emoji-grid {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
-            gap: 6px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
             margin-top: 5px;
         }
 
@@ -134,11 +134,21 @@
             background: #1a2532;
             border: 1px solid #3a4b60;
             border-radius: 8px;
-            padding: 8px 0;
-            font-size: 1.2rem;
+            padding: 10px 0;
+            font-size: 1.5rem;
             cursor: pointer;
             text-align: center;
             transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .emoji-btn span {
+            font-size: 0.65rem;
+            opacity: 0.8;
+            font-weight: bold;
         }
 
         .emoji-btn.selected {
@@ -149,19 +159,19 @@
 
         .emoji-value-display {
             text-align: center;
-            font-size: 0.9rem;
-            margin-top: 8px;
+            font-size: 0.95rem;
+            margin-top: 10px;
             color: var(--accent-color);
             font-weight: bold;
         }
 
-        /* SLIDER DINÂMICO RIGIDEZ/DOR */
+        /* SLIDER DINÂMICO RIGIDEZ/DOR COM VISOR GRANDE */
         input[type=range] {
             width: 100%;
-            height: 8px;
+            height: 10px;
             border-radius: 5px;
             outline: none;
-            margin: 10px 0;
+            margin: 12px 0 8px 0;
             -webkit-appearance: none;
             background: #3a4b60;
         }
@@ -169,8 +179,8 @@
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
-            width: 22px;
-            height: 22px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
             cursor: pointer;
             transition: background 0.2s;
@@ -179,8 +189,30 @@
         .slider-val-info {
             display: flex;
             justify-content: space-between;
-            font-size: 0.85rem;
-            font-weight: bold;
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        .big-visor {
+            background: #1a2532;
+            border: 1px solid #3a4b60;
+            border-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            margin-top: 8px;
+        }
+
+        .big-visor-number {
+            font-size: 1.6rem;
+            font-weight: 800;
+        }
+
+        .big-visor-label {
+            font-size: 0.75rem;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         input[type="number"], select {
@@ -261,27 +293,30 @@
             <div class="card">
                 <h3>☀️ Rito Matinal</h3>
                 
-                <!-- 1. Humor e Disposição com Emojis (0 a 10) -->
+                <!-- 1. Humor e Disposição com 5 Smiles -->
                 <div class="input-group">
-                    <label>Nível de Humor / Disposição (0 a 10):</label>
+                    <label>Nível de Humor / Disposição (1 a 5):</label>
                     <div class="emoji-grid" id="emoji-container">
-                        <!-- Gerado via Script de 0 a 10 -->
+                        <!-- Gerado via Script (1 a 5 com Smiles) -->
                     </div>
-                    <div id="emoji-display" class="emoji-value-display">Selecionado: 5 ⚡</div>
-                    <input type="hidden" id="disposicao-emoji" value="5">
+                    <div id="emoji-display" class="emoji-value-display">Selecionado: 3 - 😐 Neutro</div>
+                    <input type="hidden" id="disposicao-emoji" value="3">
                 </div>
 
-                <!-- 2. Rigidez e Dor (0 a 10 - Quanto maior pior) -->
+                <!-- 2. Rigidez e Dor (0 a 10 com Visor Ampliado) -->
                 <div class="input-group" style="margin-top: 20px;">
                     <label>Rigidez corporal / Dor ao acordar (0 a 10):</label>
-                    <span style="font-size: 0.75rem; opacity: 0.7; display: block; margin-bottom: 5px;">⚠️ Quanto maior, pior o estado físico.</span>
-                    <input type="range" id="rigidez-dor" min="0" max="10" value="2" oninput="atualizarRigidezSlider(this.value)">
                     <div class="slider-val-info">
-                        <span style="color: var(--success-color);">Bom (0-3)</span>
-                        <span style="color: var(--warning-color);">Moderado (4-7)</span>
-                        <span style="color: var(--danger-color);">Crítico (8-10)</span>
+                        <span>Bom (0-3)</span>
+                        <span>Moderado (4-7)</span>
+                        <span>Crítico (8-10)</span>
                     </div>
-                    <div id="rigidez-val-text" style="text-align: center; font-weight: bold; margin-top: 5px; color: var(--success-color);">Nível: 2</div>
+                    <input type="range" id="rigidez-dor" min="0" max="10" value="2" oninput="atualizarRigidezSlider(this.value)">
+                    
+                    <div class="big-visor">
+                        <div class="big-visor-label">Nível de Rigidez / Dor</div>
+                        <div id="rigidez-val-num" class="big-visor-number" style="color: var(--success-color);">2</div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -342,7 +377,13 @@
     <script>
         let ritoAtual = "Manhã";
 
-        const emojisLista = ["😴", "🥱", "😐", "🙂", "⚡", "🔥", "🚀", "💪", "🦁", "🏆", "🌟"];
+        const escalaSmiles = [
+            { valor: 1, emoji: "😫", desc: "Exausto" },
+            { valor: 2, emoji: "😕", desc: "Baixo" },
+            { valor: 3, emoji: "😐", desc: "Neutro" },
+            { valor: 4, emoji: "🙂", desc: "Disposto" },
+            { valor: 5, emoji: "😁", desc: "Sorridente" }
+        ];
 
         document.addEventListener("DOMContentLoaded", () => {
             if (window.Telegram && window.Telegram.WebApp) {
@@ -359,40 +400,39 @@
         function montarEmojis() {
             const container = document.getElementById('emoji-container');
             container.innerHTML = '';
-            emojisLista.forEach((emoji, index) => {
+            escalaSmiles.forEach((item) => {
                 const btn = document.createElement('button');
                 btn.type = 'button';
-                btn.className = `emoji-btn ${index === 5 ? 'selected' : ''}`;
-                btn.innerText = emoji;
-                btn.onclick = () => selecionarEmoji(index, btn);
+                btn.className = `emoji-btn ${item.valor === 3 ? 'selected' : ''}`;
+                btn.innerHTML = `${item.emoji}<span>Nível ${item.valor}</span>`;
+                btn.onclick = () => selecionarEmoji(item, btn);
                 container.appendChild(btn);
             });
         }
 
-        function selecionarEmoji(valor, elemento) {
+        function selecionarEmoji(item, elemento) {
             document.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('selected'));
             elemento.classList.add('selected');
-            document.getElementById('disposicao-emoji').value = valor;
-            document.getElementById('emoji-display').innerText = `Selecionado: ${valor} ${elemento.innerText}`;
+            document.getElementById('disposicao-emoji').value = item.valor;
+            document.getElementById('emoji-display').innerText = `Selecionado: ${item.valor} - ${item.emoji} ${item.desc}`;
         }
 
         function atualizarRigidezSlider(val) {
             const num = parseInt(val);
-            const textEl = document.getElementById('rigidez-val-text');
+            const numEl = document.getElementById('rigidez-val-num');
             const slider = document.getElementById('rigidez-dor');
             
-            textEl.innerText = `Nível: ${num}`;
+            numEl.innerText = num;
 
-            // Cores dinâmicas: 0-3 verde, 4-7 amarelo, 8-10 vermelho
             if (num <= 3) {
                 slider.style.accentColor = '#2ecc71';
-                textEl.style.color = '#2ecc71';
+                numEl.style.color = '#2ecc71';
             } else if (num <= 7) {
                 slider.style.accentColor = '#f1c40f';
-                textEl.style.color = '#f1c40f';
+                numEl.style.color = '#f1c40f';
             } else {
                 slider.style.accentColor = '#e74c3c';
-                textEl.style.color = '#e74c3c';
+                numEl.style.color = '#e74c3c';
             }
         }
 
