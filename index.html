@@ -11,8 +11,6 @@
             --text-color: #f5f5f5;
             --accent-color: #3390ec;
             --success-color: #2ecc71;
-            --error-color: #e74c3c;
-            --disabled-color: #95a5a6;
             --card-bg: #24303e;
             --header-height: 70px;
             --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -26,13 +24,17 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        html, body {
+            background-color: var(--bg-color) !important;
+            color: var(--text-color) !important;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
             display: flex;
             flex-direction: column;
-            height: 100vh;
-            overflow: hidden;
         }
 
         header {
@@ -41,30 +43,31 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 20px;
+            padding: 0 15px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            flex-shrink: 0;
         }
 
         header h1 {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
         }
 
         .tabs {
             display: flex;
             background: #131c25;
-            border-radius: 10px;
-            padding: 4px;
-            gap: 4px;
+            border-radius: 8px;
+            padding: 3px;
+            gap: 3px;
         }
 
         .tab-btn {
-            padding: 8px 12px;
+            padding: 6px 10px;
             background: transparent;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px;
             color: var(--text-color);
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             cursor: pointer;
             opacity: 0.7;
             font-weight: 500;
@@ -78,10 +81,10 @@
         main {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
+            padding: 15px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 15px;
         }
 
         .form-section {
@@ -91,59 +94,59 @@
         .form-section.active {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 15px;
         }
 
         .card {
             background: var(--card-bg);
-            padding: 20px;
-            border-radius: 15px;
+            padding: 15px;
+            border-radius: 12px;
         }
 
         .card h3 {
-            margin-bottom: 15px;
-            font-size: 1.05rem;
+            margin-bottom: 12px;
+            font-size: 1rem;
             color: var(--accent-color);
         }
 
         .input-group {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         label {
             display: block;
-            font-size: 0.9rem;
-            margin-bottom: 8px;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
             opacity: 0.9;
         }
 
         input[type=range] {
             width: 100%;
             accent-color: var(--accent-color);
-            margin: 10px 0;
+            margin: 8px 0;
         }
 
         .slider-value {
             text-align: center;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: bold;
             color: var(--accent-color);
         }
 
-        input[type="number"], input[type="text"], textarea {
+        input[type="number"], select {
             width: 100%;
-            padding: 12px;
+            padding: 10px;
             background: #1a2532;
             border: 1px solid #3a4b60;
-            border-radius: 10px;
+            border-radius: 8px;
             color: var(--text-color);
-            font-size: 1rem;
+            font-size: 0.95rem;
         }
 
         .checkbox-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
         .chbox-label, .radio-label {
@@ -151,25 +154,27 @@
             align-items: center;
             gap: 10px;
             background: #1a2532;
-            padding: 12px;
-            border-radius: 10px;
+            padding: 10px;
+            border-radius: 8px;
             cursor: pointer;
+            font-size: 0.9rem;
         }
 
         .footer-action {
-            padding: 15px 20px;
+            padding: 12px 15px;
             background: #1a2532;
             border-top: 1px solid #3a4b60;
+            flex-shrink: 0;
         }
 
         .save-btn {
             width: 100%;
-            padding: 15px;
+            padding: 12px;
             background: var(--success-color);
             color: white;
             border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
+            border-radius: 10px;
+            font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
         }
@@ -184,8 +189,8 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 30px;
-            gap: 20px;
+            padding: 20px;
+            gap: 15px;
         }
     </style>
 </head>
@@ -206,7 +211,7 @@
             <div class="card">
                 <h3>☀️ Rito Matinal</h3>
                 <div class="input-group">
-                    <label>Rigidez corporal / Tensão ao acordar (1 a 5):</label>
+                    <label>Rigidez corporal / Tensão (1 a 5):</label>
                     <input type="range" id="rigidez" min="1" max="5" value="3" oninput="document.getElementById('val-rigidez').innerText = this.value">
                     <div id="val-rigidez" class="slider-value">3</div>
                 </div>
@@ -224,13 +229,13 @@
                 <h3>⚡ Rito Vespertino</h3>
                 <div class="input-group">
                     <label>Fez Pausa Ativa hoje?</label>
-                    <div class="radio-group">
+                    <div class="checkbox-grid">
                         <label class="radio-label"><input type="radio" name="pausaAtiva" value="Sim" checked> Sim, realizei</label>
                         <label class="radio-label"><input type="radio" name="pausaAtiva" value="Não"> Não foi possível</label>
                     </div>
                 </div>
                 <div class="input-group">
-                    <label>Hidratação estimada até agora (Litros):</label>
+                    <label>Hidratação estimada (Litros):</label>
                     <input type="number" id="hidratacao" step="0.5" value="1.5" min="0" max="10">
                 </div>
             </div>
@@ -241,7 +246,7 @@
             <div class="card">
                 <h3>🌙 Rito Noturno</h3>
                 <div class="input-group">
-                    <label>Práticas de Recuperação realizadas:</label>
+                    <label>Práticas de Recuperação:</label>
                     <div class="checkbox-grid">
                         <label class="chbox-label"><input type="checkbox" class="pratica" value="Mobilidade"> Mobilidade / Alongamento</label>
                         <label class="chbox-label"><input type="checkbox" class="pratica" value="Respiração"> Respiração / Meditação</label>
@@ -250,7 +255,7 @@
                 </div>
                 <div class="input-group">
                     <label>Como avalia sua alimentação hoje?</label>
-                    <select id="alimentacao" style="width:100%; padding:12px; background:#1a2532; color:#fff; border-radius:10px; border:1px solid #3a4b60;">
+                    <select id="alimentacao">
                         <option value="Limpa e Alinhada">Limpa e Alinhada</option>
                         <option value="Parcialmente Alinhada">Parcialmente Alinhada</option>
                         <option value="Fora do Planejado">Fora do Planejado</option>
@@ -260,26 +265,28 @@
         </section>
     </main>
 
-    <div class="footer-action active">
+    <div class="footer-action">
         <button class="save-btn" onclick="salvarRito()">Salvar Registro na Bússola</button>
     </div>
 
     <!-- TELA DE SUCESSO -->
     <div id="success-screen">
         <h2>🧭 Rito Salvo com Sucesso!</h2>
-        <p>Seus dados foram gravados na planilha oficial com o selo do Método Groppo.</p>
-        <button class="close-tg-btn" onclick="fecharJanela()" style="padding: 12px 30px; background: var(--accent-color); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer;">Fechar Janela</button>
+        <p>Dados gravados na planilha oficial com o selo do Método Groppo.</p>
+        <button onclick="fecharJanela()" style="padding: 10px 25px; background: var(--accent-color); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">Fechar Janela</button>
     </div>
 
     <script>
         let ritoAtual = "Manhã";
 
-        // Inicialização segura para prevenir tela preta
-        window.addEventListener('DOMContentLoaded', () => {
+        // Força a exibição imediata e evita o fundo preto do Telegram WebApp
+        document.addEventListener("DOMContentLoaded", () => {
             if (window.Telegram && window.Telegram.WebApp) {
                 const tg = window.Telegram.WebApp;
                 tg.ready();
                 tg.expand();
+                if (tg.setHeaderColor) tg.setHeaderColor('#1a2532');
+                if (tg.setBackgroundColor) tg.setBackgroundColor('#18222d');
             }
         });
 
