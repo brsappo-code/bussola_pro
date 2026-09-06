@@ -107,7 +107,6 @@
       line-height: 1.4;
     }
 
-    /* Estilização moderna de Range Sliders */
     input[type="range"] {
       -webkit-appearance: none;
       width: 100%;
@@ -140,7 +139,6 @@
       color: var(--accent-color);
     }
 
-    /* Grupos de seleção por cards (Radio/Checkbox) */
     .checkbox-group, .radio-group-vertical {
       display: flex;
       flex-direction: column;
@@ -161,11 +159,6 @@
       border-radius: 12px;
       transition: all 0.2s ease;
       margin-bottom: 0;
-    }
-
-    .checkbox-group label:active, .radio-group-vertical label:active,
-    .radio-group label:active {
-      background: rgba(59, 130, 246, 0.1);
     }
 
     .checkbox-group input[type="checkbox"],
@@ -194,7 +187,6 @@
       margin-bottom: 0;
     }
 
-    /* Indicador Dinâmico de Rigidez / Alquimia */
     .rigidez-indicator {
       padding: 10px 14px;
       border-radius: 10px;
@@ -245,10 +237,9 @@
 
   <div class="header-container">
     <h2>🧭 Bússola Diária</h2>
-    <div class="subtitle">Oficina dos Alquimistas</div>
+    <div class="subtitle">Oficina dos Alquimistas — Bússola_Pro</div>
   </div>
 
-  <!-- Seleção dos 3 Ritos -->
   <div class="tabs">
     <button class="tab-btn active" onclick="selecionarRito(event, 'Manhã')">☀️ Manhã</button>
     <button class="tab-btn" onclick="selecionarRito(event, 'Tarde')">🌤️ Tarde</button>
@@ -257,7 +248,6 @@
 
   <form id="formBussola">
 
-    <!-- TELA 1: RITO DA MANHÃ -->
     <div id="rito-Manhã" class="rito-content active">
       <div class="field-group">
         <label for="rigidez">Rigidez / Dor (Corpo)</label>
@@ -275,7 +265,6 @@
       </div>
     </div>
 
-    <!-- TELA 2: RITO DA TARDE -->
     <div id="rito-Tarde" class="rito-content">
       <div class="field-group">
         <label>Pausa Ativa (2 a 5 min)</label>
@@ -294,7 +283,6 @@
       </div>
     </div>
 
-    <!-- TELA 3: RITO DA NOITE -->
     <div id="rito-Noite" class="rito-content">
       <div class="field-group">
         <label>Práticas do Dia</label>
@@ -330,7 +318,9 @@
       tg.ready();
     }
 
-    const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbzGfSW-yjoTod01HxxzDuQq3Fvj376AMgU6U7GJU_4NSxiZutvhk09TRafTyFp7De6I/exec";
+    // ⚠️ COLE AQUI A SUA NOVA URL DE WEB APP DO BÚSSOLA_PRO
+    const WEBHOOK_URL = "SUA_NOVA_URL_DO_WEB_APP_AQUI";
+
     let ritoAtual = "Manhã";
 
     function selecionarRito(event, rito) {
