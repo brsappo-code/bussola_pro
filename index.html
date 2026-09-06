@@ -1,490 +1,439 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Bússola PRO — Método Groppo</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        :root {
-            --bg-color: #18222d;
-            --text-color: #f5f5f5;
-            --accent-color: #3390ec;
-            --success-color: #2ecc71;
-            --warning-color: #f1c40f;
-            --danger-color: #e74c3c;
-            --card-bg: #24303e;
-            --header-height: 70px;
-            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bússola — Oficina dos Alquimistas</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    :root {
+      --bg-color: var(--tg-theme-bg-color, #0f1115);
+      --text-color: var(--tg-theme-text-color, #f4f4f5);
+      --secondary-bg: var(--tg-theme-secondary-bg-color, #181b22);
+      --accent-color: var(--tg-theme-button-color, #3b82f6);
+      --accent-text: var(--tg-theme-button-text-color, #ffffff);
+      --hint-color: var(--tg-theme-hint-color, #a1a1aa);
+      --border-color: rgba(255, 255, 255, 0.08);
+    }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: var(--font-family);
-            -webkit-tap-highlight-color: transparent;
-        }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 16px;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
 
-        html, body {
-            background-color: var(--bg-color) !important;
-            color: var(--text-color) !important;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
+    .header-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
 
-        body {
-            display: flex;
-            flex-direction: column;
-        }
+    h2 {
+      margin: 0;
+      color: var(--text-color);
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
 
-        header {
-            height: var(--header-height);
-            background: #1a2532;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            flex-shrink: 0;
-        }
+    .subtitle {
+      font-size: 13px;
+      color: var(--hint-color);
+      margin-top: 4px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
 
-        header h1 {
-            font-size: 1rem;
-            font-weight: 600;
-        }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      background: var(--secondary-bg);
+      padding: 4px;
+      border-radius: 14px;
+      border: 1px solid var(--border-color);
+    }
 
-        .tabs {
-            display: flex;
-            background: #131c25;
-            border-radius: 8px;
-            padding: 3px;
-            gap: 3px;
-        }
+    .tab-btn {
+      flex: 1;
+      padding: 10px 4px;
+      font-size: 14px;
+      font-weight: 600;
+      border: none;
+      background: transparent;
+      color: var(--hint-color);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
 
-        .tab-btn {
-            padding: 6px 10px;
-            background: transparent;
-            border: none;
-            border-radius: 6px;
-            color: var(--text-color);
-            font-size: 0.8rem;
-            cursor: pointer;
-            opacity: 0.7;
-            font-weight: 500;
-        }
+    .tab-btn.active {
+      background-color: var(--accent-color);
+      color: var(--accent-text);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
 
-        .tab-btn.active {
-            background: var(--accent-color);
-            opacity: 1;
-        }
+    .field-group {
+      background: var(--secondary-bg);
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 0.3s ease;
+    }
 
-        main {
-            flex: 1;
-            overflow-y: auto;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-        .form-section {
-            display: none;
-        }
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-color);
+    }
 
-        .form-section.active {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
+    small {
+      color: var(--hint-color);
+      display: block;
+      margin-bottom: 12px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
 
-        .card {
-            background: var(--card-bg);
-            padding: 15px;
-            border-radius: 12px;
-        }
+    /* Estilização moderna de Range Sliders */
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      outline: none;
+      margin: 16px 0 10px 0;
+    }
 
-        .card h3 {
-            margin-bottom: 12px;
-            font-size: 1rem;
-            color: var(--accent-color);
-        }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--accent-color);
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+      transition: transform 0.1s;
+    }
 
-        .input-group {
-            margin-bottom: 15px;
-        }
+    input[type="range"]::-webkit-slider-thumb:active {
+      transform: scale(1.2);
+    }
 
-        label {
-            display: block;
-            font-size: 0.85rem;
-            margin-bottom: 8px;
-            opacity: 0.9;
-        }
+    .val-display {
+      text-align: right;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--accent-color);
+    }
 
-        /* 5 SMILES SELECTION GRID */
-        .emoji-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 8px;
-            margin-top: 5px;
-        }
+    /* Grupos de seleção por cards (Radio/Checkbox) */
+    .checkbox-group, .radio-group-vertical {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
+    }
 
-        .emoji-btn {
-            background: #1a2532;
-            border: 1px solid #3a4b60;
-            border-radius: 8px;
-            padding: 10px 0;
-            font-size: 1.5rem;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-        }
+    .checkbox-group label, .radio-group-vertical label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      font-size: 15px;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      transition: all 0.2s ease;
+      margin-bottom: 0;
+    }
 
-        .emoji-btn span {
-            font-size: 0.65rem;
-            opacity: 0.8;
-            font-weight: bold;
-        }
+    .checkbox-group label:active, .radio-group-vertical label:active,
+    .radio-group label:active {
+      background: rgba(59, 130, 246, 0.1);
+    }
 
-        .emoji-btn.selected {
-            background: var(--accent-color);
-            border-color: #fff;
-            transform: scale(1.05);
-        }
+    .checkbox-group input[type="checkbox"],
+    .radio-group-vertical input[type="radio"],
+    .radio-group input[type="radio"] {
+      accent-color: var(--accent-color);
+      width: 18px;
+      height: 18px;
+    }
 
-        .emoji-value-display {
-            text-align: center;
-            font-size: 0.95rem;
-            margin-top: 10px;
-            color: var(--accent-color);
-            font-weight: bold;
-        }
+    .radio-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+    }
 
-        /* SLIDER DINÂMICO RIGIDEZ/DOR COM VISOR GRANDE */
-        input[type=range] {
-            width: 100%;
-            height: 10px;
-            border-radius: 5px;
-            outline: none;
-            margin: 12px 0 8px 0;
-            -webkit-appearance: none;
-            background: #3a4b60;
-        }
+    .radio-group label {
+      flex: 1;
+      justify-content: center;
+      padding: 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.02);
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 0;
+    }
 
-        input[type=range]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
+    /* Indicador Dinâmico de Rigidez / Alquimia */
+    .rigidez-indicator {
+      padding: 10px 14px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 14px;
+      margin-top: 12px;
+      transition: all 0.3s ease;
+      letter-spacing: -0.2px;
+    }
 
-        .slider-val-info {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            opacity: 0.8;
-            margin-bottom: 5px;
-        }
+    .btn-submit {
+      width: 100%;
+      background-color: var(--accent-color);
+      color: var(--accent-text);
+      border: none;
+      border-radius: 14px;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+      transition: transform 0.2s, opacity 0.2s;
+    }
 
-        .big-visor {
-            background: #1a2532;
-            border: 1px solid #3a4b60;
-            border-radius: 10px;
-            padding: 10px;
-            text-align: center;
-            margin-top: 8px;
-        }
+    .btn-submit:active {
+      transform: scale(0.98);
+    }
 
-        .big-visor-number {
-            font-size: 1.6rem;
-            font-weight: 800;
-        }
+    .btn-submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
 
-        .big-visor-label {
-            font-size: 0.75rem;
-            opacity: 0.7;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+    .rito-content {
+      display: none;
+    }
 
-        input[type="number"], select {
-            width: 100%;
-            padding: 10px;
-            background: #1a2532;
-            border: 1px solid #3a4b60;
-            border-radius: 8px;
-            color: var(--text-color);
-            font-size: 0.95rem;
-        }
-
-        .checkbox-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .chbox-label, .radio-label {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: #1a2532;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.9rem;
-        }
-
-        .footer-action {
-            padding: 12px 15px;
-            background: #1a2532;
-            border-top: 1px solid #3a4b60;
-            flex-shrink: 0;
-        }
-
-        .save-btn {
-            width: 100%;
-            padding: 12px;
-            background: var(--success-color);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        #success-screen {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--bg-color);
-            z-index: 100;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 20px;
-            gap: 15px;
-        }
-    </style>
+    .rito-content.active {
+      display: block;
+    }
+  </style>
 </head>
 <body>
 
-    <header>
-        <h1>Bússola PRO</h1>
-        <div class="tabs">
-            <button class="tab-btn active" onclick="trocarTab('Manhã', event)">Manhã</button>
-            <button class="tab-btn" onclick="trocarTab('Tarde', event)">Tarde</button>
-            <button class="tab-btn" onclick="trocarTab('Noite', event)">Noite</button>
+  <div class="header-container">
+    <h2>🧭 Bússola Diária</h2>
+    <div class="subtitle">Oficina dos Alquimistas</div>
+  </div>
+
+  <!-- Seleção dos 3 Ritos -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="selecionarRito(event, 'Manhã')">☀️ Manhã</button>
+    <button class="tab-btn" onclick="selecionarRito(event, 'Tarde')">🌤️ Tarde</button>
+    <button class="tab-btn" onclick="selecionarRito(event, 'Noite')">🌙 Noite</button>
+  </div>
+
+  <form id="formBussola">
+
+    <!-- TELA 1: RITO DA MANHÃ -->
+    <div id="rito-Manhã" class="rito-content active">
+      <div class="field-group">
+        <label for="rigidez">Rigidez / Dor (Corpo)</label>
+        <small>1.0 é bom/flexível | 5.0 é ruim/rígido</small>
+        <input type="range" id="rigidez" min="1" max="5" value="3" oninput="atualizarRigidez(this.value)">
+        <div class="val-display">Nível: <span id="valRigidez">3</span>/5</div>
+        <div id="statusRigidez" class="rigidez-indicator">🟡 Moderado</div>
+      </div>
+
+      <div class="field-group">
+        <label for="disposicao">Disposição / Humor (Mente)</label>
+        <small>1 = Sem energia/desanimado, 5 = Alta disposição/animado</small>
+        <input type="range" id="disposicao" min="1" max="5" value="3" oninput="atualizarDisposicao(this.value)">
+        <div class="val-display">Nível: <span id="valDisposicao">3</span>/5</div>
+      </div>
+    </div>
+
+    <!-- TELA 2: RITO DA TARDE -->
+    <div id="rito-Tarde" class="rito-content">
+      <div class="field-group">
+        <label>Pausa Ativa (2 a 5 min)</label>
+        <small>Mantenha o eixo e a circulação ativos</small>
+        <div class="radio-group">
+          <label><input type="radio" name="pausaAtiva" value="Sim" checked> Sim</label>
+          <label><input type="radio" name="pausaAtiva" value="Não"> Não</label>
         </div>
-    </header>
+      </div>
 
-    <main>
-        <!-- RITO DA MANHÃ -->
-        <section id="sec-Manhã" class="form-section active">
-            <div class="card">
-                <h3>☀️ Rito Matinal</h3>
-                
-                <!-- 1. Humor e Disposição com 5 Smiles -->
-                <div class="input-group">
-                    <label>Nível de Humor / Disposição (1 a 5):</label>
-                    <div class="emoji-grid" id="emoji-container">
-                        <!-- Gerado via Script (1 a 5 com Smiles) -->
-                    </div>
-                    <div id="emoji-display" class="emoji-value-display">Selecionado: 3 - 😐 Neutro</div>
-                    <input type="hidden" id="disposicao-emoji" value="3">
-                </div>
-
-                <!-- 2. Rigidez e Dor (0 a 10 com Visor Ampliado) -->
-                <div class="input-group" style="margin-top: 20px;">
-                    <label>Rigidez corporal / Dor ao acordar (0 a 10):</label>
-                    <div class="slider-val-info">
-                        <span>Bom (0-3)</span>
-                        <span>Moderado (4-7)</span>
-                        <span>Crítico (8-10)</span>
-                    </div>
-                    <input type="range" id="rigidez-dor" min="0" max="10" value="2" oninput="atualizarRigidezSlider(this.value)">
-                    
-                    <div class="big-visor">
-                        <div class="big-visor-label">Nível de Rigidez / Dor</div>
-                        <div id="rigidez-val-num" class="big-visor-number" style="color: var(--success-color);">2</div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- RITO DA TARDE -->
-        <section id="sec-Tarde" class="form-section">
-            <div class="card">
-                <h3>⚡ Rito Vespertino</h3>
-                <div class="input-group">
-                    <label>Fez Pausa Ativa hoje?</label>
-                    <div class="checkbox-grid">
-                        <label class="radio-label"><input type="radio" name="pausaAtiva" value="Sim" checked> Sim, realizei</label>
-                        <label class="radio-label"><input type="radio" name="pausaAtiva" value="Não"> Não foi possível</label>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label>Hidratação estimada (Litros):</label>
-                    <input type="number" id="hidratacao" step="0.5" value="1.5" min="0" max="10">
-                </div>
-            </div>
-        </section>
-
-        <!-- RITO DA NOITE -->
-        <section id="sec-Noite" class="form-section">
-            <div class="card">
-                <h3>🌙 Rito Noturno</h3>
-                <div class="input-group">
-                    <label>Práticas de Recuperação:</label>
-                    <div class="checkbox-grid">
-                        <label class="chbox-label"><input type="checkbox" class="pratica" value="Mobilidade"> Mobilidade / Alongamento</label>
-                        <label class="chbox-label"><input type="checkbox" class="pratica" value="Respiração"> Respiração / Meditação</label>
-                        <label class="chbox-label"><input type="checkbox" class="pratica" value="Desconexão"> Desconexão de Telas</label>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label>Como avalia sua alimentação hoje?</label>
-                    <select id="alimentacao">
-                        <option value="Limpa e Alinhada">Limpa e Alinhada</option>
-                        <option value="Parcialmente Alinhada">Parcialmente Alinhada</option>
-                        <option value="Fora do Planejado">Fora do Planejado</option>
-                    </select>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <div class="footer-action">
-        <button class="save-btn" onclick="salvarRito()">Salvar Registro na Bússola</button>
+      <div class="field-group">
+        <label for="hidratacao">Hidratação (Litros)</label>
+        <small>Meta contínua de consumo diário</small>
+        <input type="range" id="hidratacao" min="0.5" max="3.0" step="0.1" value="1.5" oninput="atualizarHidratacao(this.value)">
+        <div class="val-display"><span id="valHidratacao">1.5</span> L</div>
+      </div>
     </div>
 
-    <!-- TELA DE SUCESSO -->
-    <div id="success-screen">
-        <h2>🧭 Rito Salvo com Sucesso!</h2>
-        <p>Dados gravados na planilha oficial com o selo do Método Groppo.</p>
-        <button onclick="fecharJanela()" style="padding: 10px 25px; background: var(--accent-color); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">Fechar Janela</button>
+    <!-- TELA 3: RITO DA NOITE -->
+    <div id="rito-Noite" class="rito-content">
+      <div class="field-group">
+        <label>Práticas do Dia</label>
+        <small>Marque todas as alquimias realizadas</small>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="praticasNoite" value="Alquimia Bruta (Força)"> 🏋️‍♂️ Alquimia Bruta (Força)</label>
+          <label><input type="checkbox" name="praticasNoite" value="Alquimia Fluida (Cardio)"> 🌊 Alquimia Fluida (Cardio)</label>
+          <label><input type="checkbox" name="praticasNoite" value="Alquimia Invisível (Mental/Respiração)"> 🧘‍♂️ Alquimia Invisível (Mental/Respiração)</label>
+          <label><input type="checkbox" name="praticasNoite" value="Alquimia Sutil (Recuperação)"> 🌿 Alquimia Sutil (Recuperação)</label>
+        </div>
+      </div>
+
+      <div class="field-group">
+        <label>Alimentação do Dia</label>
+        <small>Escolha o cenário que melhor define sua jornada alimentar</small>
+        <div class="radio-group-vertical">
+          <label><input type="radio" name="alimentacaoNoite" value="🎯 Nutrição Alquímica (Quantidade Ideal + Alta Qualidade)" checked> 🎯 <b>Nutrição Alquímica</b> (Ideal)</label>
+          <label><input type="radio" name="alimentacaoNoite" value="⚡ Alta QTD / Alta QLD (Superávit Limpo)"> ⚡ <b>Alta QTD / Alta QLD</b> (Superávit Limpo)</label>
+          <label><input type="radio" name="alimentacaoNoite" value="🥗 Baixa QTD / Alta QLD (Leve & Nutritivo)"> 🥗 <b>Baixa QTD / Alta QLD</b> (Leve/Nutritivo)</label>
+          <label><input type="radio" name="alimentacaoNoite" value="🍕 Alta QTD / Baixa QLD (Excesso / Deslize)"> 🍕 <b>Alta QTD / Baixa QLD</b> (Excesso/Deslize)</label>
+          <label><input type="radio" name="alimentacaoNoite" value="⚠️ Baixa QTD / Baixa QLD (Beliscos / Pouco Nutriente)"> ⚠️ <b>Baixa QTD / Baixa QLD</b> (Beliscos/Fraco)</label>
+        </div>
+      </div>
     </div>
 
-    <script>
-        let ritoAtual = "Manhã";
+    <button type="button" id="btnSalvar" class="btn-submit" onclick="enviarRegistro()">Salvar Rito da Manhã</button>
+  </form>
 
-        const escalaSmiles = [
-            { valor: 1, emoji: "😫", desc: "Exausto" },
-            { valor: 2, emoji: "😕", desc: "Baixo" },
-            { valor: 3, emoji: "😐", desc: "Neutro" },
-            { valor: 4, emoji: "🙂", desc: "Disposto" },
-            { valor: 5, emoji: "😁", desc: "Sorridente" }
-        ];
+  <script>
+    const tg = window.Telegram?.WebApp;
+    if (tg) {
+      tg.expand();
+      tg.ready();
+    }
 
-        document.addEventListener("DOMContentLoaded", () => {
-            if (window.Telegram && window.Telegram.WebApp) {
-                const tg = window.Telegram.WebApp;
-                tg.ready();
-                tg.expand();
-                if (tg.setHeaderColor) tg.setHeaderColor('#1a2532');
-                if (tg.setBackgroundColor) tg.setBackgroundColor('#18222d');
-            }
-            montarEmojis();
-            atualizarRigidezSlider(2);
-        });
+    const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbzGfSW-yjoTod01HxxzDuQq3Fvj376AMgU6U7GJU_4NSxiZutvhk09TRafTyFp7De6I/exec";
+    let ritoAtual = "Manhã";
 
-        function montarEmojis() {
-            const container = document.getElementById('emoji-container');
-            container.innerHTML = '';
-            escalaSmiles.forEach((item) => {
-                const btn = document.createElement('button');
-                btn.type = 'button';
-                btn.className = `emoji-btn ${item.valor === 3 ? 'selected' : ''}`;
-                btn.innerHTML = `${item.emoji}<span>Nível ${item.valor}</span>`;
-                btn.onclick = () => selecionarEmoji(item, btn);
-                container.appendChild(btn);
-            });
-        }
+    function selecionarRito(event, rito) {
+      if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+      ritoAtual = rito;
+      
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
 
-        function selecionarEmoji(item, elemento) {
-            document.querySelectorAll('.emoji-btn').forEach(b => b.classList.remove('selected'));
-            elemento.classList.add('selected');
-            document.getElementById('disposicao-emoji').value = item.valor;
-            document.getElementById('emoji-display').innerText = `Selecionado: ${item.valor} - ${item.emoji} ${item.desc}`;
-        }
+      document.querySelectorAll('.rito-content').forEach(div => div.classList.remove('active'));
+      document.getElementById(`rito-${rito}`).classList.add('active');
 
-        function atualizarRigidezSlider(val) {
-            const num = parseInt(val);
-            const numEl = document.getElementById('rigidez-val-num');
-            const slider = document.getElementById('rigidez-dor');
-            
-            numEl.innerText = num;
+      document.getElementById('btnSalvar').innerText = `Salvar Rito da ${rito}`;
+    }
 
-            if (num <= 3) {
-                slider.style.accentColor = '#2ecc71';
-                numEl.style.color = '#2ecc71';
-            } else if (num <= 7) {
-                slider.style.accentColor = '#f1c40f';
-                numEl.style.color = '#f1c40f';
-            } else {
-                slider.style.accentColor = '#e74c3c';
-                numEl.style.color = '#e74c3c';
-            }
-        }
+    function atualizarRigidez(valor) {
+      document.getElementById('valRigidez').innerText = valor;
+      const indicador = document.getElementById('statusRigidez');
+      
+      const estados = {
+        1: { texto: "🟢 1.0 — Corpo livre, flexível e fluido", bg: "rgba(34, 197, 94, 0.15)", color: "#4ade80" },
+        2: { texto: "🟢 2.0 — Leve tensão, funcional", bg: "rgba(74, 222, 128, 0.12)", color: "#86efac" },
+        3: { texto: "🟡 3.0 — Rigidez moderada", bg: "rgba(234, 179, 8, 0.15)", color: "#facc15" },
+        4: { texto: "🟠 4.0 — Corpo travado / Atenção", bg: "rgba(249, 115, 22, 0.15)", color: "#fb923c" },
+        5: { texto: "🔴 5.0 — Rigidez extrema / Dor intensa", bg: "rgba(239, 68, 68, 0.15)", color: "#f87171" }
+      };
 
-        function trocarTab(rito, evt) {
-            ritoAtual = rito;
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.form-section').forEach(sec => sec.classList.remove('active'));
-            
-            if (evt && evt.target) {
-                evt.target.classList.add('active');
-            }
-            const targetSec = document.getElementById('sec-' + rito);
-            if (targetSec) {
-                targetSec.classList.add('active');
-            }
-        }
+      indicador.innerText = estados[valor].texto;
+      indicador.style.backgroundColor = estados[valor].bg;
+      indicador.style.color = estados[valor].color;
+    }
 
-        function salvarRito() {
-            let dadosPayload = { rito: ritoAtual, dados: {} };
+    function atualizarDisposicao(valor) {
+      document.getElementById('valDisposicao').innerText = valor;
+    }
 
-            if (ritoAtual === "Manhã") {
-                dadosPayload.dados = {
-                    disposicaoEmoji: document.getElementById('disposicao-emoji').value,
-                    rigidezDor: document.getElementById('rigidez-dor').value
-                };
-            } else if (ritoAtual === "Tarde") {
-                const pausaEl = document.querySelector('input[name="pausaAtiva"]:checked');
-                dadosPayload.dados = {
-                    pausaAtiva: pausaEl ? pausaEl.value : "Sim",
-                    hidratacao: document.getElementById('hidratacao').value
-                };
-            } else if (ritoAtual === "Noite") {
-                let praticas = [];
-                document.querySelectorAll('.pratica:checked').forEach(el => praticas.push(el.value));
-                dadosPayload.dados = {
-                    praticas: praticas,
-                    alimentacao: document.getElementById('alimentacao').value
-                };
-            }
+    function atualizarHidratacao(valor) {
+      document.getElementById('valHidratacao').innerText = parseFloat(valor).toFixed(1);
+    }
 
-            if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.sendData(JSON.stringify(dadosPayload));
-            }
-            
-            document.getElementById('success-screen').style.display = 'flex';
-        }
+    atualizarRigidez(3);
 
-        function fecharJanela() {
-            if (window.Telegram && window.Telegram.WebApp) {
-                window.Telegram.WebApp.close();
-            }
-        }
-    </script>
+    function enviarRegistro() {
+      if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+      const btn = document.getElementById("btnSalvar");
+      btn.disabled = true;
+      btn.innerText = "Sincronizando Alquimia...";
+
+      let respostaFormatada = "";
+
+      if (ritoAtual === "Manhã") {
+        const rigidez = document.getElementById("rigidez").value;
+        const disposicao = document.getElementById("disposicao").value;
+        respostaFormatada = `R=${rigidez}/5 | D=${disposicao}/5`;
+      } else if (ritoAtual === "Tarde") {
+        const pausa = document.querySelector('input[name="pausaAtiva"]:checked').value;
+        const agua = document.getElementById("hidratacao").value;
+        respostaFormatada = `Pausa Ativa: ${pausa} | Hidratação: ${parseFloat(agua).toFixed(1)}L`;
+      } else if (ritoAtual === "Noite") {
+        const praticasMarcadas = Array.from(document.querySelectorAll('input[name="praticasNoite"]:checked'))
+                                    .map(cb => cb.value);
+        const praticasTexto = praticasMarcadas.length > 0 ? praticasMarcadas.join(', ') : 'Nenhuma';
+        const alimentacao = document.querySelector('input[name="alimentacaoNoite"]:checked').value;
+        respostaFormatada = `Práticas: ${praticasTexto} | Alimentação: ${alimentacao}`;
+      }
+
+      const usuario = tg?.initDataUnsafe?.user;
+      let nomeCompleto = "Alquimista";
+
+      if (usuario) {
+        const primeiroNome = usuario.first_name || "";
+        const sobrenome = usuario.last_name || "";
+        nomeCompleto = `${primeiroNome} ${sobrenome}`.trim();
+      }
+
+      const payload = {
+        chatId: usuario?.id || "Sem Chat ID",
+        nome: nomeCompleto,
+        rito: `Rito da ${ritoAtual}`,
+        resposta: respostaFormatada
+      };
+
+      fetch(WEBHOOK_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      })
+      .then(() => {
+        btn.innerText = "✨ Registrado com Sucesso!";
+        if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+        setTimeout(() => {
+          if (tg) tg.close();
+        }, 1200);
+      })
+      .catch((erro) => {
+        alert("Erro ao salvar. Tente novamente.");
+        btn.disabled = false;
+        btn.innerText = `Salvar Rito da ${ritoAtual}`;
+        if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+        console.error(erro);
+      });
+    }
+  </script>
 </body>
 </html>
