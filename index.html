@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bússola — Oficina dos Alquimistas</title>
+  <title>Bússola_Pro — Oficina dos Alquimistas</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     :root {
@@ -26,21 +26,19 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Views / Telas */
     .view {
       display: none;
-      animation: fadeIn 0.3s ease;
+      animation: fadeIn 0.25s ease;
     }
     .view.active {
       display: block;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(6px); }
+      from { opacity: 0; transform: translateY(4px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Cabeçalhos */
     .header-container {
       text-align: center;
       margin-bottom: 24px;
@@ -60,7 +58,6 @@
       letter-spacing: 1px;
     }
 
-    /* Botão de Voltar */
     .btn-voltar {
       background: transparent;
       border: 1px solid var(--border-color);
@@ -89,8 +86,7 @@
       border-radius: 16px;
       padding: 20px;
       cursor: pointer;
-      transition: all 0.25s ease;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: all 0.2s ease;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -103,6 +99,7 @@
       margin: 0 0 4px 0;
       font-size: 18px;
       font-weight: 700;
+      letter-spacing: -0.3px;
     }
     .hub-info p {
       margin: 0;
@@ -110,10 +107,10 @@
       color: var(--hint-color);
     }
     .hub-icon {
-      font-size: 28px;
+      font-size: 26px;
     }
 
-    /* Tabs dos Ritos */
+    /* Abas de Ritos */
     .tabs {
       display: flex;
       gap: 8px;
@@ -133,7 +130,8 @@
       color: var(--hint-color);
       border-radius: 10px;
       cursor: pointer;
-      transition: all 0.25s ease;
+      transition: all 0.2s ease;
+      text-transform: lowercase;
     }
     .tab-btn.active {
       background-color: var(--accent-color);
@@ -141,7 +139,6 @@
       box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
     }
 
-    /* Campos e Formulários */
     .field-group {
       background: var(--secondary-bg);
       border-radius: 16px;
@@ -182,4 +179,531 @@
     }
     .val-display {
       text-align: right;
-      font-
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--accent-color);
+    }
+    .checkbox-group, .radio-group-vertical {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .checkbox-group label, .radio-group-vertical label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      font-size: 14px;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      margin-bottom: 0;
+    }
+    .radio-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .radio-group label {
+      flex: 1;
+      justify-content: center;
+      padding: 12px;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.02);
+      font-weight: 600;
+      margin-bottom: 0;
+    }
+    .rigidez-indicator {
+      padding: 10px 14px;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: 700;
+      font-size: 13px;
+      margin-top: 12px;
+    }
+    .btn-submit {
+      width: 100%;
+      background-color: var(--accent-color);
+      color: var(--accent-text);
+      border: none;
+      border-radius: 14px;
+      padding: 16px;
+      font-size: 16px;
+      font-weight: 800;
+      cursor: pointer;
+      margin-top: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+    }
+
+    .rito-content { display: none; }
+    .rito-content.active { display: block; }
+
+    /* Módulo PRANA */
+    .prana-container {
+      text-align: center;
+      position: relative;
+    }
+    .info-btn {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: var(--secondary-bg);
+      border: 1px solid var(--border-color);
+      color: var(--hint-color);
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .prana-selector {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 20px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .prana-btn {
+      flex: 1;
+      padding: 10px 8px;
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--secondary-bg);
+      border: 1px solid var(--border-color);
+      color: var(--hint-color);
+      border-radius: 10px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .prana-btn.active {
+      background: var(--accent-color);
+      color: var(--accent-text);
+      border-color: var(--accent-color);
+    }
+    
+    .breath-box {
+      background: var(--secondary-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 30px 20px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 280px;
+      position: relative;
+    }
+    .circle-container {
+      width: 160px;
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin: 20px 0;
+    }
+    .breath-circle {
+      width: 100px;
+      height: 100px;
+      background: rgba(59, 130, 246, 0.15);
+      border: 2px solid var(--accent-color);
+      border-radius: 50%;
+      transition: transform 0.1s linear, background-color 0.3s;
+    }
+    .breath-text {
+      position: absolute;
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--text-color);
+      text-align: center;
+    }
+    .breath-instruction {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--accent-color);
+      margin-top: 10px;
+      min-height: 24px;
+    }
+    .breath-timer {
+      font-size: 13px;
+      color: var(--hint-color);
+      margin-top: 4px;
+    }
+
+    /* Modal de Informação (Prana) */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 100;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .modal-content {
+      background: var(--secondary-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 24px;
+      max-width: 500px;
+      max-height: 85vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 16px; right: 16px;
+      background: transparent;
+      border: none;
+      color: var(--hint-color);
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .modal-content h3 { margin-top: 0; color: var(--accent-color); }
+    .modal-content p, .modal-content li { font-size: 13px; color: var(--hint-color); line-height: 1.5; }
+
+    .philos-box {
+      background: var(--secondary-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 14px;
+    }
+    .philos-box h3 { margin-top: 0; font-size: 16px; color: var(--accent-color); }
+    .philos-box p { margin: 0; font-size: 14px; color: var(--hint-color); line-height: 1.5; }
+  </style>
+</head>
+<body>
+
+  <!-- MODAL DE ORIGEM E SEGURANÇA (PRANA) -->
+  <div id="modalPrana" class="modal-overlay">
+    <div class="modal-content">
+      <button class="modal-close" onclick="fecharModalPrana()">&times;</button>
+      <h3>📜 Raiz & Protocolo de Segurança</h3>
+      <p><b>Origem Milenar:</b> Derivado diretamente do <i>Hatha Yoga Pradipika</i> e dos textos de Goraksha, onde o controle da respiração é a chave mestra para o domínio do eixo físico e mental.</p>
+      <p><b>Segurança (40 a 60 Anos):</b> Protocolo anti-hiperventilação estrito:</p>
+      <ul>
+        <li><b>Zero Retenção Forçada:</b> Sem prender o ar.</li>
+        <li><b>Capacidade de 70%:</b> Inspire com suavidade, sem forçar o peito.</li>
+        <li><b>Exalação Longa:</b> Expirações estendidas ativam o nervo vago e o sistema parassimpático.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- VIEW 1: MENU PRINCIPAL (HUB CENTRAL) -->
+  <div id="view-hub" class="view active">
+    <div class="header-container">
+      <h2>🧭 Bússola_Pro</h2>
+      <div class="subtitle">Oficina dos Alquimistas</div>
+    </div>
+    
+    <div class="hub-grid">
+      <div class="hub-card" onclick="mudarTela('view-ritos')">
+        <div class="hub-info">
+          <h3>[bussola diaria]</h3>
+          <p>Check-ins corporais e comportamentais</p>
+        </div>
+        <div class="hub-icon">☀️</div>
+      </div>
+
+      <div class="hub-card" onclick="mudarTela('view-prana')">
+        <div class="hub-info">
+          <h3>[PRANA]</h3>
+          <p>Alquimia da Respiração & Guias Biométricos</p>
+        </div>
+        <div class="hub-icon">🌬️</div>
+      </div>
+
+      <div class="hub-card" onclick="mudarTela('view-philos')">
+        <div class="hub-info">
+          <h3>[PHILOS]</h3>
+          <p>Princípios, Mentalidade e Diretrizes</p>
+        </div>
+        <div class="hub-icon">📜</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIEW 2: [BUSSOLA DIARIA] COM ABAS [manha] [tarde] [noite] -->
+  <div id="view-ritos" class="view">
+    <button class="btn-voltar" onclick="mudarTela('view-hub')">← Voltar ao Menu</button>
+    <div class="header-container">
+      <h2>☀️ [bussola diaria]</h2>
+      <div class="subtitle">Sincronização Alquímica</div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="selecionarRito(event, 'manha')">[manha]</button>
+      <button class="tab-btn" onclick="selecionarRito(event, 'tarde')">[tarde]</button>
+      <button class="tab-btn" onclick="selecionarRito(event, 'noite')">[noite]</button>
+    </div>
+
+    <form id="formBussola">
+      <div id="rito-manha" class="rito-content active">
+        <div class="field-group">
+          <label for="rigidez">Rigidez / Dor (Corpo)</label>
+          <small>1.0 é bom/flexível | 5.0 é ruim/rígido</small>
+          <input type="range" id="rigidez" min="1" max="5" value="3" oninput="atualizarRigidez(this.value)">
+          <div class="val-display">Nível: <span id="valRigidez">3</span>/5</div>
+          <div id="statusRigidez" class="rigidez-indicator">🟡 Moderado</div>
+        </div>
+        <div class="field-group">
+          <label for="disposicao">Disposição / Humor (Mente)</label>
+          <small>1 = Sem energia, 5 = Alta disposição</small>
+          <input type="range" id="disposicao" min="1" max="5" value="3" oninput="document.getElementById('valDisposicao').innerText=this.value">
+          <div class="val-display">Nível: <span id="valDisposicao">3</span>/5</div>
+        </div>
+      </div>
+
+      <div id="rito-tarde" class="rito-content">
+        <div class="field-group">
+          <label>Pausa Ativa (2 a 5 min)</label>
+          <div class="radio-group">
+            <label><input type="radio" name="pausaAtiva" value="Sim" checked> Sim</label>
+            <label><input type="radio" name="pausaAtiva" value="Não"> Não</label>
+          </div>
+        </div>
+        <div class="field-group">
+          <label for="hidratacao">Hidratação (Litros)</label>
+          <input type="range" id="hidratacao" min="0.5" max="3.0" step="0.1" value="1.5" oninput="document.getElementById('valHidratacao').innerText=parseFloat(this.value).toFixed(1)">
+          <div class="val-display"><span id="valHidratacao">1.5</span> L</div>
+        </div>
+      </div>
+
+      <div id="rito-noite" class="rito-content">
+        <div class="field-group">
+          <label>Práticas do Dia</label>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="praticasNoite" value="Alquimia Bruta (Força)"> 🏋️‍♂️ Alquimia Bruta (Força)</label>
+            <label><input type="checkbox" name="praticasNoite" value="Alquimia Fluida (Cardio)"> 🌊 Alquimia Fluida (Cardio)</label>
+            <label><input type="checkbox" name="praticasNoite" value="Alquimia Invisível (Mental)"> 🧘‍♂️ Alquimia Invisível (Mental)</label>
+            <label><input type="checkbox" name="praticasNoite" value="Alquimia Sutil (Recuperação)"> 🌿 Alquimia Sutil (Recuperação)</label>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Alimentação do Dia</label>
+          <div class="radio-group-vertical">
+            <label><input type="radio" name="alimentacaoNoite" value="🎯 Nutrição Alquímica (Ideal)" checked> 🎯 Nutrição Alquímica (Ideal)</label>
+            <label><input type="radio" name="alimentacaoNoite" value="⚡ Superávit Limpo"> ⚡ Superávit Limpo</label>
+            <label><input type="radio" name="alimentacaoNoite" value="🥗 Leve & Nutritivo"> 🥗 Leve & Nutritivo</label>
+            <label><input type="radio" name="alimentacaoNoite" value="🍕 Excesso / Deslize"> 🍕 Excesso / Deslize</label>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" id="btnSalvar" class="btn-submit" onclick="enviarRegistro()">Salvar Rito</button>
+    </form>
+  </div>
+
+  <!-- VIEW 3: [PRANA] -->
+  <div id="view-prana" class="view">
+    <button class="btn-voltar" onclick="mudarTela('view-hub')">← Voltar ao Menu</button>
+    <div class="prana-container">
+      <button class="info-btn" onclick="abrirModalPrana()">ℹ️</button>
+      <div class="header-container" style="margin-bottom: 12px;">
+        <h2>🌬️ [PRANA]</h2>
+        <div class="subtitle">Guia Biométrico de Respiração</div>
+      </div>
+
+      <div class="prana-selector">
+        <button class="prana-btn active" onclick="definirPrana('coerencia', this)">Coerência 4:6</button>
+        <button class="prana-btn" onclick="definirPrana('nadi', this)">Nādī Śodhana</button>
+        <button class="prana-btn" onclick="definirPrana('bhramari', this)">Bhrāmarī</button>
+      </div>
+
+      <div class="breath-box">
+        <div id="pranaDesc" style="font-size: 13px; color: var(--hint-color); margin-bottom: 5px;">Inspire suave (70%) e expire longo para ativar o nervo vago.</div>
+        <div class="circle-container">
+          <div id="breathCircle" class="breath-circle"></div>
+          <div id="breathText" class="breath-text">Pronto</div>
+        </div>
+        <div id="breathInstruction" class="breath-instruction">Toque abaixo para iniciar</div>
+        <div id="breathTimer" class="breath-timer">Segurança ativa: Sem retenção forçada</div>
+      </div>
+
+      <button type="button" id="btnPranaCtrl" class="btn-submit" onclick="togglePranaSession()">Iniciar Prática</button>
+    </div>
+  </div>
+
+  <!-- VIEW 4: [PHILOS] -->
+  <div id="view-philos" class="view">
+    <button class="btn-voltar" onclick="mudarTela('view-hub')">← Voltar ao Menu</button>
+    <div class="header-container">
+      <h2>📜 [PHILOS]</h2>
+      <div class="subtitle">Fundamentos da Alquimia Diária</div>
+    </div>
+    
+    <div class="philos-box">
+      <h3>1. O Eixo Inegociável</h3>
+      <p>A constância supera a intensidade. Pequenos ajustes contínuos no corpo e na mente moldam a realidade a longo prazo.</p>
+    </div>
+    <div class="philos-box">
+      <h3>2. Respiração como Âncora</h3>
+      <p>O fôlego é o ponteiro da mente. Quando o ritmo desacelera, o controle sobre as emoções restabelece-se instantaneamente.</p>
+    </div>
+  </div>
+
+  <script>
+    const tg = window.Telegram?.WebApp;
+    if (tg) { tg.expand(); tg.ready(); }
+
+    const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwU4hpa_VYz7aLqrPc9YYv0cfpgy77kDz8nUJJJZIW1gXGsPlILeXk1b68wCxwwsdn3/exec";
+    let ritoAtual = "manha";
+
+    function mudarTela(idView) {
+      if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+      document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+      document.getElementById(idView).classList.add('active');
+      window.scrollTo(0, 0);
+      if (idView !== 'view-prana' && pranaAtivo) {
+        pararPranaSession();
+      }
+    }
+
+    function selecionarRito(event, rito) {
+      if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+      ritoAtual = rito;
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      document.querySelectorAll('.rito-content').forEach(div => div.classList.remove('active'));
+      document.getElementById(`rito-${rito}`).classList.add('active');
+      const nomeCapitalizado = rito.charAt(0).toUpperCase() + rito.slice(1);
+      document.getElementById('btnSalvar').innerText = `Salvar Rito da ${nomeCapitalizado}`;
+    }
+
+    function atualizarRigidez(valor) {
+      document.getElementById('valRigidez').innerText = valor;
+      const ind = document.getElementById('statusRigidez');
+      const estados = {
+        1: { t: "🟢 1.0 — Corpo livre e flexível", bg: "rgba(34, 197, 94, 0.15)", c: "#4ade80" },
+        2: { t: "🟢 2.0 — Leve tensão funcional", bg: "rgba(74, 222, 128, 0.12)", c: "#86efac" },
+        3: { t: "🟡 3.0 — Rigidez moderada", bg: "rgba(234, 179, 8, 0.15)", c: "#facc15" },
+        4: { t: "🟠 4.0 — Corpo travado / Atenção", bg: "rgba(249, 115, 22, 0.15)", c: "#fb923c" },
+        5: { t: "🔴 5.0 — Rigidez extrema / Dor", bg: "rgba(239, 68, 68, 0.15)", c: "#f87171" }
+      };
+      ind.innerText = estados[valor].t;
+      ind.style.backgroundColor = estados[valor].bg;
+      ind.style.color = estados[valor].c;
+    }
+
+    function enviarRegistro() {
+      if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+      const btn = document.getElementById("btnSalvar");
+      btn.disabled = true;
+      btn.innerText = "Sincronizando Alquimia...";
+
+      let resp = "";
+      if (ritoAtual === "manha") {
+        resp = `R=${document.getElementById("rigidez").value}/5 | D=${document.getElementById("disposicao").value}/5`;
+      } else if (ritoAtual === "tarde") {
+        resp = `Pausa: ${document.querySelector('input[name="pausaAtiva"]:checked').value} | H₂O: ${document.getElementById("hidratacao").value}L`;
+      } else if (ritoAtual === "noite") {
+        const prs = Array.from(document.querySelectorAll('input[name="praticasNoite"]:checked')).map(c => c.value).join(', ') || 'Nenhuma';
+        resp = `Práticas: ${prs} | Alimentação: ${document.querySelector('input[name="alimentacaoNoite"]:checked').value}`;
+      }
+
+      const usuario = tg?.initDataUnsafe?.user;
+      const payload = {
+        chatId: usuario?.id || "Sem Chat ID",
+        nome: usuario ? `${usuario.first_name || ''} ${usuario.last_name || ''}`.trim() : "Alquimista",
+        rito: `Rito da ${ritoAtual.charAt(0).toUpperCase() + ritoAtual.slice(1)}`,
+        resposta: resp
+      };
+
+      fetch(WEBHOOK_URL, {
+        method: "POST", mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      }).then(() => {
+        btn.innerText = "✨ Registrado com Sucesso!";
+        if (tg?.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+        setTimeout(() => { if (tg) tg.close(); }, 1200);
+      }).catch(() => {
+        alert("Erro ao salvar. Tente novamente.");
+        btn.disabled = false;
+        const nomeCapitalizado = ritoAtual.charAt(0).toUpperCase() + ritoAtual.slice(1);
+        btn.innerText = `Salvar Rito da ${nomeCapitalizado}`;
+      });
+    }
+
+    function abrirModalPrana() { document.getElementById('modalPrana').style.display = 'flex'; }
+    function fecharModalPrana() { document.getElementById('modalPrana').style.display = 'none'; }
+
+    let pranaAtivo = false;
+    let pranaModo = 'coerencia';
+    let pranaInterval = null;
+
+    function definirPrana(modo, el) {
+      if (pranaAtivo) pararPranaSession();
+      pranaModo = modo;
+      document.querySelectorAll('.prana-btn').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
+      const desc = {
+        coerencia: "Inspire suave (70%) e expire longo para ativar o nervo vago.",
+        nadi: "Alternância fluida de narinas. Sem retenção forçada.",
+        bhramari: "Zumbido grave na exalação para silêncio mental profundo."
+      };
+      document.getElementById('pranaDesc').innerText = desc[modo];
+    }
+
+    function togglePranaSession() {
+      if (!pranaAtivo) {
+        iniciarPranaSession();
+      } else {
+        pararPranaSession();
+      }
+    }
+
+    function iniciarPranaSession() {
+      pranaAtivo = true;
+      document.getElementById('btnPranaCtrl').innerText = "Encerrar Prática";
+      if (tg?.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+
+      let fase = 0;
+      const circle = document.getElementById('breathCircle');
+      const text = document.getElementById('breathText');
+      const inst = document.getElementById('breathInstruction');
+
+      function executarCiclo() {
+        if (!pranaAtivo) return;
+        if (fase === 0) {
+          inst.innerText = "Inspirar Suave";
+          text.innerText = "↑";
+          circle.style.transform = "scale(1.4)";
+          circle.style.backgroundColor = "rgba(59, 130, 246, 0.3)";
+          fase = 1;
+          pranaInterval = setTimeout(executarCiclo, 4000);
+        } else {
+          inst.innerText = "Exalar Longo";
+          text.innerText = "↓";
+          circle.style.transform = "scale(1)";
+          circle.style.backgroundColor = "rgba(59, 130, 246, 0.1)";
+          fase = 0;
+          pranaInterval = setTimeout(executarCiclo, 6000);
+        }
+      }
+      executarCiclo();
+    }
+
+    function pararPranaSession() {
+      pranaAtivo = false;
+      clearTimeout(pranaInterval);
+      document.getElementById('btnPranaCtrl').innerText = "Iniciar Prática";
+      document.getElementById('breathInstruction').innerText = "Toque abaixo para iniciar";
+      document.getElementById('breathText').innerText = "Pronto";
+      document.getElementById('breathCircle').style.transform = "scale(1)";
+    }
+  </script>
+</body>
+</html>
