@@ -318,7 +318,6 @@
             justify-content: center;
         }
 
-        /* FOTO 1: Círculo Lunar Suave (Chandra Bhedana) */
         .breath-circle {
             position: absolute;
             width: 150px;
@@ -326,7 +325,6 @@
             background: radial-gradient(circle, rgba(154,52,18,0.25) 0%, rgba(154,52,18,0.06) 75%);
             border: 3px solid var(--accent-color);
             border-radius: 50%;
-            /* Transição extremamente suave entre tamanhos */
             transition: transform 1s cubic-bezier(0.37, 0, 0.63, 1), background 0.6s ease;
             display: flex;
             flex-direction: column;
@@ -335,13 +333,12 @@
             box-shadow: 0 0 30px var(--accent-glow);
         }
 
-        /* FOTO 2: Quadrado mais opaco e cor mais marcante (Sama Vritti) */
         .breath-mandala-square {
             position: absolute;
             width: 160px;
             height: 160px;
-            background: rgba(154, 52, 18, 0.35); /* Mais opaco */
-            border: 4px solid #7c2d12; /* Cor mais marcante */
+            background: rgba(154, 52, 18, 0.35);
+            border: 4px solid #7c2d12;
             border-radius: 16px;
             display: none;
             flex-direction: column;
@@ -353,7 +350,6 @@
 
         .breath-mandala-square.active-mandala { display: flex; }
 
-        /* FOTO 3: Figura Triangular Condizente com a Métrica (Ujjayi / Tensão) */
         .breath-triangle-shape {
             position: absolute;
             width: 0;
@@ -370,7 +366,6 @@
 
         .breath-triangle-shape.active-triangle { display: flex; }
 
-        /* Conteúdo interno centralizado nas figuras geométricas */
         .geom-inner {
             position: absolute;
             display: flex;
@@ -480,6 +475,17 @@
         </div>
     </div>
 
+    <!-- SECTION: BÚSSOLA -->
+    <div id="section-bussola" class="section-panel">
+        <div class="back-bar">
+            <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
+        </div>
+        <div class="card">
+            <h2>🧭 Módulo Bússola</h2>
+            <p style="font-family: var(--font-mono); font-size: 13px; color: #5c554e;">Módulo estruturado do método pronto para uso.</p>
+        </div>
+    </div>
+
     <!-- SECTION: PRANA -->
     <div id="section-prana" class="section-panel">
         <div class="back-bar">
@@ -518,14 +524,10 @@
 
             <div class="circle-wrapper" id="pranaCircleWrapper">
                 <div class="breath-animation-container">
-                    <!-- Figura 1: Círculo Lunar -->
                     <div class="breath-circle" id="breathCircle"></div>
-                    <!-- Figura 2: Quadrado Mais Opaco e Marcante -->
                     <div class="breath-mandala-square" id="breathMandalaSquare"></div>
-                    <!-- Figura 3: Triângulo Condizente com a Métrica -->
                     <div class="breath-triangle-shape" id="breathTriangleShape"></div>
 
-                    <!-- Display Central (Garante contagem 4,3,2,1 sem passar por 0) -->
                     <div class="geom-inner">
                         <div class="breath-timer" id="breathTimer">4</div>
                         <div class="breath-phase-label" id="breathPhaseLabel">Inspire</div>
@@ -540,14 +542,35 @@
         </div>
     </div>
 
+    <!-- SECTION: PHILOS -->
+    <div id="section-philos" class="section-panel">
+        <div class="back-bar">
+            <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
+        </div>
+        <div class="card">
+            <h2>📜 Módulo Philos</h2>
+            <p style="font-family: var(--font-mono); font-size: 13px; color: #5c554e;">Módulo de princípios e leituras diárias.</p>
+        </div>
+    </div>
+
+    <!-- SECTION: ANAMNESE -->
+    <div id="section-anamnese" class="section-panel">
+        <div class="back-bar">
+            <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
+        </div>
+        <div class="card">
+            <h2>📋 Módulo Anamnese</h2>
+            <p style="font-family: var(--font-mono); font-size: 13px; color: #5c554e;">Módulo de registros e alinhamento individual.</p>
+        </div>
+    </div>
+
     <script>
         function switchSection(sectionId) {
             document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
-            document.getElementById('section-।' + sectionId || 'section-' + sectionId).classList.add('active');
-            // Correção limpa do ID
-            document.querySelectorAll('.section-panel').forEach(p => {
-                if(p.id === 'section-' + sectionId) p.classList.add('active');
-            });
+            const target = document.getElementById('section-' + sectionId);
+            if (target) {
+                target.classList.add('active');
+            }
         }
 
         function togglePranaInfo() {
@@ -568,7 +591,6 @@
             const square = document.getElementById('breathMandalaSquare');
             const triangle = document.getElementById('breathTriangleShape');
 
-            // Esconde todas as formas por padrão
             circle.style.display = 'none';
             square.classList.remove('active-mandala');
             triangle.classList.remove('active-triangle');
@@ -580,7 +602,7 @@
                 exp.innerHTML = "<strong>Sama Vritti (Foco):</strong> Métrica equilibrada. Acompanhe o quadrado opaco e marcante. Contagem estrita de 4 a 1.";
                 square.classList.add('active-mandala');
             } else if (style === 'vago') {
-                exp.innerHTML = "<strong>Ujjayi (Tensão):</strong> Foco na figura triangular geométrica, alinhada à métrica respiratoria proposta.";
+                exp.innerHTML = "<strong>Ujjayi (Tensão):</strong> Foco na figura triangular geométrica, alinhada à métrica respiratória proposta.";
                 triangle.classList.add('active-triangle');
             }
         }
@@ -603,7 +625,7 @@
                 btn.innerText = "Pausar Prática";
                 setPranaStyle(currentStyle, document.querySelector('.breath-style-btn.active'));
             } else {
-                status.innerText = "Práctica Pausada";
+                status.innerText = "Prática Pausada";
                 btn.innerText = "Retomar Prática";
             }
         }
