@@ -7,14 +7,14 @@
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
-            --bg-color: var(--tg-theme-bg-color, #0f1115);
-            --text-color: var(--tg-theme-text-color, #f4f4f5);
-            --card-bg: var(--tg-theme-secondary-bg-color, rgba(24, 27, 34, 0.85));
-            --accent-color: #38bdf8;
-            --accent-glow: rgba(56, 189, 248, 0.3);
-            --success-color: #4ade80;
-            --success-glow: rgba(74, 222, 128, 0.3);
-            --border-color: rgba(39, 39, 42, 0.8);
+            --bg-color: #f7f4ea;
+            --text-color: #2d2621;
+            --card-bg: #fffdf7;
+            --accent-color: #9a6b32; /* Bronze / Tom de Pergaminho Nobre */
+            --accent-glow: rgba(154, 107, 50, 0.15);
+            --success-color: #3b6d47;
+            --success-glow: rgba(59, 109, 71, 0.15);
+            --border-color: #dfd7c5;
             --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
         }
 
@@ -27,7 +27,7 @@
 
         body {
             background-color: var(--bg-color);
-            background-image: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 50%);
+            background-image: radial-gradient(circle at 50% 0%, rgba(154, 107, 50, 0.05) 0%, transparent 70%);
             color: var(--text-color);
             padding: 16px;
             font-size: 16px;
@@ -60,10 +60,8 @@
         }
 
         .streak-banner {
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(74, 222, 128, 0.08));
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(56, 189, 248, 0.25);
+            background: linear-gradient(135deg, rgba(154, 107, 50, 0.08), rgba(59, 109, 71, 0.06));
+            border: 1px solid var(--border-color);
             border-radius: 14px;
             padding: 12px 16px;
             margin-bottom: 20px;
@@ -72,17 +70,16 @@
             justify-content: space-between;
             font-size: 14px;
             font-weight: 700;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 15px rgba(45, 38, 33, 0.03);
         }
 
         .streak-count {
             color: var(--success-color);
             font-size: 16px;
             font-family: var(--font-mono);
-            text-shadow: 0 0 10px var(--success-glow);
         }
 
-        /* HUB NAVIGATION - HEXAGONAL STYLE */
+        /* HUB NAVIGATION */
         .hub-nav {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -93,8 +90,6 @@
 
         .hub-btn {
             background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--border-color);
             color: var(--text-color);
             padding: 24px 12px;
@@ -108,7 +103,7 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 6px 20px rgba(45, 38, 33, 0.04);
             clip-path: polygon(15% 0%, 85% 0%, 100% 50%, 85% 100%, 15% 100%, 0% 50%);
             min-height: 130px;
         }
@@ -123,9 +118,8 @@
 
         .hub-btn:hover {
             border-color: var(--accent-color);
-            background: var(--accent-glow);
+            background: rgba(154, 107, 50, 0.08);
             color: var(--accent-color);
-            box-shadow: 0 0 20px var(--accent-glow);
         }
 
         .section-panel {
@@ -147,7 +141,7 @@
         }
 
         .back-btn {
-            background: rgba(255,255,255,0.05);
+            background: rgba(45, 38, 33, 0.04);
             border: 1px solid var(--border-color);
             color: var(--text-color);
             padding: 10px 16px;
@@ -168,13 +162,11 @@
 
         .card {
             background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--border-color);
             border-radius: 16px;
             padding: 20px;
             margin-bottom: 16px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 25px rgba(45, 38, 33, 0.05);
         }
 
         h2 {
@@ -196,7 +188,7 @@
 
         .sub-tab-btn {
             flex: 1;
-            background: rgba(255,255,255,0.03);
+            background: rgba(45, 38, 33, 0.03);
             border: 1px solid var(--border-color);
             color: var(--text-color);
             padding: 8px;
@@ -211,9 +203,8 @@
 
         .sub-tab-btn.active {
             background: var(--accent-color);
-            color: #000;
+            color: #fff;
             border-color: var(--accent-color);
-            box-shadow: 0 0 15px var(--accent-glow);
         }
 
         .sub-content {
@@ -235,7 +226,7 @@
         select, input[type="text"], input[type="number"], textarea {
             width: 100%;
             padding: 12px;
-            background: rgba(18, 20, 26, 0.8);
+            background: #fff;
             border: 1px solid var(--border-color);
             color: var(--text-color);
             border-radius: 10px;
@@ -263,7 +254,7 @@
         }
 
         .radio-btn {
-            background: rgba(18, 20, 26, 0.8);
+            background: #fff;
             border: 1px solid var(--border-color);
             padding: 10px 0;
             text-align: center;
@@ -282,15 +273,14 @@
 
         .radio-btn.selected {
             background: var(--accent-color);
-            color: #000;
+            color: #fff;
             border-color: var(--accent-color);
-            box-shadow: 0 0 12px var(--accent-glow);
         }
 
         .action-btn {
             width: 100%;
             background: var(--accent-color);
-            color: #000;
+            color: #fff;
             border: none;
             padding: 14px;
             font-size: 16px;
@@ -319,7 +309,7 @@
 
         .mode-btn {
             flex: 1;
-            background: rgba(18, 20, 26, 0.8);
+            background: #fff;
             border: 1px solid var(--border-color);
             padding: 8px;
             font-size: 12px;
@@ -331,7 +321,7 @@
         }
 
         .mode-btn.active {
-            background: var(--success-glow);
+            background: rgba(59, 109, 71, 0.12);
             border-color: var(--success-color);
             color: var(--success-color);
         }
@@ -344,7 +334,7 @@
         }
 
         .breath-style-btn {
-            background: rgba(18, 20, 26, 0.8);
+            background: #fff;
             border: 1px solid var(--border-color);
             padding: 10px 6px;
             font-size: 11px;
@@ -361,7 +351,6 @@
             background: var(--accent-glow);
             border-color: var(--accent-color);
             color: var(--accent-color);
-            box-shadow: 0 0 10px var(--accent-glow);
         }
 
         .circle-wrapper {
@@ -378,7 +367,7 @@
             position: absolute;
             width: 130px;
             height: 130px;
-            background: radial-gradient(circle, rgba(56,189,248,0.4) 0%, rgba(56,189,248,0.1) 70%);
+            background: radial-gradient(circle, rgba(154,107,50,0.2) 0%, rgba(154,107,50,0.05) 70%);
             border: 2px solid var(--accent-color);
             border-radius: 50%;
             transition: transform 0.1s linear, background 0.4s ease;
@@ -386,7 +375,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 0 25px var(--accent-glow);
+            box-shadow: 0 0 20px var(--accent-glow);
         }
 
         .breath-timer {
@@ -430,8 +419,8 @@
 
         .info-modal-box {
             display: none;
-            background: rgba(56, 189, 248, 0.08);
-            border: 1px solid rgba(56, 189, 248, 0.3);
+            background: rgba(154, 107, 50, 0.08);
+            border: 1px solid rgba(154, 107, 50, 0.25);
             padding: 14px;
             border-radius: 12px;
             font-size: 13px;
@@ -446,13 +435,12 @@
 
         /* PHILOS STYLES */
         .philos-card {
-            background: linear-gradient(135deg, rgba(24, 27, 34, 0.95) 0%, rgba(18, 21, 28, 0.95) 100%);
-            backdrop-filter: blur(12px);
+            background: linear-gradient(135deg, #fffdf7 0%, #fcf8ee 100%);
             border-left: 4px solid var(--accent-color);
             padding: 20px;
             border-radius: 14px;
             margin-bottom: 14px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 6px 20px rgba(45, 38, 33, 0.05);
             position: relative;
         }
 
@@ -473,8 +461,8 @@
         }
 
         .fiat-lux-btn {
-            background: linear-gradient(135deg, var(--accent-color), #0284c7);
-            color: #000;
+            background: linear-gradient(135deg, var(--accent-color), #795224);
+            color: #fff;
             border: none;
             padding: 8px 16px;
             font-size: 12px;
@@ -482,7 +470,7 @@
             cursor: pointer;
             font-weight: 800;
             font-family: var(--font-mono);
-            box-shadow: 0 0 15px var(--accent-glow);
+            box-shadow: 0 0 12px var(--accent-glow);
             transition: 0.2s;
         }
 
@@ -504,6 +492,41 @@
             font-weight: 600;
             font-family: var(--font-mono);
         }
+
+        .mantra-banner {
+            background: rgba(154, 107, 50, 0.08);
+            border: 1px dashed var(--accent-color);
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-style: italic;
+            text-align: center;
+            margin-bottom: 14px;
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        .readings-drawer {
+            display: none;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border-color);
+            font-size: 13px;
+        }
+
+        .readings-drawer.active {
+            display: block;
+        }
+
+        .readings-drawer ul {
+            padding-left: 18px;
+            margin-top: 8px;
+        }
+
+        .readings-drawer li {
+            margin-bottom: 6px;
+            opacity: 0.9;
+        }
     </style>
 </head>
 <body>
@@ -519,7 +542,7 @@
         <span class="streak-count" id="streakDisplay">0 Dias</span>
     </div>
 
-    <!-- MAIN HUB (HOME) - HEXAGONAL BUTTONS -->
+    <!-- MAIN HUB (HOME) -->
     <div id="section-home" class="section-panel active">
         <div class="hub-nav">
             <button class="hub-btn" onclick="switchSection('bussola')">
@@ -626,7 +649,7 @@
                 <button type="button" class="breath-style-btn" style="padding: 6px 12px;" onclick="togglePranaInfo()">ℹ️ Informações</button>
             </div>
 
-            <!-- MODAL INFO / MODO DE SEGURANÇA -->
+            <!-- MODAL INFO -->
             <div class="info-modal-box" id="pranaInfoBox">
                 <strong>📜 Fontes de Referência:</strong> Gheranda Samhita, Goraksha Sataka, Hatha Yoga Pradipika e Alícia Solto.<br><br>
                 <strong>🛡️ Modo de Segurança (40 a 60 anos):</strong><br>
@@ -662,7 +685,7 @@
 
             <div class="prana-controls">
                 <button type="button" class="action-btn" id="pranaToggleBtn" onclick="togglePranaSession()">Iniciar Prática</button>
-                <button type="button" class="action-btn" style="background: rgba(39, 39, 42, 0.8); color: #fff;" onclick="resetPranaSession()">Parar</button>
+                <button type="button" class="action-btn" style="background: #e2dbcc; color: var(--text-color);" onclick="resetPranaSession()">Parar</button>
             </div>
         </div>
     </div>
@@ -674,7 +697,7 @@
         </div>
         <div class="philos-card">
             <div class="philos-header-row">
-                <div class="philos-tag" id="philosTag">Pilar I • Semente da Vitória</div>
+                <div class="philos-tag" id="philosTag">Pilar • Semente da Vitória</div>
                 <button type="button" class="fiat-lux-btn" onclick="sortearFiatLux()">✨ FIAT LUX</button>
             </div>
             <div class="philos-quote" id="philosQuote">
@@ -684,12 +707,31 @@
         </div>
 
         <div class="card">
-            <h2>📜 Os 3 Pilares da Alquimia</h2>
-            <ul style="padding-left: 18px; font-size: 13px; line-height: 1.6; opacity: 0.85;">
-                <li><strong>Semente da Vitória:</strong> Atividade física, hábitos de saúde e comportamento alimentar (Nuno Cobra).</li>
-                <li><strong>Iluminação Oriental:</strong> Koans e frases reflexivas de essência profunda (Otávio Leal).</li>
-                <li><strong>Acuidade & Visão:</strong> Frases diretivas extraídas de <em>Tudo é Possível</em>, <em>Insight 1 & 2</em> e pensadores clássicos/modernos.</li>
+            <h2>📜 Método Groppo • Os 3 Pilares</h2>
+            
+            <div class="mantra-banner">
+                “Organize a mente e terá um corpo aprimorado, capaz de atender às vontades do espírito.”
+            </div>
+
+            <ul style="padding-left: 18px; font-size: 13px; line-height: 1.7; opacity: 0.9;">
+                <li><strong>1 - Mente:</strong> Clareza mental, foco inegociável e inteligência emocional estruturada.</li>
+                <li><strong>2 - Corpo:</strong> Alquimia física, movimento funcional e biologia respeitada (Nuno Cobra).</li>
+                <li><strong>3 - Espírito:</strong> Propósito superior, essência e serenidade interior para a jornada.</li>
             </ul>
+
+            <div style="margin-top: 16px; text-align: center;">
+                <button type="button" class="action-btn" onclick="toggleReadingsDrawer()" style="font-size: 14px; padding: 12px;">📚 Sugestão de Leituras Fixas</button>
+            </div>
+
+            <div class="readings-drawer" id="readingsDrawer">
+                <strong style="color: var(--accent-color);">📖 Obras de Referência do Método:</strong>
+                <ul>
+                    <li><strong>Semente da Vitória</strong> — Nuno Cobra</li>
+                    <li><strong>Tudo é Possível</strong> — Obras de Acuidade & Visão</li>
+                    <li><strong>Insight 1 & 2</strong> — Maestria Comportamental</li>
+                    <li><strong>Hatha Yoga Pradipika / Gheranda Samhita</strong> — Textos Clássicos de Alquimia Interna</li>
+                </ul>
+            </div>
         </div>
     </div>
 
@@ -888,10 +930,17 @@
             switchSection('home');
         }
 
+        function toggleReadingsDrawer() {
+            const drawer = document.getElementById('readingsDrawer');
+            drawer.classList.toggle('active');
+            if (tg?.HapticFeedback) tg.HapticFeedback.selectionChanged();
+        }
+
         const fiatLuxQuotes = [
-            { quote: "A constância e a disciplina diária moldam o corpo livre de amarras. A vitalidade não é acaso, é biologia respeitada.", source: "Nuno Cobra (Semente da Vitória)", tag: "Pilar I • Semente da Vitória" },
-            { quote: "O silêncio da mente é o laboratório onde o corpo se regenera e encontra sua verdadeira força.", source: "Otávio Leal (Iluminação Oriental)", tag: "Pilar II • Iluminação Oriental" },
-            { quote: "Tudo é possível para aquele que alinha a intenção com a ação inegociável do presente.", source: "Método Groppo (Acuidade & Visão)", tag: "Pilar III • Acuidade & Visão" }
+            { quote: "A constância e a disciplina diária moldam o corpo livre de amarras. A vitalidade não é acaso, é biologia respeitada.", source: "Nuno Cobra (Semente da Vitória)", tag: "Pilar • Semente da Vitória" },
+            { quote: "Organize a mente e terá um corpo aprimorado, capaz de atender às vontades do espírito.", source: "Método Groppo", tag: "Pilar • Método Groppo" },
+            { quote: "O silêncio da mente é o laboratório onde o corpo se regenera e encontra sua verdadeira força.", source: "Otávio Leal (Iluminação Oriental)", tag: "Pilar • Iluminação Oriental" },
+            { quote: "Tudo é possível para aquele que alinha a intenção com a ação inegociável do presente.", source: "Método Groppo (Acuidade & Visão)", tag: "Pilar • Acuidade & Visão" }
         ];
 
         function sortearFiatLux() {
