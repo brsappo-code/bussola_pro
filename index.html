@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bússola_PRO - Anamnese</title>
+    <title>Bússola_PRO</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
@@ -24,8 +24,13 @@
         }
 
         .section-panel {
+            display: none;
             max-width: 500px;
             margin: 0 auto;
+        }
+
+        .section-panel.active {
+            display: block;
         }
 
         .back-bar {
@@ -123,154 +128,173 @@
 </head>
 <body>
 
-<div id="section-anamnese" class="section-panel">
-    <div class="back-bar">
-        <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
+    <!-- HOME / INÍCIO -->
+    <div id="section-home" class="section-panel active">
+        <div class="card" style="text-align: center;">
+            <h2>🧭 Bússola_PRO</h2>
+            <p>Bem-vindo ao sistema de alinhamento.</p>
+            <button class="action-btn" onclick="switchSection('anamnese')">Ir para Anamnese</button>
+        </div>
     </div>
-    <div class="card">
-        <h2>📋 Ficha de Anamnese Pro</h2>
 
-        <form id="anamneseForm" onsubmit="submitAnamnese(event)">
-            <!-- 1. Telegram ID (Oculto - Capturado automaticamente) -->
-            <input type="hidden" id="telegramId" name="telegramId">
+    <!-- ANAMNESE -->
+    <div id="section-anamnese" class="section-panel">
+        <div class="back-bar">
+            <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
+        </div>
+        <div class="card">
+            <h2>📋 Ficha de Anamnese Pro</h2>
 
-            <!-- 2. Nome Completo -->
-            <label>Nome Completo:</label>
-            <input type="text" name="nomeCompleto" placeholder="Ex: Bruno Groppo" required>
+            <form id="anamneseForm" onsubmit="submitAnamnese(event)">
+                <!-- 1. Telegram ID (Oculto - Capturado automaticamente) -->
+                <input type="hidden" id="telegramId" name="telegramId">
 
-            <!-- 3. WhatsApp -->
-            <label>WhatsApp:</label>
-            <input type="tel" name="whatsapp" placeholder="Ex: (11) 99999-9999" required>
+                <!-- 2. Nome Completo -->
+                <label>Nome Completo:</label>
+                <input type="text" name="nomeCompleto" placeholder="Ex: Bruno Groppo" required>
 
-            <!-- 4. Data de Início -->
-            <label>Data de Início:</label>
-            <input type="date" name="dataInicio" required>
+                <!-- 3. WhatsApp -->
+                <label>WhatsApp:</label>
+                <input type="tel" name="whatsapp" placeholder="Ex: (11) 99999-9999" required>
 
-            <!-- 5. Arquétipo / Avatar -->
-            <label>Arquétipo / Avatar:</label>
-            <input type="text" name="arquetipo" placeholder="Ex: O Guerreiro, O Sábio...">
+                <!-- 4. Data de Início -->
+                <label>Data de Início:</label>
+                <input type="date" name="dataInicio" required>
 
-            <!-- 6. Score Consciência Corporal -->
-            <label>Score Consciência Corporal (1 a 10):</label>
-            <input type="number" name="scoreConsciencia" min="1" max="10" placeholder="Ex: 7">
+                <!-- 5. Gênero -->
+                <label>Gênero:</label>
+                <select name="genero" required>
+                    <option value="">Selecione...</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Feminino">Feminino</option>
+                    <option value="Outro">Outro</option>
+                </select>
 
-            <!-- 7 & 8. Idade / Altura / Peso -->
-            <div class="grid-2">
-                <div>
-                    <label>Idade:</label>
-                    <input type="number" name="idade" placeholder="Ex: 35">
+                <!-- 6. Arquétipo / Avatar -->
+                <label>Arquétipo / Avatar:</label>
+                <input type="text" name="arquetipo" placeholder="Ex: O Guerreiro, O Sábio...">
+
+                <!-- 7. Score Consciência Corporal -->
+                <label>Score Consciência Corporal (1 a 10):</label>
+                <input type="number" name="scoreConsciencia" min="1" max="10" placeholder="Ex: 7">
+
+                <!-- 8 & 9. Idade / Altura / Peso -->
+                <div class="grid-2">
+                    <div>
+                        <label>Idade:</label>
+                        <input type="number" name="idade" placeholder="Ex: 35">
+                    </div>
+                    <div>
+                        <label>Altura / Peso:</label>
+                        <input type="text" name="alturaPeso" placeholder="Ex: 1.80m / 80kg">
+                    </div>
                 </div>
-                <div>
-                    <label>Altura / Peso:</label>
-                    <input type="text" name="alturaPeso" placeholder="Ex: 1.80m / 80kg">
+
+                <!-- 10. Filhos -->
+                <label>Filhos:</label>
+                <select name="filhos">
+                    <option value="Não">Não</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3+">3 ou mais</option>
+                </select>
+
+                <!-- 11. Profissão -->
+                <label>Profissão:</label>
+                <input type="text" name="profissao" placeholder="Ex: Desenvolvedor, Personal...">
+
+                <!-- 12 & 13. Horas de Trabalho / Horas Sentado -->
+                <div class="grid-2">
+                    <div>
+                        <label>Horas de Trabalho:</label>
+                        <input type="number" name="horasTrabalho" placeholder="Ex: 8">
+                    </div>
+                    <div>
+                        <label>Horas Sentado:</label>
+                        <input type="number" name="horasSentado" placeholder="Ex: 6">
+                    </div>
                 </div>
-            </div>
 
-            <!-- 9. Filhos -->
-            <label>Filhos:</label>
-            <select name="filhos">
-                <option value="Não">Não</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3+">3 ou mais</option>
-            </select>
+                <!-- 14. Postura no Trabalho -->
+                <label>Postura no Trabalho:</label>
+                <select name="posturaTrabalho">
+                    <option value="Majoritariamente Sentado">Majoritariamente Sentado</option>
+                    <option value="Majoritariamente em Pé">Majoritariamente em Pé</option>
+                    <option value="Misto/Dinâmico">Misto / Dinâmico</option>
+                </select>
 
-            <!-- 10. Profissão -->
-            <label>Profissão:</label>
-            <input type="text" name="profissao" placeholder="Ex: Desenvolvedor, Personal...">
+                <!-- 15. Estresse no Trabalho -->
+                <label>Estresse no Trabalho:</label>
+                <select name="estresseTrabalho">
+                    <option value="Baixo">Baixo</option>
+                    <option value="Moderado">Moderado</option>
+                    <option value="Alto">Alto</option>
+                </select>
 
-            <!-- 11 & 12. Horas de Trabalho / Horas Sentado -->
-            <div class="grid-2">
-                <div>
-                    <label>Horas de Trabalho:</label>
-                    <input type="number" name="horasTrabalho" placeholder="Ex: 8">
+                <!-- 16 & 17. Horas de Sono / Qualidade do Sono -->
+                <div class="grid-2">
+                    <div>
+                        <label>Horas de Sono:</label>
+                        <input type="number" name="horasSono" placeholder="Ex: 7">
+                    </div>
+                    <div>
+                        <label>Qualidade do Sono:</label>
+                        <select name="qualidadeSono">
+                            <option value="Boa">Boa</option>
+                            <option value="Regular">Regular</option>
+                            <option value="Ruim">Ruim</option>
+                        </select>
+                    </div>
                 </div>
-                <div>
-                    <label>Horas Sentado:</label>
-                    <input type="number" name="horasSentado" placeholder="Ex: 6">
-                </div>
-            </div>
 
-            <!-- 13. Postura no Trabalho -->
-            <label>Postura no Trabalho:</label>
-            <select name="posturaTrabalho">
-                <option value="Majoritariamente Sentado">Majoritariamente Sentado</option>
-                <option value="Majoritariamente em Pé">Majoritariamente em Pé</option>
-                <option value="Misto/Dinâmico">Misto / Dinâmico</option>
-            </select>
+                <!-- 18. Álcool / Fumo -->
+                <label>Álcool / Fumo:</label>
+                <select name="alcoolFumo">
+                    <option value="Nenhum">Nenhum</option>
+                    <option value="Apenas Álcool">Apenas Álcool</option>
+                    <option value="Apenas Fumo">Apenas Fumo</option>
+                    <option value="Ambos">Ambos</option>
+                </select>
 
-            <!-- 14. Estresse no Trabalho -->
-            <label>Estresse no Trabalho:</label>
-            <select name="estresseTrabalho">
-                <option value="Baixo">Baixo</option>
-                <option value="Moderado">Moderado</option>
-                <option value="Alto">Alto</option>
-            </select>
+                <!-- 19. Histórico Clínico -->
+                <label>Histórico Clínico:</label>
+                <textarea name="historicoClinico" placeholder="Doenças pré-existentes, condições crônicas..."></textarea>
 
-            <!-- 15 & 16. Horas de Sono / Qualidade do Sono -->
-            <div class="grid-2">
-                <div>
-                    <label>Horas de Sono:</label>
-                    <input type="number" name="horasSono" placeholder="Ex: 7">
-                </div>
-                <div>
-                    <label>Qualidade do Sono:</label>
-                    <select name="qualidadeSono">
-                        <option value="Boa">Boa</option>
-                        <option value="Regular">Regular</option>
-                        <option value="Ruim">Ruim</option>
-                    </select>
-                </div>
-            </div>
+                <!-- 20. Medicamentos -->
+                <label>Medicamentos:</label>
+                <textarea name="medicamentos" placeholder="Medicamentos de uso contínuo..."></textarea>
 
-            <!-- 17. Álcool / Fumo -->
-            <label>Álcool / Fumo:</label>
-            <select name="alcoolFumo">
-                <option value="Nenhum">Nenhum</option>
-                <option value="Apenas Álcool">Apenas Álcool</option>
-                <option value="Apenas Fumo">Apenas Fumo</option>
-                <option value="Ambos">Ambos</option>
-            </select>
+                <!-- 21. Cirurgias / Lesões -->
+                <label>Cirurgias / Lesões:</label>
+                <textarea name="cirurgiasLesoes" placeholder="Histórico de cirurgias ou lesões ativas..."></textarea>
 
-            <!-- 18. Histórico Clínico -->
-            <label>Histórico Clínico:</label>
-            <textarea name="historicoClinico" placeholder="Doenças pré-existentes, condições crônicas..."></textarea>
+                <!-- 22. Mapeamento de Dores -->
+                <label>Mapeamento de Dores:</label>
+                <textarea name="mapeamentoDores" placeholder="Descreva os locais de dor e intensidade..."></textarea>
 
-            <!-- 19. Medicamentos -->
-            <label>Medicamentos:</label>
-            <textarea name="medicamentos" placeholder="Medicamentos de uso contínuo..."></textarea>
+                <!-- 23. Objetivo Principal -->
+                <label>Objetivo Principal:</label>
+                <textarea name="objetivoPrincipal" placeholder="Ex: Melhorar mobilidade, hipertrofia..."></textarea>
 
-            <!-- 20. Cirurgias / Lesões -->
-            <label>Cirurgias / Lesões:</label>
-            <textarea name="cirurgiasLesoes" placeholder="Histórico de cirurgias ou lesões ativas..."></textarea>
+                <!-- 24. Streak Atual (🔥) [Capturado Automaticamente / Oculto do Alquimista mas vai para a planilha] -->
+                <label>Streak Atual (🔥):</label>
+                <input type="number" name="streakAtual" id="anamneseStreak" readonly title="Capturado automaticamente do sistema">
 
-            <!-- 21. Mapeamento de Dores -->
-            <label>Mapeamento de Dores:</label>
-            <textarea name="mapeamentoDores" placeholder="Descreva os locais de dor e intensidade..."></textarea>
-
-            <!-- 22. Objetivo Principal -->
-            <label>Objetivo Principal:</label>
-            <textarea name="objetivoPrincipal" placeholder="Ex: Melhorar mobilidade, hipertrofia..."></textarea>
-
-            <!-- 23. Streak Atual (🔥) [Capturado Automaticamente / Oculto do Alquimista mas vai para a planilha] -->
-            <label>Streak Atual (🔥):</label>
-            <input type="number" name="streakAtual" id="anamneseStreak" readonly title="Capturado automaticamente do sistema">
-
-            <button type="submit" class="action-btn">Registrar na Planilha</button>
-        </form>
+                <button type="submit" class="action-btn">Registrar na Planilha</button>
+            </form>
+        </div>
     </div>
-</div>
 
 <script>
     const tg = window.Telegram.WebApp;
     tg.ready();
+    tg.expand();
 
     document.addEventListener("DOMContentLoaded", () => {
         // 1. Captura o Telegram ID silenciosamente
         if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
             document.getElementById('telegramId').value = tg.initDataUnsafe.user.id;
         } else {
-            // Fallback para testes fora do Telegram
             document.getElementById('telegramId').value = 'TEST_USER_ID';
         }
         
@@ -280,8 +304,17 @@
     });
 
     function switchSection(sectionId) {
-        // Lógica de navegação entre seções
-        console.log("Navegando para:", sectionId);
+        // Oculta todas as seções
+        document.querySelectorAll('.section-panel').forEach(panel => {
+            panel.classList.remove('active');
+        });
+        
+        // Exibe a seção alvo
+        const target = document.getElementById('section-' + sectionId);
+        if (target) {
+            target.classList.add('active');
+            window.scrollTo(0, 0);
+        }
     }
 
     function submitAnamnese(event) {
@@ -291,6 +324,7 @@
         
         console.log("Dados prontos para envio:", data);
         alert("Anamnese registrada com sucesso!");
+        switchSection('home');
     }
 </script>
 
