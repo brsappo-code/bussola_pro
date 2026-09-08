@@ -60,7 +60,6 @@
             font-weight: 700;
         }
 
-        /* HUB NAVIGATION - CIRCULAR BUTTONS */
         .hub-nav {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -89,10 +88,7 @@
             padding: 10px;
         }
 
-        .hub-btn span.icon {
-            font-size: 32px;
-        }
-
+        .hub-btn span.icon { font-size: 32px; }
         .hub-btn span.label {
             font-size: 12px;
             font-weight: 900;
@@ -101,10 +97,7 @@
             color: var(--accent-color);
         }
 
-        .hub-btn:active {
-            transform: scale(0.95);
-        }
-
+        .hub-btn:active { transform: scale(0.95); }
         .hub-btn:hover {
             border-color: var(--accent-color);
             background: var(--accent-glow);
@@ -117,18 +110,14 @@
             animation: fadeIn 0.3s ease-in-out;
         }
 
-        .section-panel.active {
-            display: block;
-        }
+        .section-panel.active { display: block; }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .back-bar {
-            margin-bottom: 16px;
-        }
+        .back-bar { margin-bottom: 16px; }
 
         .back-btn {
             background: #f0ebe0;
@@ -144,10 +133,6 @@
             gap: 8px;
             font-family: var(--font-mono);
             transition: 0.2s;
-        }
-
-        .back-btn:active {
-            transform: scale(0.97);
         }
 
         .card {
@@ -202,13 +187,8 @@
             box-shadow: 0 0 12px var(--accent-glow);
         }
 
-        .sub-content {
-            display: none;
-        }
-
-        .sub-content.active {
-            display: block;
-        }
+        .sub-content { display: none; }
+        .sub-content.active { display: block; }
 
         label {
             display: block;
@@ -238,43 +218,6 @@
             box-shadow: 0 0 10px var(--accent-glow);
         }
 
-        textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        .radio-group {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 6px;
-            margin-bottom: 16px;
-        }
-
-        .radio-btn {
-            background: var(--input-bg);
-            border: 2px solid var(--border-color);
-            padding: 10px 0;
-            text-align: center;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 800;
-            font-size: 15px;
-            font-family: var(--font-mono);
-            color: var(--text-color);
-            transition: 0.2s;
-        }
-
-        .radio-btn input {
-            display: none;
-        }
-
-        .radio-btn.selected {
-            background: var(--accent-color);
-            color: #fff;
-            border-color: var(--accent-color);
-            box-shadow: 0 0 10px var(--accent-glow);
-        }
-
         .action-btn {
             width: 100%;
             background: var(--accent-color);
@@ -290,14 +233,10 @@
             font-family: var(--font-mono);
         }
 
-        .action-btn:active {
-            transform: scale(0.97);
-        }
+        .action-btn:active { transform: scale(0.97); }
 
-        /* PRANA STYLES */
-        .prana-container {
-            text-align: center;
-        }
+        /* PRANA STYLES & SUAVIZAÇÃO DE TRANSIÇÕES */
+        .prana-container { text-align: center; }
 
         .mode-selector {
             display: flex;
@@ -352,21 +291,18 @@
             box-shadow: 0 0 10px var(--accent-glow);
         }
 
-        /* HIDDEN UNTIL PRACTICE STARTS */
         .circle-wrapper {
             position: relative;
             width: 210px;
             height: 210px;
             margin: 16px auto;
-            display: none; /* Só abre após iniciar */
+            display: none;
             align-items: center;
             justify-content: center;
             animation: fadeInScale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        .circle-wrapper.active {
-            display: flex;
-        }
+        .circle-wrapper.active { display: flex; }
 
         @keyframes fadeInScale {
             from { opacity: 0; transform: scale(0.7); }
@@ -382,7 +318,7 @@
             justify-content: center;
         }
 
-        /* LUNAR CIRCLE (CHANDRA / UJJAYI) */
+        /* FOTO 1: Círculo Lunar Suave (Chandra Bhedana) */
         .breath-circle {
             position: absolute;
             width: 150px;
@@ -390,7 +326,8 @@
             background: radial-gradient(circle, rgba(154,52,18,0.25) 0%, rgba(154,52,18,0.06) 75%);
             border: 3px solid var(--accent-color);
             border-radius: 50%;
-            transition: transform 0.1s linear, background 0.4s ease;
+            /* Transição extremamente suave entre tamanhos */
+            transition: transform 1s cubic-bezier(0.37, 0, 0.63, 1), background 0.6s ease;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -398,41 +335,49 @@
             box-shadow: 0 0 30px var(--accent-glow);
         }
 
-        /* ENCHANTING MANDALA SQUARE (SAMA VRITTI - FOCO) */
+        /* FOTO 2: Quadrado mais opaco e cor mais marcante (Sama Vritti) */
         .breath-mandala-square {
             position: absolute;
-            width: 170px;
-            height: 170px;
-            background: radial-gradient(circle, rgba(154, 52, 18, 0.2) 0%, rgba(212, 206, 190, 0.15) 80%);
-            border: 3px solid var(--accent-color);
-            border-radius: 24px;
+            width: 160px;
+            height: 160px;
+            background: rgba(154, 52, 18, 0.35); /* Mais opaco */
+            border: 4px solid #7c2d12; /* Cor mais marcante */
+            border-radius: 16px;
             display: none;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            transition: transform 0.1s linear;
-            box-shadow: 0 0 35px var(--accent-glow), inset 0 0 15px rgba(154, 52, 18, 0.3);
-            position: relative;
-            overflow: hidden;
+            transition: transform 1s cubic-bezier(0.37, 0, 0.63, 1), background 0.4s ease;
+            box-shadow: 0 0 35px rgba(124, 45, 18, 0.5), inset 0 0 20px rgba(255, 255, 255, 0.2);
         }
 
-        /* Sacred geometric glowing corners in mandala square */
-        .breath-mandala-square::before {
-            content: '';
+        .breath-mandala-square.active-mandala { display: flex; }
+
+        /* FOTO 3: Figura Triangular Condizente com a Métrica (Ujjayi / Tensão) */
+        .breath-triangle-shape {
             position: absolute;
-            inset: 6px;
-            border: 2px dashed rgba(154, 52, 18, 0.5);
-            border-radius: 18px;
-            animation: rotateMandala 20s linear infinite;
+            width: 0;
+            height: 0;
+            border-left: 85px solid transparent;
+            border-right: 85px solid transparent;
+            border-bottom: 147px solid rgba(154, 52, 18, 0.3);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: transform 1s cubic-bezier(0.37, 0, 0.63, 1);
+            filter: drop-shadow(0 0 15px var(--accent-glow));
         }
 
-        @keyframes rotateMandala {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
+        .breath-triangle-shape.active-triangle { display: flex; }
 
-        .breath-mandala-square.active-mandala {
+        /* Conteúdo interno centralizado nas figuras geométricas */
+        .geom-inner {
+            position: absolute;
             display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 5;
         }
 
         .breath-timer {
@@ -441,7 +386,6 @@
             color: var(--text-color);
             line-height: 1;
             font-family: var(--font-mono);
-            z-index: 3;
         }
 
         .breath-phase-label {
@@ -452,7 +396,6 @@
             color: var(--accent-color);
             margin-top: 4px;
             font-family: var(--font-mono);
-            z-index: 3;
             text-align: center;
             padding: 0 8px;
         }
@@ -505,138 +448,7 @@
             margin-bottom: 14px;
             line-height: 1.5;
         }
-
-        .info-modal-box.active {
-            display: block;
-        }
-
-        /* PHILOS STYLES */
-        .philos-card {
-            background: linear-gradient(135deg, #fffdf9 0%, #f4efe1 100%);
-            border: 2px solid var(--border-color);
-            border-left: 5px solid var(--accent-color);
-            padding: 20px;
-            border-radius: 14px;
-            margin-bottom: 14px;
-            box-shadow: 0 6px 20px rgba(44, 40, 37, 0.05);
-            position: relative;
-        }
-
-        .philos-header-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .philos-tag {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            color: var(--accent-color);
-            font-weight: 900;
-            font-family: var(--font-mono);
-        }
-
-        .fiat-lux-btn {
-            background: linear-gradient(135deg, var(--accent-color), #c2410c);
-            color: #fff;
-            border: none;
-            padding: 8px 16px;
-            font-size: 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 900;
-            font-family: var(--font-mono);
-            box-shadow: 0 0 15px var(--accent-glow);
-            transition: 0.2s;
-        }
-
-        .fiat-lux-btn:active {
-            transform: scale(0.95);
-        }
-
-        .philos-quote {
-            font-size: 17px;
-            font-style: italic;
-            font-weight: 700;
-            line-height: 1.5;
-            margin-bottom: 12px;
-            color: var(--text-color);
-        }
-
-        .philos-source {
-            font-size: 12px;
-            color: #5c554e;
-            text-align: right;
-            font-weight: 800;
-            font-family: var(--font-mono);
-        }
-
-        /* ANAMNESE WOW */
-        .gender-select-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-
-        .gender-card {
-            background: var(--input-bg);
-            border: 2px solid var(--border-color);
-            border-radius: 14px;
-            padding: 20px 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .gender-card.selected {
-            background: var(--accent-glow);
-            border-color: var(--accent-color);
-            box-shadow: 0 0 15px var(--accent-glow);
-        }
-
-        .gender-silhouette {
-            font-size: 48px;
-            margin-bottom: 8px;
-        }
-
-        .gender-title {
-            font-size: 14px;
-            font-weight: 900;
-            font-family: var(--font-mono);
-            color: var(--text-color);
-        }
-
-        .body-zones-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-bottom: 16px;
-        }
-
-        .zone-btn {
-            background: var(--input-bg);
-            border: 2px solid var(--border-color);
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 800;
-            font-family: var(--font-mono);
-            cursor: pointer;
-            text-align: left;
-            transition: 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .zone-btn.selected {
-            background: var(--accent-color);
-            color: #fff;
-            border-color: var(--accent-color);
-        }
+        .info-modal-box.active { display: block; }
     </style>
 </head>
 <body>
@@ -646,7 +458,7 @@
         <div class="subtitle">Método Groppo • Alquimia Diária</div>
     </header>
 
-    <!-- MAIN HUB (HOME) - CIRCULAR BUTTONS -->
+    <!-- MAIN HUB (HOME) -->
     <div id="section-home" class="section-panel active">
         <div class="hub-nav">
             <button class="hub-btn" onclick="switchSection('bussola')">
@@ -668,81 +480,7 @@
         </div>
     </div>
 
-    <!-- SECTION 1: BÚSSOLA DIÁRIA -->
-    <div id="section-bussola" class="section-panel">
-        <div class="back-bar">
-            <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
-        </div>
-        <div class="card">
-            <div class="sub-tabs">
-                <button class="sub-tab-btn active" onclick="switchSub('manha')">[manhã]</button>
-                <button class="sub-tab-btn" onclick="switchSub('tarde')">[tarde]</button>
-                <button class="sub-tab-btn" onclick="switchSub('noite')">[noite]</button>
-            </div>
-
-            <form id="checkinForm" onsubmit="submitCheckin(event)">
-                <!-- MANHÃ -->
-                <div id="sub-manha" class="sub-content active">
-                    <h2>🌅 Check-in Matinal</h2>
-                    
-                    <label>Rigidez ou Dor Corporal (1 a 5):</label>
-                    <div class="radio-group" id="rigidezGroup">
-                        <div class="radio-btn" onclick="selectRadio('rigidezGroup', '1')">1<input type="radio" name="rigidez" value="1"></div>
-                        <div class="radio-btn" onclick="selectRadio('rigidezGroup', '2')">2<input type="radio" name="rigidez" value="2"></div>
-                        <div class="radio-btn selected" onclick="selectRadio('rigidezGroup', '3')">3<input type="radio" name="rigidez" value="3" checked></div>
-                        <div class="radio-btn" onclick="selectRadio('rigidezGroup', '4')">4<input type="radio" name="rigidez" value="4"></div>
-                        <div class="radio-btn" onclick="selectRadio('rigidezGroup', '5')">5<input type="radio" name="rigidez" value="5"></div>
-                    </div>
-
-                    <label>Disposição e Humor Mental (1 a 5):</label>
-                    <div class="radio-group" id="disposicaoGroup">
-                        <div class="radio-btn" onclick="selectRadio('disposicaoGroup', '1')">1<input type="radio" name="disposicao" value="1"></div>
-                        <div class="radio-btn" onclick="selectRadio('disposicaoGroup', '2')">2<input type="radio" name="disposicao" value="2"></div>
-                        <div class="radio-btn selected" onclick="selectRadio('disposicaoGroup', '3')">3<input type="radio" name="disposicao" value="3" checked></div>
-                        <div class="radio-btn" onclick="selectRadio('disposicaoGroup', '4')">4<input type="radio" name="disposicao" value="4"></div>
-                        <div class="radio-btn" onclick="selectRadio('disposicaoGroup', '5')">5<input type="radio" name="disposicao" value="5"></div>
-                    </div>
-                </div>
-
-                <!-- TARDE -->
-                <div id="sub-tarde" class="sub-content">
-                    <h2>☀️ Check-in Vespertino</h2>
-                    <label>Fez Pausa Ativa hoje?</label>
-                    <select name="pausaAtiva">
-                        <option value="Sim">Sim, pausa executada</option>
-                        <option value="Nao">Não foi possível hoje</option>
-                    </select>
-
-                    <label>Hidratação (Litros):</label>
-                    <input type="number" step="0.5" min="0" max="10" name="hidratacao" value="2.0">
-                </div>
-
-                <!-- NOITE -->
-                <div id="sub-noite" class="sub-content">
-                    <h2>🌙 Fechamento Noturno</h2>
-                    <label>Prática Realizada:</label>
-                    <select name="pratica">
-                        <option value="Alquimia Bruta">Alquimia Bruta (Força/Movimento)</option>
-                        <option value="Fluida">Fluida (Mobilidade/Yoga)</option>
-                        <option value="Sutil">Sutil (Respiração/PRANA)</option>
-                        <option value="Invisível">Invisível (Recuperação/Descanso)</option>
-                    </select>
-
-                    <label>Balanço Alimentar:</label>
-                    <select name="alimentacao">
-                        <option value="Nutrição Alquímica">Nutrição Alquímica (Limpa & Alinhada)</option>
-                        <option value="Leve & Nutritivo">Leve & Nutritivo</option>
-                        <option value="Superávit Limpo">Superávit Limpo</option>
-                        <option value="Excesso/Deslize">Excesso / Deslize Consciente</option>
-                    </select>
-                </div>
-
-                <button type="submit" class="action-btn" style="margin-top: 14px;">Registrar na Bússola</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- SECTION 2: PRANA -->
+    <!-- SECTION: PRANA -->
     <div id="section-prana" class="section-panel">
         <div class="back-bar">
             <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
@@ -755,24 +493,19 @@
 
             <div class="info-modal-box" id="pranaInfoBox">
                 <strong>📜 Referências:</strong> Goraksha Shataka, Gheranda Samhita, Hatha Pradipika.<br><br>
-                <strong>🛡️ Cuidados ao Praticar:</strong><br>
-                • Inspire <strong>>>70%<<</strong> de sua capacidade sempre puxando o ar devagar.<br>
-                • Controle rigoroso de esforço, evitando hiperventilação e picos tensionais.<br>
-                • Foco na regulação do sistema nervoso autônomo e longevidade vascular.
+                <strong>🛡️ Orientações:</strong><br>
+                • Respire só pela narina esquerda (narina direita tapada com o polegar durante a inspiração/retenção, soltando apenas na expiração conforme a técnica lunar).<br>
+                • Contagem estrita baseada na métrica (mínimo de 1, sem nunca atingir 0).
             </div>
 
-            <p style="font-size: 12px; font-weight: 800; margin-bottom: 8px; font-family: var(--font-mono); text-align: left;">
-                Práticas Alquímicas:
-            </p>
-
             <div class="breath-styles-grid">
-                <button type="button" class="breath-style-btn active" id="styleSono" onclick="setPranaStyle('sono', this)">A - Sono<br>(Chandra Bhedana)</button>
+                <button type="button" class="breath-style-btn active" id="styleSono" onclick="setPranaStyle('sono', this)">A - Sono<br>(Chandra)</button>
                 <button type="button" class="breath-style-btn" id="styleFoco" onclick="setPranaStyle('foco', this)">B - Foco<br>(Sama Vritti)</button>
                 <button type="button" class="breath-style-btn" id="styleVago" onclick="setPranaStyle('vago', this)">C - Tensão<br>(Ujjayi)</button>
             </div>
 
             <div class="prana-explanation" id="pranaExplanation">
-                <strong>Chandra Bhedana Pranayama</strong>: Tampe a narina direita com o polegar, inspire devagar pela <strong>narina esquerda</strong> (70% da capacidade). Ao reter o ar, lembre-se: **segure o ar e relaxe os ombros**.
+                <strong>Respire só pela narina esquerda.</strong> Tampe a narina direita com o polegar, inspire devagar pela narina esquerda. A narina direita só se solta no momento da expiração controlada.
             </div>
 
             <div class="mode-selector">
@@ -783,18 +516,19 @@
 
             <div class="prana-status" id="pranaStatus">Toque em Iniciar para abrir a Alquimia</div>
 
-            <!-- O desenho só abre após técnica e tempo escolhidos e iniciar prática -->
             <div class="circle-wrapper" id="pranaCircleWrapper">
                 <div class="breath-animation-container">
-                    <!-- Circulo Lunar (Sono / Tensão) -->
-                    <div class="breath-circle" id="breathCircle">
+                    <!-- Figura 1: Círculo Lunar -->
+                    <div class="breath-circle" id="breathCircle"></div>
+                    <!-- Figura 2: Quadrado Mais Opaco e Marcante -->
+                    <div class="breath-mandala-square" id="breathMandalaSquare"></div>
+                    <!-- Figura 3: Triângulo Condizente com a Métrica -->
+                    <div class="breath-triangle-shape" id="breathTriangleShape"></div>
+
+                    <!-- Display Central (Garante contagem 4,3,2,1 sem passar por 0) -->
+                    <div class="geom-inner">
                         <div class="breath-timer" id="breathTimer">4</div>
                         <div class="breath-phase-label" id="breathPhaseLabel">Inspire</div>
-                    </div>
-                    <!-- Quadrado / Geometria Sagrada Encantadora (Foco) -->
-                    <div class="breath-mandala-square" id="breathMandalaSquare">
-                        <div class="breath-timer" id="mandalaTimer">4</div>
-                        <div class="breath-phase-label" id="mandalaPhaseLabel">Inspire</div>
                     </div>
                 </div>
             </div>
@@ -806,343 +540,79 @@
         </div>
     </div>
 
-    <!-- SECTION 3: PHILOS -->
-    <div id="section-philos" class="section-panel">
-        <div class="back-bar">
-            <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
-        </div>
-        <div class="philos-card">
-            <div class="philos-header-row">
-                <div class="philos-tag" id="philosTag">Pilar I • Semente da Vitória</div>
-                <button type="button" class="fiat-lux-btn" onclick="sortearFiatLux()">✨ FIAT LUX</button>
-            </div>
-            <div class="philos-quote" id="philosQuote">
-                "A constância e a disciplina diária moldam o corpo livre de amarras. A vitalidade não é acaso, é biologia respeitada."
-            </div>
-            <div class="philos-source" id="philosSource">— Nuno Cobra (Semente da Vitória)</div>
-        </div>
-
-        <div class="card">
-            <h2>📜 Os 3 Pilares da Alquimia</h2>
-            <ul style="padding-left: 18px; font-size: 14px; font-weight: 600; line-height: 1.6; color: var(--text-color);">
-                <li><strong>Semente da Vitória:</strong> Atividade física, hábitos de saúde e comportamento alimentar (Nuno Cobra).</li>
-                <li><strong>Iluminação Oriental:</strong> Koans e frases reflexivas de essência profunda (Otávio Leal).</li>
-                <li><strong>Acuidade & Visão:</strong> Frases diretivas extraídas de <em>Tudo é Possível</em>, <em>Insight 1 & 2</em> e pensadores clássicos.</li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- SECTION 4: ANAMNESE WOW -->
-    <div id="section-anamnese" class="section-panel">
-        <div class="back-bar">
-            <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
-        </div>
-        <div class="card">
-            <h2>📋 Ficha de Anamnese WOW</h2>
-            
-            <div class="sub-tabs">
-                <button class="sub-tab-btn active" onclick="switchAnamneseTab('aba1', this)">[1. Identidade]</button>
-                <button class="sub-tab-btn" onclick="switchAnamneseTab('aba2', this)">[2. Percepção Corpo]</button>
-                <button class="sub-tab-btn" onclick="switchAnamneseTab('aba3', this)">[3. Rotina & Hábitos]</button>
-                <button class="sub-tab-btn" onclick="switchAnamneseTab('aba4', this)">[4. Metas 90D]</button>
-            </div>
-
-            <form id="anamneseForm" onsubmit="submitAnamnese(event)">
-                
-                <!-- ABA 1: IDENTIDADE & FOCO -->
-                <div id="anamnese-aba1" class="sub-content active">
-                    <label>Nome Completo / Alquimista:</label>
-                    <input type="text" name="nomeCliente" id="anamneseNome" placeholder="Ex: Bruno Groppo">
-
-                    <label>Foco Principal de Saúde / Performance:</label>
-                    <select name="focoPrincipal">
-                        <option value="Longevidade e Vitalidade">Longevidade e Vitalidade</option>
-                        <option value="Força e Alquimia Bruta">Força e Alquimia Bruta</option>
-                        <option value="Recuperação e Gestão de Estresse">Recuperação e Gestão de Estresse</option>
-                        <option value="Mobilidade e Alívio de Rigidez">Mobilidade e Alívio de Rigidez</option>
-                    </select>
-                </div>
-
-                <!-- ABA 2: PERCEPÇÃO CORPORAL & GÊNERO -->
-                <div id="anamnese-aba2" class="sub-content">
-                    <label>Seleção de Gênero / Silhueta Base:</label>
-                    <div class="gender-select-grid">
-                        <div class="gender-card selected" id="genderMasculino" onclick="selectGender('Masculino')">
-                            <div class="gender-silhouette">🧔🏻‍♂️</div>
-                            <div class="gender-title">MASCULINO</div>
-                        </div>
-                        <div class="gender-card" id="genderFeminino" onclick="selectGender('Feminino')">
-                            <div class="gender-silhouette">👩🏻‍🦰</div>
-                            <div class="gender-title">FEMININO</div>
-                        </div>
-                    </div>
-                    <input type="hidden" name="genero" id="inputGenero" value="Masculino">
-
-                    <label>Mapa de Tensão / Pontos Críticos (Escolha Múltipla):</label>
-                    <div class="body-zones-grid">
-                        <button type="button" class="zone-btn" onclick="toggleZone(this)"><span>cervical / pescoço</span> ⚡</button>
-                        <button type="button" class="zone-btn" onclick="toggleZone(this)"><span>ombros / trapezius</span> ⚡</button>
-                        <button type="button" class="zone-btn" onclick="toggleZone(this)"><span>lombar / coluna</span> ⚡</button>
-                        <button type="button" class="zone-btn" onclick="toggleZone(this)"><span>joelhos / quadris</span> ⚡</button>
-                    </div>
-
-                    <label>Restrições Biomecânicas / Lesões:</label>
-                    <textarea name="restricoes" placeholder="Descreva os pontos de atenção e restrições médicas..."></textarea>
-                </div>
-
-                <!-- ABA 3: ROTINA & HÁBITOS -->
-                <div id="anamnese-aba3" class="sub-content">
-                    <label>Qualidade Média do Sono (1 a 5):</label>
-                    <select name="sono">
-                        <option value="5">Excelente (Acorda revigorado)</option>
-                        <option value="4">Bom (Descansa o suficiente)</option>
-                        <option value="3">Regular (Acorda cansado às vezes)</option>
-                        <option value="2">Ruim (Insônia frequente)</option>
-                        <option value="1">Crítico (Esgotamento crônico)</option>
-                    </select>
-
-                    <label>Nível de Estresse Cotidiano:</label>
-                    <select name="estresse">
-                        <option value="Baixo">Baixo / Equilibrado</option>
-                        <option value="Moderado">Moderado / Gerenciável</option>
-                        <option value="Alto">Alto / Exaustão</option>
-                    </select>
-                </div>
-
-                <!-- ABA 4: METAS 90 DIAS -->
-                <div id="anamnese-aba4" class="sub-content">
-                    <label>Principal Meta para os Próximos 90 Dias:</label>
-                    <textarea name="meta90" placeholder="Defina sua meta alquímica principal..."></textarea>
-                    
-                    <button type="submit" class="action-btn" style="margin-top: 14px;">Salvar Ficha de Anamnese</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <script>
-        let tg = window.Telegram?.WebApp;
-        if (tg) {
-            tg.expand();
-        }
-
         function switchSection(sectionId) {
-            document.querySelectorAll('.section-panel').forEach(panel => {
-                panel.classList.remove('active');
+            document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('section-।' + sectionId || 'section-' + sectionId).classList.add('active');
+            // Correção limpa do ID
+            document.querySelectorAll('.section-panel').forEach(p => {
+                if(p.id === 'section-' + sectionId) p.classList.add('active');
             });
-            document.getElementById('section-' + sectionId).classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
-        function switchSub(subId) {
-            const card = document.getElementById('section-bussola');
-            card.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
-            card.querySelectorAll('.sub-content').forEach(content => content.classList.remove('active'));
-            
-            event.currentTarget.classList.add('active');
-            document.getElementById('sub-' + subId).classList.add('active');
-        }
-
-        function switchAnamneseTab(abaId, btnElem) {
-            const card = document.getElementById('section-anamnese');
-            card.querySelectorAll('.sub-tab-btn').forEach(btn => btn.classList.remove('active'));
-            card.querySelectorAll('.sub-content').forEach(content => content.classList.remove('active'));
-            
-            btnElem.classList.add('active');
-            document.getElementById('anamnese-' + abaId).classList.add('active');
-        }
-
-        function selectRadio(groupId, val) {
-            const group = document.getElementById(groupId);
-            group.querySelectorAll('.radio-btn').forEach(btn => {
-                btn.classList.remove('selected');
-                const radio = btn.querySelector('input[type="radio"]');
-                if (radio) radio.checked = false;
-            });
-            event.currentTarget.classList.add('selected');
-            const activeRadio = event.currentTarget.querySelector('input[type="radio"]');
-            if (activeRadio) activeRadio.checked = true;
-        }
-
-        function selectGender(genero) {
-            document.getElementById('genderMasculino').classList.remove('selected');
-            document.getElementById('genderFeminino').classList.remove('selected');
-            if (genero === 'Masculino') {
-                document.getElementById('genderMasculino').classList.add('selected');
-            } else {
-                document.getElementById('genderFeminino').classList.add('selected');
-            }
-            document.getElementById('inputGenero').value = genero;
-        }
-
-        function toggleZone(btn) {
-            btn.classList.toggle('selected');
-        }
-
-        function submitCheckin(e) {
-            e.preventDefault();
-            alert('Check-in registrado com sucesso na Bússola Diária!');
-        }
-
-        function submitAnamnese(e) {
-            e.preventDefault();
-            alert('Ficha de Anamnese salva com sucesso!');
-        }
-
-        // PRANA Logic & Animations
-        let pranaInterval = null;
-        let pranaSecondsRemaining = 60;
-        let pranaRunning = false;
-        let currentPranaStyle = 'sono';
-
-        const pranaData = {
-            sono: {
-                name: "Chandra Bhedana Pranayama",
-                desc: "<strong>Chandra Bhedana Pranayama</strong> (Induzir o Sono): Tampe a narina direita com o polegar e inspire devagar pela <strong>narina esquerda</strong> (70% da capacidade). Ao reter o ar: <em>segure o ar e relaxe os ombros</em>.",
-                phases: [
-                    { label: "Inspire (Narina Esq.)", duration: 4, scale: 1.3 },
-                    { label: "Segure & Relaxe", duration: 2, scale: 1.3 },
-                    { label: "Expire Devagar", duration: 6, scale: 0.8 },
-                    { label: "Vazio Alquímico", duration: 2, scale: 0.8 }
-                ]
-            },
-            foco: {
-                name: "Sama Vritti Pranayama",
-                desc: "<strong>Sama Vritti Pranayama</strong> (Elevar o Foco): Respiração quadrada equilibrada. Na retenção cheia ou vazia: <em>segure o ar e relaxe os ombros</em> com foco total na mandala.",
-                phases: [
-                    { label: "Inspire", duration: 4, scale: 1.25 },
-                    { label: "Segure (Cheio)", duration: 4, scale: 1.25 },
-                    { label: "Expire", duration: 4, scale: 0.85 },
-                    { label: "Segure (Vazio)", duration: 4, scale: 0.85 }
-                ]
-            },
-            vago: {
-                name: "Ujjayi Pranayama",
-                desc: "<strong>Ujjayi Pranayama</strong> (Aliviar Tensão / Nervo Vago): Respiração vitoriosa com leve constrição na garganta e exalação longa. Lembre-se: <em>segure o ar e relaxe os ombros</em>.",
-                phases: [
-                    { label: "Inspire (70%)", duration: 4, scale: 1.3 },
-                    { label: "Segure & Relaxe", duration: 2, scale: 1.3 },
-                    { label: "Expire Longo", duration: 6, scale: 0.8 }
-                ]
-            }
-        };
 
         function togglePranaInfo() {
-            document.getElementById('pranaInfoBox').classList.toggle('active');
+            const box = document.getElementById('pranaInfoBox');
+            box.classList.toggle('active');
         }
 
-        function setPranaStyle(styleKey, btnElem) {
+        let currentStyle = 'sono';
+        function setPranaStyle(style, btn) {
             document.querySelectorAll('.breath-style-btn').forEach(b => {
                 if(b.id.startsWith('style')) b.classList.remove('active');
             });
-            btnElem.classList.add('active');
-            currentPranaStyle = styleKey;
-            
-            document.getElementById('pranaExplanation').innerHTML = pranaData[styleKey].desc;
-            resetPranaSession();
+            btn.classList.add('active');
+            currentStyle = style;
+
+            const exp = document.getElementById('pranaExplanation');
+            const circle = document.getElementById('breathCircle');
+            const square = document.getElementById('breathMandalaSquare');
+            const triangle = document.getElementById('breathTriangleShape');
+
+            // Esconde todas as formas por padrão
+            circle.style.display = 'none';
+            square.classList.remove('active-mandala');
+            triangle.classList.remove('active-triangle');
+
+            if (style === 'sono') {
+                exp.innerHTML = "<strong>Respire só pela narina esquerda.</strong> Mantenha a narina direita tapada com o polegar. <strong>Quando solta?</strong> Solte e expire suavemente apenas ao finalizar o ciclo.";
+                circle.style.display = 'flex';
+            } else if (style === 'foco') {
+                exp.innerHTML = "<strong>Sama Vritti (Foco):</strong> Métrica equilibrada. Acompanhe o quadrado opaco e marcante. Contagem estrita de 4 a 1.";
+                square.classList.add('active-mandala');
+            } else if (style === 'vago') {
+                exp.innerHTML = "<strong>Ujjayi (Tensão):</strong> Foco na figura triangular geométrica, alinhada à métrica respiratoria proposta.";
+                triangle.classList.add('active-triangle');
+            }
         }
 
-        function setPranaMode(seconds, btnElem) {
+        function setPranaMode(seconds, btn) {
             document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-            btnElem.classList.add('active');
-            pranaSecondsRemaining = seconds;
-            resetPranaSession();
+            btn.classList.add('active');
         }
 
+        let pranaRunning = false;
         function togglePranaSession() {
-            const btn = document.getElementById('pranaToggleBtn');
             const wrapper = document.getElementById('pranaCircleWrapper');
-            
-            if (!pranaRunning) {
-                pranaRunning = true;
-                btn.textContent = "Pausar Prática";
-                wrapper.classList.add('active'); // O desenho SÓ ABRE aqui!
-                startPranaEngine();
+            const status = document.getElementById('pranaStatus');
+            const btn = document.getElementById('pranaToggleBtn');
+
+            pranaRunning = !pranaRunning;
+            if (pranaRunning) {
+                wrapper.classList.add('active');
+                status.innerText = "Sessão Alquímica em Andamento...";
+                btn.innerText = "Pausar Prática";
+                setPranaStyle(currentStyle, document.querySelector('.breath-style-btn.active'));
             } else {
-                pranaRunning = false;
-                btn.textContent = "Retomar Prática";
-                clearInterval(pranaInterval);
+                status.innerText = "Práctica Pausada";
+                btn.innerText = "Retomar Prática";
             }
         }
 
         function resetPranaSession() {
             pranaRunning = false;
-            clearInterval(pranaInterval);
-            document.getElementById('pranaToggleBtn').textContent = "Iniciar Prática";
-            document.getElementById('pranaStatus').textContent = "Toque em Iniciar para abrir a Alquimia";
-            document.getElementById('pranaCircleWrapper').classList.remove('active'); // Fecha o desenho ao parar
-            
-            const timerVal = pranaData[currentPranaStyle].phases[0].duration;
-            document.getElementById('breathTimer').textContent = timerVal;
-            document.getElementById('breathPhaseLabel').textContent = "Preparado";
-            document.getElementById('mandalaTimer').textContent = timerVal;
-            document.getElementById('mandalaPhaseLabel').textContent = "Preparado";
-            
-            document.getElementById('breathCircle').style.transform = "scale(1)";
-            document.getElementById('breathMandalaSquare').style.transform = "scale(1)";
-        }
-
-        function startPranaEngine() {
-            let phaseIndex = 0;
-            let currentPhase = pranaData[currentPranaStyle].phases[0];
-            let timeLeftInPhase = currentPhase.duration;
-
-            document.getElementById('pranaStatus').textContent = `Prática em andamento (${pranaSecondsRemaining}s restantes)`;
-            
-            const circleElem = document.getElementById('breathCircle');
-            const mandalaElem = document.getElementById('breathMandalaSquare');
-            
-            if (currentPranaStyle === 'foco') {
-                circleElem.style.display = 'none';
-                mandalaElem.classList.add('active-mandala');
-            } else {
-                circleElem.style.display = 'flex';
-                mandalaElem.classList.remove('active-mandala');
-            }
-
-            pranaInterval = setInterval(() => {
-                if (!pranaRunning) return;
-
-                if (currentPranaStyle === 'foco') {
-                    document.getElementById('mandalaTimer').textContent = timeLeftInPhase;
-                    document.getElementById('mandalaPhaseLabel').textContent = currentPhase.label;
-                    mandalaElem.style.transform = `scale(${currentPhase.scale})`;
-                } else {
-                    document.getElementById('breathTimer').textContent = timeLeftInPhase;
-                    document.getElementById('breathPhaseLabel').textContent = currentPhase.label;
-                    circleElem.style.transform = `scale(${currentPhase.scale})`;
-                }
-
-                timeLeftInPhase--;
-                pranaSecondsRemaining--;
-
-                if (pranaSecondsRemaining <= 0) {
-                    resetPranaSession();
-                    document.getElementById('pranaStatus').textContent = "✨ Prática Concluída com Sucesso!";
-                    return;
-                }
-
-                if (timeLeftInPhase < 0) {
-                    phaseIndex = (phaseIndex + 1) % pranaData[currentPranaStyle].phases.length;
-                    currentPhase = pranaData[currentPranaStyle].phases[phaseIndex];
-                    timeLeftInPhase = currentPhase.duration;
-                }
-            }, 1000);
-        }
-
-        // Philos Fiat Lux
-        const fiatLuxQuotes = [
-            { quote: "A constância e a disciplina diária moldam o corpo livre de amarras. A vitalidade não é acaso, é biologia respeitada.", source: "Nuno Cobra (Semente da Vitória)", tag: "Pilar I • Semente da Vitória" },
-            { quote: "O silêncio interior precede qualquer salto de alta performance. Ouça a respiração antes de agir.", source: "Otávio Leal (Iluminação Oriental)", tag: "Pilar II • Iluminação Oriental" },
-            { quote: "Tudo é possível quando a mente se alinha à intenção pura e ao movimento consciente.", source: "Tudo é Possível / Insight", tag: "Pilar III • Acuidade & Visão" }
-        ];
-
-        function sortearFiatLux() {
-            const randomIndex = Math.floor(Math.random() * fiatLuxQuotes.length);
-            const item = fiatLuxQuotes[randomIndex];
-            document.getElementById('philosQuote').textContent = `"${item.quote}"`;
-            document.getElementById('philosSource').textContent = `— ${item.source}`;
-            document.getElementById('philosTag').textContent = item.tag;
+            document.getElementById('pranaCircleWrapper').classList.remove('active');
+            document.getElementById('pranaStatus').innerText = "Toque em Iniciar para abrir a Alquimia";
+            document.getElementById('pranaToggleBtn').innerText = "Iniciar Prática";
         }
     </script>
 </body>
