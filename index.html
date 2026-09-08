@@ -1,121 +1,147 @@
-import React, { useState } from 'react';
-import { Info, Sparkles, Wind, BookOpen } from 'lucide-react';
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prana & Philos</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-zinc-950 text-zinc-100 min-h-screen font-sans antialiased">
 
-export const PranaPhilosSections = () => {
-  const [showPranaSource, setShowPranaSource] = useState(false);
-  const [showPhilosSource, setShowPhilosSource] = useState(false);
-
-  return (
-    <div className="space-y-12 py-8 px-4 max-w-4xl mx-auto">
-      {/* Seção PRANA */}
-      <section className="bg-gradient-to-br from-zinc-900 to-zinc-950 p-8 rounded-2xl border border-zinc-800 shadow-xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 p-4 opacity-10">
-          <Wind size={120} className="text-emerald-400" />
+    <div class="space-y-12 py-12 px-4 max-w-4xl mx-auto">
+      
+      <!-- Seção PRANA -->
+      <section class="bg-gradient-to-br from-zinc-900 to-zinc-950 p-8 rounded-2xl border border-zinc-800 shadow-xl relative overflow-hidden">
+        <div class="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
+          <i data-lucide="wind" class="w-32 h-32 text-emerald-400"></i>
         </div>
         
-        <div className="flex items-center justify-between mb-6 relative z-10">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-emerald-500/10 rounded-xl border border-emerald-500/20 text-emerald-400">
-              <Wind size={24} />
+        <div class="flex items-center justify-between mb-6 relative z-10">
+          <div class="flex items-center gap-3">
+            <div class="p-2.5 bg-emerald-500/10 rounded-xl border border-emerald-500/20 text-emerald-400 flex items-center justify-center">
+              <i data-lucide="wind" class="w-6 h-6"></i>
             </div>
-            <h2 className="text-2xl font-bold tracking-tight text-white">PRANA</h2>
+            <h2 class="text-2xl font-bold tracking-tight text-white">PRANA</h2>
           </div>
           
-          {/* Botão Sutil de Fonte */}
-          <div className="relative">
+          <!-- Botão Sutil de Fonte -->
+          <div class="relative">
             <button
-              onClick={() => setShowPranaSource(!showPranaSource)}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-zinc-400 bg-zinc-800/85 hover:bg-zinc-800 border border-zinc-700/50 rounded-full transition-all hover:text-emerald-400 shadow-sm"
+              onclick="toggleDropdown('prana-dropdown')"
+              class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-zinc-400 bg-zinc-800/85 hover:bg-zinc-800 border border-zinc-700/50 rounded-full transition-all hover:text-emerald-400 shadow-sm cursor-pointer"
               title="Ver fontes clássicas"
             >
-              <Info size={14} />
+              <i data-lucide="info" class="w-3.5 h-3.5"></i>
               <span>Fontes</span>
             </button>
             
-            {showPranaSource && (
-              <div className="absolute right-0 mt-2 w-72 p-3 bg-zinc-900 border border-zinc-700 rounded-xl shadow-2xl text-xs text-zinc-300 z-20 backdrop-blur-md">
-                <p className="font-semibold text-emerald-400 mb-1">Textos Fundamentais:</p>
-                <p>Hatha-Yoga Pradipika, Goraksha, Gheranda Samhita.</p>
-              </div>
-            )}
+            <div id="prana-dropdown" class="hidden absolute right-0 mt-2 w-72 p-3 bg-zinc-900 border border-zinc-700 rounded-xl shadow-2xl text-xs text-zinc-300 z-20 backdrop-blur-md">
+              <p class="font-semibold text-emerald-400 mb-1">Textos Fundamentais:</p>
+              <p>Hatha-Yoga Pradipika, Goraksha, Gheranda Samhita.</p>
+            </div>
           </div>
         </div>
 
-        <p className="text-zinc-300 text-sm mb-6 leading-relaxed relative z-10">
+        <p class="text-zinc-300 text-sm mb-6 leading-relaxed relative z-10">
           Otimização dos pranayamas com foco no direcionamento preciso do fluxo respiratório e polaridade energética.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 relative z-10">
-          <div className="p-4 bg-zinc-800/40 rounded-xl border border-zinc-800 hover:border-emerald-500/40 transition-all">
-            <span className="inline-block px-2.5 py-1 text-xs font-semibold bg-emerald-500/10 text-emerald-400 rounded-md mb-2">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 relative z-10">
+          <div class="p-4 bg-zinc-800/40 rounded-xl border border-zinc-800 hover:border-emerald-500/40 transition-all">
+            <span class="inline-block px-2.5 py-1 text-xs font-semibold bg-emerald-500/10 text-emerald-400 rounded-md mb-2">
               Narina Esquerda (Ida / Lunar)
             </span>
-            <p className="text-xs text-zinc-400">Inalação e exalação voltadas ao resfriamento, calmaria e ativação parassimpática.</p>
+            <p class="text-xs text-zinc-400">Inalação e exalação voltadas ao resfriamento, calmaria e ativação parassimpática.</p>
           </div>
-          <div className="p-4 bg-zinc-800/40 rounded-xl border border-zinc-800 hover:border-emerald-500/40 transition-all">
-            <span className="inline-block px-2.5 py-1 text-xs font-semibold bg-amber-500/10 text-amber-400 rounded-md mb-2">
+          <div class="p-4 bg-zinc-800/40 rounded-xl border border-zinc-800 hover:border-emerald-500/40 transition-all">
+            <span class="inline-block px-2.5 py-1 text-xs font-semibold bg-amber-500/10 text-amber-400 rounded-md mb-2">
               Narina Direita (Pingala / Solar)
             </span>
-            <p className="text-xs text-zinc-400">Foco em energia, aquecimento corporal e estímulo à vitalidade ativa.</p>
+            <p class="text-xs text-zinc-400">Foco em energia, aquecimento corporal e estímulo à vitalidade ativa.</p>
           </div>
         </div>
       </section>
 
-      {/* Seção PHILOS */}
-      <section className="bg-gradient-to-br from-zinc-900 to-zinc-950 p-8 rounded-2xl border border-zinc-800 shadow-xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 p-4 opacity-10">
-          <BookOpen size={120} className="text-amber-400" />
+      <!-- Seção PHILOS -->
+      <section class="bg-gradient-to-br from-zinc-900 to-zinc-950 p-8 rounded-2xl border border-zinc-800 shadow-xl relative overflow-hidden">
+        <div class="absolute top-0 right-0 p-4 opacity-10 pointer-events-none">
+          <i data-lucide="book-open" class="w-32 h-32 text-amber-400"></i>
         </div>
 
-        <div className="flex items-center justify-between mb-6 relative z-10">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-amber-500/10 rounded-xl border border-amber-500/20 text-amber-400">
-              <Sparkles size={24} />
+        <div class="flex items-center justify-between mb-6 relative z-10">
+          <div class="flex items-center gap-3">
+            <div class="p-2.5 bg-amber-500/10 rounded-xl border border-amber-500/20 text-amber-400 flex items-center justify-center">
+              <i data-lucide="sparkles" class="w-6 h-6"></i>
             </div>
-            <h2 className="text-2xl font-bold tracking-tight text-white">PHILOS</h2>
+            <h2 class="text-2xl font-bold tracking-tight text-white">PHILOS</h2>
           </div>
 
-          {/* Botão Sutil de Fonte */}
-          <div className="relative">
+          <!-- Botão Sutil de Fonte -->
+          <div class="relative">
             <button
-              onClick={() => setShowPhilosSource(!showPhilosSource)}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-zinc-400 bg-zinc-800/85 hover:bg-zinc-800 border border-zinc-700/50 rounded-full transition-all hover:text-amber-400 shadow-sm"
+              onclick="toggleDropdown('philos-dropdown')"
+              class="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-zinc-400 bg-zinc-800/85 hover:bg-zinc-800 border border-zinc-700/50 rounded-full transition-all hover:text-amber-400 shadow-sm cursor-pointer"
               title="Ver referências bibliográficas"
             >
-              <Info size={14} />
+              <i data-lucide="info" class="w-3.5 h-3.5"></i>
               <span>Referências</span>
             </button>
 
-            {showPhilosSource && (
-              <div className="absolute right-0 mt-2 w-80 p-3 bg-zinc-900 border border-zinc-700 rounded-xl shadow-2xl text-xs text-zinc-300 z-20 backdrop-blur-md space-y-1.5">
-                <p className="font-semibold text-amber-400 mb-1">Obras e Autores:</p>
-                <p>• Nuno Cobra – Semente da Vitória</p>
-                <p>• Otávio Leal – O Poder da Iluminação</p>
-                <p>• Daniel Luz – Insights 1 e 2</p>
-              </div>
-            )}
+            <div id="philos-dropdown" class="hidden absolute right-0 mt-2 w-80 p-3 bg-zinc-900 border border-zinc-700 rounded-xl shadow-2xl text-xs text-zinc-300 z-20 backdrop-blur-md space-y-1.5">
+              <p class="font-semibold text-amber-400 mb-1">Obras e Autores:</p>
+              <p>• Nuno Cobra – Semente da Vitória</p>
+              <p>• Otávio Leal – O Poder da Iluminação</p>
+              <p>• Daniel Luz – Insights 1 e 2</p>
+            </div>
           </div>
         </div>
 
-        <blockquote className="border-l-2 border-amber-500/50 pl-4 my-4 italic text-zinc-300 text-sm">
+        <blockquote class="border-l-2 border-amber-500/50 pl-4 my-4 italic text-zinc-300 text-sm">
           "Tudo é possível para quem cultiva a integridade física, mental e filosófica."
         </blockquote>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 relative z-10">
-          <div className="p-4 bg-zinc-800/40 rounded-xl border border-zinc-800 hover:border-amber-500/40 transition-all">
-            <h3 className="text-xs font-bold text-amber-400 uppercase tracking-wider mb-1">Nuno Cobra</h3>
-            <p className="text-xs text-zinc-400">Semente da Vitória — O despertar da consciência corporal e vitalidade humana.</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6 relative z-10">
+          <div class="p-4 bg-zinc-800/40 rounded-xl border border-zinc-800 hover:border-amber-500/40 transition-all">
+            <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-1">Nuno Cobra</h3>
+            <p class="text-xs text-zinc-400">Semente da Vitória — O despertar da consciência corporal e vitalidade humana.</p>
           </div>
-          <div className="p-4 bg-zinc-800/40 rounded-xl border border-zinc-800 hover:border-amber-500/40 transition-all">
-            <h3 className="text-xs font-bold text-amber-400 uppercase tracking-wider mb-1">Otávio Leal</h3>
-            <p className="text-xs text-zinc-400">O Poder da Iluminação — Profundidade mística, hermetismo e expansão interior.</p>
+          <div class="p-4 bg-zinc-800/40 rounded-xl border border-zinc-800 hover:border-amber-500/40 transition-all">
+            <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-1">Otávio Leal</h3>
+            <p class="text-xs text-zinc-400">O Poder da Iluminação — Profundidade mística, hermetismo e expansão interior.</p>
           </div>
-          <div className="p-4 bg-zinc-800/40 rounded-xl border border-zinc-800 hover:border-amber-500/40 transition-all">
-            <h3 className="text-xs font-bold text-amber-400 uppercase tracking-wider mb-1">Daniel Luz</h3>
-            <p className="text-xs text-zinc-400">Insights 1 e 2 — Ferramentas mentais e pragmatismo filosófico diário.</p>
+          <div class="p-4 bg-zinc-800/40 rounded-xl border border-zinc-800 hover:border-amber-500/40 transition-all">
+            <h3 class="text-xs font-bold text-amber-400 uppercase tracking-wider mb-1">Daniel Luz</h3>
+            <p class="text-xs text-zinc-400">Insights 1 e 2 — Ferramentas mentais e pragmatismo filosófico diário.</p>
           </div>
         </div>
       </section>
+
     </div>
-  );
-};
+
+    <!-- Script para inicializar ícones e controle dos botões -->
+    <script>
+      lucide.createIcons();
+
+      function toggleDropdown(id) {
+        const el = document.getElementById(id);
+        // Fecha outros abertos se houver
+        document.querySelectorAll('[id$="-dropdown"]').forEach(item => {
+          if (item.id !== id) item.classList.add('hidden');
+        });
+        el.classList.toggle('hidden');
+      }
+
+      // Fecha o menu ao clicar fora
+      window.addEventListener('click', function(e) {
+        if (!e.target.closest('button')) {
+          document.querySelectorAll('[id$="-dropdown"]').forEach(item => {
+            item.classList.add('hidden');
+          });
+        }
+      });
+    </script>
+</body>
+</html>
