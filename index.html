@@ -3,67 +3,422 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bússola Diária - Método Groppo</title>
+    <title>Bússola_PRO - Método Groppo</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
-            --bg-color: #f4f0ea;
-            --card-bg: #ffffff;
-            --text-color: #2c2c2c;
-            --primary-color: #a0774a;
-            --primary-hover: #8c653d;
-            --font-mono: monospace;
+            --bg-color: var(--tg-theme-bg-color, #0f1115);
+            --text-color: var(--tg-theme-text-color, #f4f4f5);
+            --card-bg: var(--tg-theme-secondary-bg-color, rgba(24, 27, 34, 0.85));
+            --accent-color: #38bdf8;
+            --accent-glow: rgba(56, 189, 248, 0.3);
+            --success-color: #4ade80;
+            --success-glow: rgba(74, 222, 128, 0.3);
+            --border-color: rgba(39, 39, 42, 0.8);
+            --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: var(--bg-color);
+            background-image: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 50%);
             color: var(--text-color);
-            margin: 0;
             padding: 16px;
+            font-size: 16px;
+            line-height: 1.6;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h1 {
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+        }
+
+        .subtitle {
+            font-size: 12px;
+            opacity: 0.7;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-family: var(--font-mono);
+        }
+
+        .streak-banner {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(74, 222, 128, 0.08));
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-radius: 14px;
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 14px;
+            font-weight: 700;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .streak-count {
+            color: var(--success-color);
+            font-size: 16px;
+            font-family: var(--font-mono);
+            text-shadow: 0 0 10px var(--success-glow);
+        }
+
+        /* HUB NAVIGATION - HEXAGONAL STYLE */
+        .hub-nav {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+            padding: 10px 0;
+        }
+
+        .hub-btn {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 24px 12px;
+            font-size: 13px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            clip-path: polygon(15% 0%, 85% 0%, 100% 50%, 85% 100%, 15% 100%, 0% 50%);
+            min-height: 130px;
         }
 
-        .container {
-            width: 100%;
-            max-width: 480px;
+        .hub-btn span.icon {
+            font-size: 24px;
+        }
+
+        .hub-btn:active {
+            transform: scale(0.95);
+        }
+
+        .hub-btn:hover {
+            border-color: var(--accent-color);
+            background: var(--accent-glow);
+            color: var(--accent-color);
+            box-shadow: 0 0 20px var(--accent-glow);
         }
 
         .section-panel {
             display: none;
+            animation: fadeIn 0.3s ease-in-out;
         }
 
         .section-panel.active {
             display: block;
         }
 
-        .card {
-            background: var(--card-bg);
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            margin-bottom: 16px;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .back-bar {
-            margin-bottom: 12px;
-        }
-
-        .back-btn, .action-btn, .breath-style-btn, .mode-btn {
-            cursor: pointer;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            transition: all 0.2s ease;
+            margin-bottom: 16px;
         }
 
         .back-btn {
-            background: transparent;
-            color: var(--primary-color);
-            padding: 8px 0;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-mono);
+            transition: 0.2s;
+        }
+
+        .back-btn:active {
+            transform: scale(0.97);
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        h2 {
+            font-size: 18px;
+            margin-bottom: 14px;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-mono);
+            letter-spacing: 0.5px;
+        }
+
+        .sub-tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .sub-tab-btn {
+            flex: 1;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            font-family: var(--font-mono);
+            transition: 0.2s;
+        }
+
+        .sub-tab-btn.active {
+            background: var(--accent-color);
+            color: #000;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .sub-content {
+            display: none;
+        }
+
+        .sub-content.active {
+            display: block;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
             font-size: 14px;
+            opacity: 0.9;
+        }
+
+        select, input[type="text"], input[type="number"], textarea {
+            width: 100%;
+            padding: 12px;
+            background: rgba(18, 20, 26, 0.8);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            border-radius: 10px;
+            font-size: 15px;
+            margin-bottom: 14px;
+            transition: border-color 0.2s;
+        }
+
+        select:focus, input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .radio-group {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .radio-btn {
+            background: rgba(18, 20, 26, 0.8);
+            border: 1px solid var(--border-color);
+            padding: 10px 0;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 15px;
+            font-family: var(--font-mono);
+            color: var(--text-color);
+            transition: 0.2s;
+        }
+
+        .radio-btn input {
+            display: none;
+        }
+
+        .radio-btn.selected {
+            background: var(--accent-color);
+            color: #000;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        .action-btn {
+            width: 100%;
+            background: var(--accent-color);
+            color: #000;
+            border: none;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 800;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px var(--accent-glow);
+            transition: transform 0.1s, box-shadow 0.2s;
+            font-family: var(--font-mono);
+        }
+
+        .action-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* PRANA STYLES */
+        .prana-container {
+            text-align: center;
+        }
+
+        .mode-selector {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            background: rgba(18, 20, 26, 0.8);
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: 8px;
+            color: var(--text-color);
+            cursor: pointer;
+            font-family: var(--font-mono);
+        }
+
+        .mode-btn.active {
+            background: var(--success-glow);
+            border-color: var(--success-color);
+            color: var(--success-color);
+        }
+
+        .breath-styles-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+
+        .breath-style-btn {
+            background: rgba(18, 20, 26, 0.8);
+            border: 1px solid var(--border-color);
+            padding: 10px 6px;
+            font-size: 11px;
+            font-weight: 700;
+            border-radius: 8px;
+            color: var(--text-color);
+            cursor: pointer;
+            font-family: var(--font-mono);
+            text-align: center;
+            transition: 0.2s;
+        }
+
+        .breath-style-btn.active {
+            background: var(--accent-glow);
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .circle-wrapper {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 16px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .breath-circle {
+            position: absolute;
+            width: 130px;
+            height: 130px;
+            background: radial-gradient(circle, rgba(56,189,248,0.4) 0%, rgba(56,189,248,0.1) 70%);
+            border: 2px solid var(--accent-color);
+            border-radius: 50%;
+            transition: transform 0.1s linear, background 0.4s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 25px var(--accent-glow);
+        }
+
+        .breath-timer {
+            font-size: 30px;
+            font-weight: 900;
+            color: var(--text-color);
+            line-height: 1;
+            font-family: var(--font-mono);
+        }
+
+        .breath-phase-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.8;
+            margin-top: 4px;
+            font-family: var(--font-mono);
+        }
+
+        .prana-status {
+            font-size: 15px;
+            font-weight: 700;
+            margin: 10px 0;
+            color: var(--accent-color);
+            min-height: 22px;
+            font-family: var(--font-mono);
+        }
+
+        .prana-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 14px;
         }
 
         .info-toggle-row {
@@ -73,274 +428,355 @@
             margin-bottom: 12px;
         }
 
-        .info-toggle-row h2 {
-            margin: 0;
-            font-size: 20px;
-        }
-
-        .breath-style-btn {
-            background: #f0ece1;
-            color: var(--text-color);
-            padding: 10px 12px;
-            text-align: left;
-            width: 100%;
-            font-size: 14px;
-        }
-
-        .breath-style-btn.active {
-            background: var(--primary-color);
-            color: #ffffff;
-        }
-
-        .breath-styles-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .mode-selector {
-            display: flex;
-            gap: 8px;
-        }
-
-        .mode-btn {
-            flex: 1;
-            background: #f0ece1;
-            color: var(--text-color);
-            padding: 8px;
+        .info-modal-box {
+            display: none;
+            background: rgba(56, 189, 248, 0.08);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            padding: 14px;
+            border-radius: 12px;
             font-size: 13px;
-            text-align: center;
+            text-align: left;
+            margin-bottom: 14px;
+            line-height: 1.5;
         }
 
-        .mode-btn.active {
-            background: var(--text-color);
-            color: #ffffff;
+        .info-modal-box.active {
+            display: block;
         }
 
-        .prana-status {
-            text-align: center;
-            font-size: 14px;
-            margin-top: 12px;
+        /* PHILOS STYLES */
+        .philos-card {
+            background: linear-gradient(135deg, rgba(24, 27, 34, 0.95) 0%, rgba(18, 21, 28, 0.95) 100%);
+            backdrop-filter: blur(12px);
+            border-left: 4px solid var(--accent-color);
+            padding: 20px;
+            border-radius: 14px;
+            margin-bottom: 14px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            position: relative;
         }
 
-        .circle-wrapper {
-            margin: 20px 0;
+        .philos-header-row {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            min-height: 180px;
+            margin-bottom: 12px;
         }
 
-        /* Estilos e Efeitos WOW para o PRANA */
-        .breath-circle {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(160,119,74,0.15) 0%, rgba(160,119,74,0.35) 100%);
-            border: 3px solid var(--primary-color);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), border-radius 0.5s ease, box-shadow 0.5s ease, background 0.5s ease;
-            box-shadow: 0 0 15px rgba(160,119,74,0.2);
-        }
-
-        /* Forma 1: Quadrado para Sama Vritti (Foco) */
-        .breath-circle.shape-square {
-            border-radius: 20px;
-            box-shadow: 0 0 20px rgba(160,119,74,0.3), inset 0 0 15px rgba(160,119,74,0.2);
-        }
-
-        /* Forma 2: Halo Difuso para Visama Vritti (Calma & Sono) */
-        .breath-circle.shape-halo {
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(70,130,180,0.15) 0%, rgba(70,130,180,0.35) 100%);
-            border-color: #4682b4;
-            box-shadow: 0 0 30px rgba(70,130,180,0.4);
-        }
-
-        /* Forma 3: Núcleo Radiante para Agni Pranayama (Energia & Vigor) */
-        .breath-circle.shape-core {
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(212,143,56,0.25) 0%, rgba(194,76,21,0.45) 100%);
-            border-color: #d48f38;
-            box-shadow: 0 0 35px rgba(212,143,56,0.6), 0 0 60px rgba(194,76,21,0.3);
-        }
-
-        .breath-timer {
-            font-size: 32px;
-            font-weight: bold;
+        .philos-tag {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--accent-color);
+            font-weight: 800;
             font-family: var(--font-mono);
         }
 
-        .breath-phase-label {
+        .fiat-lux-btn {
+            background: linear-gradient(135deg, var(--accent-color), #0284c7);
+            color: #000;
+            border: none;
+            padding: 8px 16px;
             font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 4px;
-        }
-
-        .prana-controls {
-            display: flex;
-            gap: 10px;
-        }
-
-        .action-btn {
-            background: var(--primary-color);
-            color: #ffffff;
-            padding: 12px;
-            font-size: 15px;
-            text-align: center;
-        }
-
-        .action-btn:hover {
-            background: var(--primary-hover);
-        }
-
-        /* Home Panel Styles */
-        .home-menu {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .menu-btn {
-            background: var(--card-bg);
-            border: 1px solid #e0dbd0;
-            padding: 16px;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-color);
+            border-radius: 8px;
             cursor: pointer;
-            text-align: left;
-            transition: background 0.2s;
+            font-weight: 800;
+            font-family: var(--font-mono);
+            box-shadow: 0 0 15px var(--accent-glow);
+            transition: 0.2s;
         }
-        .menu-btn:hover {
-            background: #f9f7f4;
+
+        .fiat-lux-btn:active {
+            transform: scale(0.95);
+        }
+
+        .philos-quote {
+            font-size: 16px;
+            font-style: italic;
+            line-height: 1.5;
+            margin-bottom: 12px;
+        }
+
+        .philos-source {
+            font-size: 12px;
+            opacity: 0.7;
+            text-align: right;
+            font-weight: 600;
+            font-family: var(--font-mono);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        
-        <!-- SECTION: HOME -->
-        <div id="section-home" class="section-panel active">
-            <div class="card">
-                <h2>Bússola Diária</h2>
-                <p style="font-size: 14px; opacity: 0.8; margin-bottom: 16px;">Método Groppo • Sequência Principal</p>
-                
-                <div style="background: #f0ece1; padding: 12px; border-radius: 10px; margin-bottom: 16px; font-size: 14px;">
-                    🔥 Sequência atual: <strong id="streakDisplay">0 Dias</strong>
-                </div>
 
-                <div class="home-menu">
-                    <button class="menu-btn" onclick="switchSection('prana')">💨 Alquimia PRANA (Respiração)</button>
-                </div>
-            </div>
+    <header>
+        <h1>BÚSSOLA_PRO</h1>
+        <div class="subtitle">Método Groppo • Alquimia Diária</div>
+    </header>
+
+    <!-- STREAK TRACKER -->
+    <div class="streak-banner">
+        <span>🔥 Constância Ativa</span>
+        <span class="streak-count" id="streakDisplay">0 Dias</span>
+    </div>
+
+    <!-- MAIN HUB (HOME) - HEXAGONAL BUTTONS -->
+    <div id="section-home" class="section-panel active">
+        <div class="hub-nav">
+            <button class="hub-btn" onclick="switchSection('bussola')">
+                <span class="icon">🧭</span>
+                [BÚSSOLA DIÁRIA]
+            </button>
+            <button class="hub-btn" onclick="switchSection('prana')">
+                <span class="icon">💨</span>
+                [PRANA]
+            </button>
+            <button class="hub-btn" onclick="switchSection('philos')">
+                <span class="icon">📜</span>
+                [PHILOS]
+            </button>
+            <button class="hub-btn" onclick="switchSection('anamnese')">
+                <span class="icon">📋</span>
+                [ANAMNESE]
+            </button>
         </div>
+    </div>
 
-        <!-- SECTION: PRANA -->
-        <div id="section-prana" class="section-panel">
-            <div class="back-bar">
-                <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
+    <!-- SECTION 1: BÚSSOLA DIÁRIA -->
+    <div id="section-bussola" class="section-panel">
+        <div class="back-bar">
+            <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
+        </div>
+        <div class="card">
+            <div class="sub-tabs">
+                <button class="sub-tab-btn active" onclick="switchSub('manha')">[manha]</button>
+                <button class="sub-tab-btn" onclick="switchSub('tarde')">[tarde]</button>
+                <button class="sub-tab-btn" onclick="switchSub('noite')">[noite]</button>
             </div>
-            <div class="card prana-container">
-                <div class="info-toggle-row">
-                    <h2>💨 Alquimia PRANA</h2>
-                    <button type="button" class="breath-style-btn" style="width: auto; padding: 6px 12px;" onclick="togglePranaInfo()">ℹ️ Informações</button>
-                </div>
 
-                <!-- MODAL INFO / FONTES E SEGURANÇA -->
-                <div class="info-modal-box" id="pranaInfoBox" style="display: none; text-align: left; font-size: 13px; line-height: 1.5; background: rgba(0,0,0,0.03); padding: 12px; border-radius: 8px; margin-bottom: 12px;">
-                    <strong>📜 Fontes Clássicas:</strong> Gheranda Samhita, Hatha Pradipika, Goraksha Shataka.<br><br>
-                    <strong>🛡️ Protocolo de Segurança Biológica (Método Groppo):</strong><br>
-                    • Evite inspirações forçadas ou profundas.<br>
-                    • Inspire suavemente até <strong>70% de sua capacidade pulmonar</strong>.<br>
-                    • Proteção vascular e regulação segura do sistema nervoso.
-                </div>
+            <form id="checkinForm" onsubmit="submitCheckin(event)">
+                <!-- MANHÃ -->
+                <div id="sub-manha" class="sub-content active">
+                    <h2>🌅 Check-in Matinal</h2>
+                    
+                    <label>Rigidez ou Dor Corporal (1 a 5):</label>
+                    <div class="radio-group" id="rigidezGroup">
+                        <div class="radio-btn" onclick="selectRadio('rigidezGroup', '1')">1<input type="radio" name="rigidez" value="1"></div>
+                        <div class="radio-btn" onclick="selectRadio('rigidezGroup', '2')">2<input type="radio" name="rigidez" value="2"></div>
+                        <div class="radio-btn selected" onclick="selectRadio('rigidezGroup', '3')">3<input type="radio" name="rigidez" value="3" checked></div>
+                        <div class="radio-btn" onclick="selectRadio('rigidezGroup', '4')">4<input type="radio" name="rigidez" value="4"></div>
+                        <div class="radio-btn" onclick="selectRadio('rigidezGroup', '5')">5<input type="radio" name="rigidez" value="5"></div>
+                    </div>
 
-                <p style="font-size: 12px; opacity: 0.8; margin-bottom: 8px; font-family: var(--font-mono); text-align: left;">
-                    Selecione seu Estado Atual:
-                </p>
-
-                <div class="breath-styles-grid">
-                    <button type="button" class="breath-style-btn active" id="styleFoco" onclick="setPranaProfile('Foco', 4, 4, 4, 4, 'Sama Vritti (Foco & Clareza)', 'shape-square', this)">
-                        🎯 Sama Vritti <span style="font-size: 11px; opacity: 0.8; display: block; font-weight: normal;">Foco & Clareza (Quadrado Dinâmico)</span>
-                    </button>
-                    <button type="button" class="breath-style-btn" id="styleCalma" onclick="setPranaProfile('Calma', 4, 0, 6, 0, 'Visama Vritti (Calma & Sono)', 'shape-halo', this)">
-                        🌙 Visama Vritti <span style="font-size: 11px; opacity: 0.8; display: block; font-weight: normal;">Calma & Sono (Onda Fluida / Halo)</span>
-                    </button>
-                    <button type="button" class="breath-style-btn" id="styleEnergia" onclick="setPranaProfile('Energia', 4, 0, 2, 0, 'Agni Pranayama (Energia & Vigor)', 'shape-core', this)">
-                        ⚡ Agni Pranayama <span style="font-size: 11px; opacity: 0.8; display: block; font-weight: normal;">Energia & Vigor (Núcleo Radiante)</span>
-                    </button>
-                </div>
-
-                <div class="mode-selector" style="margin-top: 12px;">
-                    <button type="button" class="mode-btn active" onclick="setPranaMode(60, this)">1 Minuto</button>
-                    <button type="button" class="mode-btn" onclick="setPranaMode(180, this)">3 Minutos</button>
-                    <button type="button" class="mode-btn" onclick="setPranaMode(300, this)">5 Minutos</button>
-                </div>
-
-                <div class="prana-status" id="pranaStatus" style="font-weight: bold;">Sama Vritti (Foco & Clareza) pronto</div>
-
-                <div class="circle-wrapper">
-                    <div class="breath-circle shape-square" id="breathCircle">
-                        <div class="breath-timer" id="breathTimer">4</div>
-                        <div class="breath-phase-label" id="breathPhaseLabel">Inspire</div>
+                    <label>Disposição e Humor Mental (1 a 5):</label>
+                    <div class="radio-group" id="disposicaoGroup">
+                        <div class="radio-btn" onclick="selectRadio('disposicaoGroup', '1')">1<input type="radio" name="disposicao" value="1"></div>
+                        <div class="radio-btn" onclick="selectRadio('disposicaoGroup', '2')">2<input type="radio" name="disposicao" value="2"></div>
+                        <div class="radio-btn selected" onclick="selectRadio('disposicaoGroup', '3')">3<input type="radio" name="disposicao" value="3" checked></div>
+                        <div class="radio-btn" onclick="selectRadio('disposicaoGroup', '4')">4<input type="radio" name="disposicao" value="4"></div>
+                        <div class="radio-btn" onclick="selectRadio('disposicaoGroup', '5')">5<input type="radio" name="disposicao" value="5"></div>
                     </div>
                 </div>
 
-                <div class="prana-controls">
-                    <button type="button" class="action-btn" id="pranaToggleBtn" onclick="togglePranaSession()" style="flex: 2;">Iniciar Prática</button>
-                    <button type="button" class="action-btn" style="background: #e2dbcc; color: var(--text-color); flex: 1;" onclick="resetPranaSession()">Parar</button>
+                <!-- TARDE -->
+                <div id="sub-tarde" class="sub-content">
+                    <h2>☀️ Check-in Vespertino</h2>
+                    <label>Fez Pausa Ativa hoje?</label>
+                    <select name="pausaAtiva">
+                        <option value="Sim">Sim, pausa executada</option>
+                        <option value="Nao">Não foi possível hoje</option>
+                    </select>
+
+                    <label>Hidratação (Litros):</label>
+                    <input type="number" step="0.5" min="0" max="10" name="hidratacao" value="2.0">
+                </div>
+
+                <!-- NOITE -->
+                <div id="sub-noite" class="sub-content">
+                    <h2>🌙 Fechamento Noturno</h2>
+                    <label>Prática Realizada:</label>
+                    <select name="pratica">
+                        <option value="Alquimia Bruta">Alquimia Bruta (Força/Movimento)</option>
+                        <option value="Fluida">Fluida (Mobilidade/Yoga)</option>
+                        <option value="Sutil">Sutil (Respiração/PRANA)</option>
+                        <option value="Invisível">Invisível (Recuperação/Descanso)</option>
+                    </select>
+
+                    <label>Balanço Alimentar:</label>
+                    <select name="alimentacao">
+                        <option value="Nutrição Alquímica">Nutrição Alquímica (Limpa & Alinhada)</option>
+                        <option value="Leve & Nutritivo">Leve & Nutritivo</option>
+                        <option value="Superávit Limpo">Superávit Limpo</option>
+                        <option value="Excesso/Deslize">Excesso / Deslize Consciente</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="action-btn" style="margin-top: 14px;">Registrar na Bússola</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SECTION 2: PRANA -->
+    <div id="section-prana" class="section-panel">
+        <div class="back-bar">
+            <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
+        </div>
+        <div class="card prana-container">
+            <div class="info-toggle-row">
+                <h2>💨 Alquimia PRANA</h2>
+                <button type="button" class="breath-style-btn" style="padding: 6px 12px;" onclick="togglePranaInfo()">ℹ️ Informações</button>
+            </div>
+
+            <!-- MODAL INFO / MODO DE SEGURANÇA -->
+            <div class="info-modal-box" id="pranaInfoBox">
+                <strong>📜 Fontes de Referência:</strong> Gheranda Samhita, Goraksha Sataka, Hatha Yoga Pradipika e Alícia Solto.<br><br>
+                <strong>🛡️ Modo de Segurança (40 a 60 anos):</strong><br>
+                • Utilizar retenção leve de até **70%** na capacidade inspiratória.<br>
+                • Controle rigoroso de esforço, evitando hiperventilação e picos tensionais.<br>
+                • Foco na regulação do sistema nervoso autônomo e longevidade vascular.
+            </div>
+
+            <p style="font-size: 12px; opacity: 0.8; margin-bottom: 8px; font-family: var(--font-mono); text-align: left;">
+                Estilo Respiratório:
+            </p>
+
+            <div class="breath-styles-grid">
+                <button type="button" class="breath-style-btn active" id="styleUjjayi" onclick="setPranaStyle('Ujjayi', this)">Ujjayi (Foco Vago)</button>
+                <button type="button" class="breath-style-btn" id="styleSurya" onclick="setPranaStyle('Surya Bhedana', this)">Surya Bhedana (Solar)</button>
+                <button type="button" class="breath-style-btn" id="styleNadi" onclick="setPranaStyle('Nadi Shodhana', this)">Nadi Shodhana (Canais)</button>
+            </div>
+
+            <div class="mode-selector">
+                <button type="button" class="mode-btn active" onclick="setPranaMode(60, this)">1 Minuto</button>
+                <button type="button" class="mode-btn" onclick="setPranaMode(180, this)">3 Minutos</button>
+                <button type="button" class="mode-btn" onclick="setPranaMode(300, this)">5 Minutos</button>
+            </div>
+
+            <div class="prana-status" id="pranaStatus">Toque em Iniciar para começar</div>
+
+            <div class="circle-wrapper">
+                <div class="breath-circle" id="breathCircle">
+                    <div class="breath-timer" id="breathTimer">4</div>
+                    <div class="breath-phase-label" id="breathPhaseLabel">Inspire</div>
                 </div>
             </div>
+
+            <div class="prana-controls">
+                <button type="button" class="action-btn" id="pranaToggleBtn" onclick="togglePranaSession()">Iniciar Prática</button>
+                <button type="button" class="action-btn" style="background: rgba(39, 39, 42, 0.8); color: #fff;" onclick="resetPranaSession()">Parar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECTION 3: PHILOS -->
+    <div id="section-philos" class="section-panel">
+        <div class="back-bar">
+            <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
+        </div>
+        <div class="philos-card">
+            <div class="philos-header-row">
+                <div class="philos-tag" id="philosTag">Pilar I • Semente da Vitória</div>
+                <button type="button" class="fiat-lux-btn" onclick="sortearFiatLux()">✨ FIAT LUX</button>
+            </div>
+            <div class="philos-quote" id="philosQuote">
+                "A constância e a disciplina diária moldam o corpo livre de amarras. A vitalidade não é acaso, é biologia respeitada."
+            </div>
+            <div class="philos-source" id="philosSource">— Nuno Cobra (Semente da Vitória)</div>
         </div>
 
+        <div class="card">
+            <h2>📜 Os 3 Pilares da Alquimia</h2>
+            <ul style="padding-left: 18px; font-size: 13px; line-height: 1.6; opacity: 0.85;">
+                <li><strong>Semente da Vitória:</strong> Atividade física, hábitos de saúde e comportamento alimentar (Nuno Cobra).</li>
+                <li><strong>Iluminação Oriental:</strong> Koans e frases reflexivas de essência profunda (Otávio Leal).</li>
+                <li><strong>Acuidade & Visão:</strong> Frases diretivas extraídas de <em>Tudo é Possível</em>, <em>Insight 1 & 2</em> e pensadores clássicos/modernos.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- SECTION 4: ANAMNESE -->
+    <div id="section-anamnese" class="section-panel">
+        <div class="back-bar">
+            <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
+        </div>
+        <div class="card">
+            <h2>📋 Ficha de Anamnese Pro</h2>
+            <p style="font-size: 12px; opacity: 0.8; margin-bottom: 14px; font-family: var(--font-mono);">
+                Alinhado diretamente com a base de dados do Método Groppo.
+            </p>
+
+            <form id="anamneseForm" onsubmit="submitAnamnese(event)">
+                <label>Nome Completo / Alquimista:</label>
+                <input type="text" name="nomeCliente" id="anamneseNome" placeholder="Ex: Bruno Groppo">
+
+                <label>Foco Principal de Saúde / Performance:</label>
+                <select name="focoPrincipal">
+                    <option value="Longevidade e Vitalidade">Longevidade e Vitalidade</option>
+                    <option value="Força e Alquimia Bruta">Força e Alquimia Bruta</option>
+                    <option value="Recuperação e Gestão de Estresse">Recuperação e Gestão de Estresse</option>
+                    <option value="Mobilidade e Alívio de Rigidez">Mobilidade e Alívio de Rigidez</option>
+                </select>
+
+                <label>Restrições Físicas / Lesões Ativas:</label>
+                <textarea name="restricoes" id="anamneseRestricoes" placeholder="Pontos de atenção biomecânica..."></textarea>
+
+                <label>Metas Inegociáveis (Próximos 90 Dias):</label>
+                <textarea name="metas" id="anamneseMetas" placeholder="Ex: Constância matinal, hidratação estruturada..."></textarea>
+
+                <button type="submit" class="action-btn" style="margin-top: 10px;">Registrar na Planilha</button>
+            </form>
+        </div>
     </div>
 
     <script>
-        // Inicialização do Telegram WebApp
-        if (window.Telegram && window.Telegram.WebApp) {
-            window.Telegram.WebApp.ready();
-            window.Telegram.WebApp.expand();
-        }
+        const tg = window.Telegram.WebApp;
+        tg.expand();
 
-        // Navegação entre Seções
+        // Load Streak Data
+        let streak = parseInt(localStorage.getItem('bussola_streak') || '0');
+        document.getElementById('streakDisplay').textContent = streak + (streak === 1 ? ' Dia' : ' Dias');
+
+        // Switch Section (Home vs Sub-sections with Back button logic)
         function switchSection(sectionId) {
-            if (pranaRunning) resetPranaSession();
-            document.querySelectorAll('.section-panel').forEach(panel => {
-                panel.classList.remove('active');
-            });
+            document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
             document.getElementById('section-' + sectionId).classList.add('active');
-            if (window.Telegram?.WebApp?.HapticFeedback) window.Telegram.WebApp.HapticFeedback.selectionChanged();
+
+            if(sectionId !== 'prana') {
+                resetPranaSession();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Carrega streak salva ao iniciar
-        document.addEventListener('DOMContentLoaded', () => {
-            let streak = localStorage.getItem('bussola_streak') || '0';
-            document.getElementById('streakDisplay').textContent = streak + (streak === '1' ? ' Dia' : ' Dias');
-        });
+        // Sub-tabs Switcher (Bússola)
+        function switchSub(subId) {
+            document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.sub-content').forEach(c => c.classList.remove('active'));
+            
+            event.currentTarget.classList.add('active');
+            document.getElementById('sub-' + subId).classList.add('active');
+        }
 
-        // PRANA Engine Avançado - Método Groppo
+        // Radio Buttons Selection Handler
+        function selectRadio(groupId, val) {
+            const group = document.getElementById(groupId);
+            group.querySelectorAll('.radio-btn').forEach(btn => {
+                btn.classList.remove('selected');
+                btn.querySelector('input').checked = false;
+            });
+            const clickedBtn = event.currentTarget;
+            clickedBtn.classList.add('selected');
+            clickedBtn.querySelector('input').checked = true;
+        }
+
+        // PRANA Breath Engine & Controls
         let pranaRunning = false;
         let pranaInterval = null;
         let totalSecondsRemaining = 60;
         let selectedDuration = 60;
+        let currentPhase = 'inhale';
+        let phaseSeconds = 0;
+        let currentBreathStyle = 'Ujjayi';
 
-        let currentProfile = 'Foco';
-        let pInhale = 4;
-        let pHoldIn = 4;
-        let pExhale = 4;
-        let pHoldOut = 4;
-        let profileNameDesc = 'Sama Vritti (Foco & Clareza)';
-        let currentShapeClass = 'shape-square';
-
-        let currentPhaseIndex = 0; // 0: Inhale, 1: HoldIn, 2: Exhale, 3: HoldOut
-        let currentPhaseSecondsLeft = 4;
-
-        const circleEl = document.getElementById('breathCircle');
+        const circle = document.getElementById('breathCircle');
         const timerEl = document.getElementById('breathTimer');
         const phaseLabelEl = document.getElementById('breathPhaseLabel');
         const statusEl = document.getElementById('pranaStatus');
@@ -348,32 +784,19 @@
 
         function togglePranaInfo() {
             const box = document.getElementById('pranaInfoBox');
-            box.style.display = box.style.display === 'none' ? 'block' : 'none';
-            if (window.Telegram?.WebApp?.HapticFeedback) window.Telegram.WebApp.HapticFeedback.selectionChanged();
+            box.classList.toggle('active');
+            if (tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
         }
 
-        function setPranaProfile(profileKey, inh, holdIn, exh, holdOut, desc, shapeClass, btn) {
+        function setPranaStyle(styleName, btn) {
             if (pranaRunning) resetPranaSession();
-            document.querySelectorAll('.breath-styles-grid .breath-style-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.breath-style-btn').forEach(b => {
+                if(b.id.startsWith('style')) b.classList.remove('active');
+            });
             btn.classList.add('active');
-            
-            currentProfile = profileKey;
-            pInhale = inh;
-            pHoldIn = holdIn;
-            pExhale = exh;
-            pHoldOut = holdOut;
-            profileNameDesc = desc;
-            currentShapeClass = shapeClass;
-
-            circleEl.className = `breath-circle ${shapeClass}`;
-            
-            statusEl.textContent = `${desc} selecionado`;
-            currentPhaseIndex = 0;
-            currentPhaseSecondsLeft = pInhale;
-            timerEl.textContent = pInhale;
-            phaseLabelEl.textContent = 'Inspire';
-            
-            if (window.Telegram?.WebApp?.HapticFeedback) window.Telegram.WebApp.HapticFeedback.selectionChanged();
+            currentBreathStyle = styleName;
+            statusEl.textContent = `Estilo: ${styleName} selecionado`;
+            if (tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
         }
 
         function setPranaMode(seconds, btn) {
@@ -395,76 +818,53 @@
         function startPranaSession() {
             pranaRunning = true;
             toggleBtn.textContent = 'Pausar Prática';
+            currentPhase = 'inhale';
+            phaseSeconds = 0;
             totalSecondsRemaining = selectedDuration;
-            currentPhaseIndex = 0;
-            currentPhaseSecondsLeft = pInhale;
             
-            if (window.Telegram?.WebApp?.HapticFeedback) window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
+            if (tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
 
             pranaInterval = setInterval(() => {
                 totalSecondsRemaining--;
-                currentPhaseSecondsLeft--;
+                phaseSeconds++;
 
-                timerEl.textContent = currentPhaseSecondsLeft + 1;
-                updateCircleVisuals();
-
-                if (currentPhaseSecondsLeft <= 0) {
-                    moveToNextPhase();
+                if (currentPhase === 'inhale') {
+                    if (phaseSeconds >= 4) {
+                        currentPhase = 'exhale';
+                        phaseSeconds = 0;
+                        if (tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
+                    }
+                } else {
+                    if (phaseSeconds >= 6) {
+                        currentPhase = 'inhale';
+                        phaseSeconds = 0;
+                        if (tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
+                    }
                 }
+
+                updateBreathUI();
 
                 if (totalSecondsRemaining <= 0) {
                     resetPranaSession();
-                    statusEl.textContent = 'Prática Concluída com Sucesso! 🙏';
-                    let streak = parseInt(localStorage.getItem('bussola_streak') || '0') + 1;
-                    localStorage.setItem('bussola_streak', streak);
-                    const streakEl = document.getElementById('streakDisplay');
-                    if (streakEl) streakEl.textContent = streak + (streak === 1 ? ' Dia' : ' Dias');
-                    if (window.Telegram?.WebApp?.HapticFeedback) window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+                    statusEl.textContent = "✨ Prática Concluída!";
+                    if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
                 }
             }, 1000);
         }
 
-        function moveToNextPhase() {
-            if (currentPhaseIndex === 0) { 
-                if (pHoldIn > 0) {
-                    currentPhaseIndex = 1;
-                    currentPhaseSecondsLeft = pHoldIn;
-                    phaseLabelEl.textContent = 'Retenção';
-                } else {
-                    currentPhaseIndex = 2;
-                    currentPhaseSecondsLeft = pExhale;
-                    phaseLabelEl.textContent = 'Expire';
-                }
-            } else if (currentPhaseIndex === 1) { 
-                currentPhaseIndex = 2;
-                currentPhaseSecondsLeft = pExhale;
-                phaseLabelEl.textContent = 'Expire';
-            } else if (currentPhaseIndex === 2) { 
-                if (pHoldOut > 0) {
-                    currentPhaseIndex = 3;
-                    currentPhaseSecondsLeft = pHoldOut;
-                    phaseLabelEl.textContent = 'Vazio';
-                } else {
-                    currentPhaseIndex = 0;
-                    currentPhaseSecondsLeft = pInhale;
-                    phaseLabelEl.textContent = 'Inspire';
-                }
-            } else if (currentPhaseIndex === 3) { 
-                currentPhaseIndex = 0;
-                currentPhaseSecondsLeft = pInhale;
-                phaseLabelEl.textContent = 'Inspire';
-            }
-        }
-
-        function updateCircleVisuals() {
-            if (currentPhaseIndex === 0) { // Expandindo (Inspire a 70%)
-                let progress = (pInhale - currentPhaseSecondsLeft) / pInhale;
-                let scale = 1 + (progress * 0.25);
-                circleEl.style.transform = `scale(${scale})`;
-            } else if (currentPhaseIndex === 2) { // Contraindo (Expire)
-                let progress = (pExhale - currentPhaseSecondsLeft) / pExhale;
-                let scale = 1.25 - (progress * 0.25);
-                circleEl.style.transform = `scale(${scale})`;
+        function updateBreathUI() {
+            if (currentPhase === 'inhale') {
+                const count = 4 - phaseSeconds;
+                timerEl.textContent = count > 0 ? count : 4;
+                phaseLabelEl.textContent = "Inspire";
+                circle.style.transform = "scale(1.25)";
+                statusEl.textContent = `Expanda com ${currentBreathStyle}... (${totalSecondsRemaining}s)`;
+            } else {
+                const count = 6 - phaseSeconds;
+                timerEl.textContent = count > 0 ? count : 6;
+                phaseLabelEl.textContent = "Expire";
+                circle.style.transform = "scale(1.0)";
+                statusEl.textContent = `Solte o ar (${totalSecondsRemaining}s)`;
             }
         }
 
@@ -472,13 +872,53 @@
             pranaRunning = false;
             clearInterval(pranaInterval);
             toggleBtn.textContent = 'Iniciar Prática';
-            timerEl.textContent = pInhale;
-            phaseLabelEl.textContent = 'Inspire';
-            circleEl.style.transform = 'scale(1)';
-            statusEl.textContent = `${profileNameDesc} pronto para iniciar`;
+            currentPhase = 'inhale';
+            phaseSeconds = 0;
             totalSecondsRemaining = selectedDuration;
-            currentPhaseIndex = 0;
-            currentPhaseSecondsLeft = pInhale;
+            timerEl.textContent = '4';
+            phaseLabelEl.textContent = 'Inspire';
+            circle.style.transform = 'scale(1.0)';
+            statusEl.textContent = 'Toque em Iniciar para começar';
+        }
+
+        // Checkin Form Submit Handler (Bússola Diária)
+        function submitCheckin(event) {
+            event.preventDefault();
+            streak++;
+            localStorage.setItem('bussola_streak', streak);
+            document.getElementById('streakDisplay').textContent = streak + (streak === 1 ? ' Dia' : ' Dias');
+            if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+            alert('Check-in registrado com sucesso na Bússola Diária!');
+            switchSection('home');
+        }
+
+        // Philos / Fiat Lux Sorteio
+        const fiatLuxQuotes = [
+            { quote: "A constância e a disciplina diária moldam o corpo livre de amarras. A vitalidade não é acaso, é biologia respeitada.", source: "Nuno Cobra (Semente da Vitória)", tag: "Pilar I • Semente da Vitória" },
+            { quote: "O obstáculo no caminho torna-se o caminho. O que desvia a atenção destrói a presença.", source: "Iluminação Oriental (Otávio Leal)", tag: "Pilar II • Iluminação Oriental" },
+            { quote: "A acuidade afia a mente para a tomada de decisão cirúrgica. Sem clareza, a energia se dispersa.", source: "Acuidade & Visão", tag: "Pilar III • Acuidade & Visão" }
+        ];
+
+        function sortearFiatLux() {
+            const randomIndex = Math.floor(Math.random() * fiatLuxQuotes.length);
+            const item = fiatLuxQuotes[randomIndex];
+            document.getElementById('philosQuote').textContent = `"${item.quote}"`;
+            document.getElementById('philosSource').textContent = `— ${item.source}`;
+            document.getElementById('philosTag').textContent = item.tag;
+            if (tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
+        }
+
+        // Anamnese Form Submit Handler
+        function submitAnamnese(event) {
+            event.preventDefault();
+            const nome = document.getElementById('anamneseNome').value;
+            if (!nome) {
+                alert('Por favor, preencha o nome do alquimista.');
+                return;
+            }
+            if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+            alert('Ficha de Anamnese Pro registrada com sucesso!');
+            switchSection('home');
         }
     </script>
 </body>
