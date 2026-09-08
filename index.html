@@ -1,8 +1,3 @@
-Peço desculpas pela falha. O projeto **Bússola_PRO** é completo e integra o Hub de navegação, a Bússola Diária (check-ins matinal, vespertino e noturno), o motor de respiração PRANA, o módulo PHILOS (com os pilares e o sorteio *Fiat Lux*) e a Ficha de Anamnese Pro.
-
-Abaixo segue o código completo e corrigido, finalizando a função de interface do PRANA e adicionando os manipuladores de envio dos formulários e o sistema de sorteio de frases:
-
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -12,14 +7,15 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         :root {
-            --bg-color: var(--tg-theme-bg-color, #0f1115);
-            --text-color: var(--tg-theme-text-color, #f4f4f5);
-            --card-bg: var(--tg-theme-secondary-bg-color, rgba(24, 27, 34, 0.85));
-            --accent-color: #38bdf8;
-            --accent-glow: rgba(56, 189, 248, 0.3);
-            --success-color: #4ade80;
-            --success-glow: rgba(74, 222, 128, 0.3);
-            --border-color: rgba(39, 39, 42, 0.8);
+            --bg-color: #f7f4ea; /* Tom Papiro / Papel Envelhecido */
+            --text-color: #2c2825; /* Sépia Escuro / Alta Legibilidade */
+            --card-bg: #fffdf9; /* Branco Marfim Limpo */
+            --accent-color: #9a3412; /* Terracota Profundo e Marcante */
+            --accent-glow: rgba(154, 52, 18, 0.15);
+            --success-color: #3f6212; /* Verde Oliva Sólido */
+            --success-glow: rgba(63, 98, 18, 0.15);
+            --border-color: #d4cebe; /* Borda visível e limpa */
+            --input-bg: #fdfbf7;
             --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
         }
 
@@ -32,7 +28,6 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
 
         body {
             background-color: var(--bg-color);
-            background-image: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 50%);
             color: var(--text-color);
             padding: 16px;
             font-size: 16px;
@@ -45,81 +40,87 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
             text-align: center;
             margin-bottom: 16px;
             padding-bottom: 12px;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 2px solid var(--border-color);
         }
 
         h1 {
-            font-size: 22px;
-            font-weight: 800;
-            letter-spacing: 1px;
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: 1.2px;
             color: var(--accent-color);
             font-family: var(--font-mono);
         }
 
         .subtitle {
-            font-size: 12px;
-            opacity: 0.7;
+            font-size: 13px;
+            color: #5c554e;
             text-transform: uppercase;
             letter-spacing: 1.5px;
             font-family: var(--font-mono);
+            font-weight: 700;
         }
 
         .streak-banner {
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(74, 222, 128, 0.08));
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(56, 189, 248, 0.25);
+            background: #f4efe1;
+            border: 2px solid var(--border-color);
             border-radius: 14px;
             padding: 12px 16px;
             margin-bottom: 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            font-size: 14px;
-            font-weight: 700;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            font-size: 15px;
+            font-weight: 800;
+            color: var(--text-color);
+            box-shadow: 0 4px 12px rgba(44, 40, 37, 0.05);
         }
 
         .streak-count {
             color: var(--success-color);
-            font-size: 16px;
+            font-size: 17px;
             font-family: var(--font-mono);
-            text-shadow: 0 0 10px var(--success-glow);
+            font-weight: 900;
         }
 
-        /* HUB NAVIGATION - HEXAGONAL STYLE */
+        /* HUB NAVIGATION - CIRCULAR BUTTONS */
         .hub-nav {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
+            gap: 24px;
             margin-bottom: 20px;
-            padding: 10px 0;
+            padding: 15px 0;
+            justify-items: center;
         }
 
         .hub-btn {
             background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--border-color);
+            border: 2px solid var(--border-color);
             color: var(--text-color);
-            padding: 24px 12px;
-            font-size: 13px;
-            font-weight: 800;
+            width: 135px;
+            height: 135px;
+            border-radius: 50%;
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
             text-align: center;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-            clip-path: polygon(15% 0%, 85% 0%, 100% 50%, 85% 100%, 15% 100%, 0% 50%);
-            min-height: 130px;
+            gap: 6px;
+            box-shadow: 0 8px 20px rgba(44, 40, 37, 0.08);
+            padding: 10px;
         }
 
         .hub-btn span.icon {
-            font-size: 24px;
+            font-size: 32px;
+        }
+
+        .hub-btn span.label {
+            font-size: 12px;
+            font-weight: 900;
+            font-family: var(--font-mono);
+            letter-spacing: -0.3px;
+            color: var(--accent-color);
         }
 
         .hub-btn:active {
@@ -129,8 +130,8 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
         .hub-btn:hover {
             border-color: var(--accent-color);
             background: var(--accent-glow);
-            color: var(--accent-color);
             box-shadow: 0 0 20px var(--accent-glow);
+            transform: translateY(-2px);
         }
 
         .section-panel {
@@ -152,12 +153,12 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
         }
 
         .back-btn {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border-color);
+            background: #f0ebe0;
+            border: 2px solid var(--border-color);
             color: var(--text-color);
             padding: 10px 16px;
             font-size: 13px;
-            font-weight: 700;
+            font-weight: 800;
             border-radius: 10px;
             cursor: pointer;
             display: inline-flex;
@@ -173,13 +174,11 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
 
         .card {
             background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid var(--border-color);
+            border: 2px solid var(--border-color);
             border-radius: 16px;
             padding: 20px;
             margin-bottom: 16px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 25px rgba(44, 40, 37, 0.06);
         }
 
         h2 {
@@ -191,34 +190,38 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
             gap: 8px;
             font-family: var(--font-mono);
             letter-spacing: 0.5px;
+            font-weight: 900;
         }
 
         .sub-tabs {
             display: flex;
             gap: 6px;
             margin-bottom: 16px;
+            overflow-x: auto;
+            padding-bottom: 4px;
         }
 
         .sub-tab-btn {
             flex: 1;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid var(--border-color);
+            background: #f0ebe0;
+            border: 2px solid var(--border-color);
             color: var(--text-color);
-            padding: 8px;
-            font-size: 13px;
-            font-weight: 700;
+            padding: 9px 8px;
+            font-size: 12px;
+            font-weight: 800;
             border-radius: 8px;
             cursor: pointer;
             text-align: center;
             font-family: var(--font-mono);
+            white-space: nowrap;
             transition: 0.2s;
         }
 
         .sub-tab-btn.active {
             background: var(--accent-color);
-            color: #000;
+            color: #fff;
             border-color: var(--accent-color);
-            box-shadow: 0 0 15px var(--accent-glow);
+            box-shadow: 0 0 12px var(--accent-glow);
         }
 
         .sub-content {
@@ -232,19 +235,20 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
         label {
             display: block;
             margin-bottom: 6px;
-            font-weight: 600;
+            font-weight: 800;
             font-size: 14px;
-            opacity: 0.9;
+            color: var(--text-color);
         }
 
         select, input[type="text"], input[type="number"], textarea {
             width: 100%;
             padding: 12px;
-            background: rgba(18, 20, 26, 0.8);
-            border: 1px solid var(--border-color);
+            background: var(--input-bg);
+            border: 2px solid var(--border-color);
             color: var(--text-color);
             border-radius: 10px;
             font-size: 15px;
+            font-weight: 600;
             margin-bottom: 14px;
             transition: border-color 0.2s;
         }
@@ -252,6 +256,7 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
         select:focus, input:focus, textarea:focus {
             outline: none;
             border-color: var(--accent-color);
+            background: #fff;
             box-shadow: 0 0 10px var(--accent-glow);
         }
 
@@ -268,13 +273,13 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
         }
 
         .radio-btn {
-            background: rgba(18, 20, 26, 0.8);
-            border: 1px solid var(--border-color);
+            background: var(--input-bg);
+            border: 2px solid var(--border-color);
             padding: 10px 0;
             text-align: center;
             border-radius: 8px;
             cursor: pointer;
-            font-weight: 700;
+            font-weight: 800;
             font-size: 15px;
             font-family: var(--font-mono);
             color: var(--text-color);
@@ -287,19 +292,19 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
 
         .radio-btn.selected {
             background: var(--accent-color);
-            color: #000;
+            color: #fff;
             border-color: var(--accent-color);
-            box-shadow: 0 0 12px var(--accent-glow);
+            box-shadow: 0 0 10px var(--accent-glow);
         }
 
         .action-btn {
             width: 100%;
             background: var(--accent-color);
-            color: #000;
+            color: #fff;
             border: none;
             padding: 14px;
             font-size: 16px;
-            font-weight: 800;
+            font-weight: 900;
             border-radius: 12px;
             cursor: pointer;
             box-shadow: 0 4px 15px var(--accent-glow);
@@ -324,11 +329,11 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
 
         .mode-btn {
             flex: 1;
-            background: rgba(18, 20, 26, 0.8);
-            border: 1px solid var(--border-color);
+            background: var(--input-bg);
+            border: 2px solid var(--border-color);
             padding: 8px;
             font-size: 12px;
-            font-weight: 700;
+            font-weight: 800;
             border-radius: 8px;
             color: var(--text-color);
             cursor: pointer;
@@ -349,11 +354,11 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
         }
 
         .breath-style-btn {
-            background: rgba(18, 20, 26, 0.8);
-            border: 1px solid var(--border-color);
+            background: var(--input-bg);
+            border: 2px solid var(--border-color);
             padding: 10px 6px;
             font-size: 11px;
-            font-weight: 700;
+            font-weight: 800;
             border-radius: 8px;
             color: var(--text-color);
             cursor: pointer;
@@ -383,8 +388,8 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
             position: absolute;
             width: 130px;
             height: 130px;
-            background: radial-gradient(circle, rgba(56,189,248,0.4) 0%, rgba(56,189,248,0.1) 70%);
-            border: 2px solid var(--accent-color);
+            background: radial-gradient(circle, rgba(154,52,18,0.2) 0%, rgba(154,52,18,0.05) 70%);
+            border: 3px solid var(--accent-color);
             border-radius: 50%;
             transition: transform 0.1s linear, background 0.4s ease;
             display: flex;
@@ -406,14 +411,15 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
             font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 1px;
-            opacity: 0.8;
+            font-weight: 800;
+            opacity: 0.9;
             margin-top: 4px;
             font-family: var(--font-mono);
         }
 
         .prana-status {
             font-size: 15px;
-            font-weight: 700;
+            font-weight: 800;
             margin: 10px 0;
             color: var(--accent-color);
             min-height: 22px;
@@ -435,11 +441,12 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
 
         .info-modal-box {
             display: none;
-            background: rgba(56, 189, 248, 0.08);
-            border: 1px solid rgba(56, 189, 248, 0.3);
+            background: rgba(154, 52, 18, 0.06);
+            border: 2px solid rgba(154, 52, 18, 0.3);
             padding: 14px;
             border-radius: 12px;
             font-size: 13px;
+            font-weight: 600;
             text-align: left;
             margin-bottom: 14px;
             line-height: 1.5;
@@ -451,13 +458,13 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
 
         /* PHILOS STYLES */
         .philos-card {
-            background: linear-gradient(135deg, rgba(24, 27, 34, 0.95) 0%, rgba(18, 21, 28, 0.95) 100%);
-            backdrop-filter: blur(12px);
-            border-left: 4px solid var(--accent-color);
+            background: linear-gradient(135deg, #fffdf9 0%, #f4efe1 100%);
+            border: 2px solid var(--border-color);
+            border-left: 5px solid var(--accent-color);
             padding: 20px;
             border-radius: 14px;
             margin-bottom: 14px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 6px 20px rgba(44, 40, 37, 0.05);
             position: relative;
         }
 
@@ -473,19 +480,19 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
             text-transform: uppercase;
             letter-spacing: 1.2px;
             color: var(--accent-color);
-            font-weight: 800;
+            font-weight: 900;
             font-family: var(--font-mono);
         }
 
         .fiat-lux-btn {
-            background: linear-gradient(135deg, var(--accent-color), #0284c7);
-            color: #000;
+            background: linear-gradient(135deg, var(--accent-color), #c2410c);
+            color: #fff;
             border: none;
             padding: 8px 16px;
             font-size: 12px;
             border-radius: 8px;
             cursor: pointer;
-            font-weight: 800;
+            font-weight: 900;
             font-family: var(--font-mono);
             box-shadow: 0 0 15px var(--accent-glow);
             transition: 0.2s;
@@ -496,18 +503,85 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
         }
 
         .philos-quote {
-            font-size: 16px;
+            font-size: 17px;
             font-style: italic;
+            font-weight: 700;
             line-height: 1.5;
             margin-bottom: 12px;
+            color: var(--text-color);
         }
 
         .philos-source {
             font-size: 12px;
-            opacity: 0.7;
+            color: #5c554e;
             text-align: right;
-            font-weight: 600;
+            font-weight: 800;
             font-family: var(--font-mono);
+        }
+
+        /* ANAMNESE WOW - SILHOUETTES & BODY MAP */
+        .gender-select-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .gender-card {
+            background: var(--input-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 14px;
+            padding: 20px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .gender-card.selected {
+            background: var(--accent-glow);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        .gender-silhouette {
+            font-size: 48px;
+            margin-bottom: 8px;
+        }
+
+        .gender-title {
+            font-size: 14px;
+            font-weight: 900;
+            font-family: var(--font-mono);
+            color: var(--text-color);
+        }
+
+        .body-zones-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .zone-btn {
+            background: var(--input-bg);
+            border: 2px solid var(--border-color);
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 800;
+            font-family: var(--font-mono);
+            cursor: pointer;
+            text-align: left;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .zone-btn.selected {
+            background: var(--accent-color);
+            color: #fff;
+            border-color: var(--accent-color);
         }
     </style>
 </head>
@@ -524,24 +598,24 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
         <span class="streak-count" id="streakDisplay">0 Dias</span>
     </div>
 
-    <!-- MAIN HUB (HOME) - HEXAGONAL BUTTONS -->
+    <!-- MAIN HUB (HOME) - CIRCULAR BUTTONS -->
     <div id="section-home" class="section-panel active">
         <div class="hub-nav">
             <button class="hub-btn" onclick="switchSection('bussola')">
                 <span class="icon">🧭</span>
-                [BÚSSOLA DIÁRIA]
+                <span class="label">[BÚSSOLA]</span>
             </button>
             <button class="hub-btn" onclick="switchSection('prana')">
                 <span class="icon">💨</span>
-                [PRANA]
+                <span class="label">[PRANA]</span>
             </button>
             <button class="hub-btn" onclick="switchSection('philos')">
                 <span class="icon">📜</span>
-                [PHILOS]
+                <span class="label">[PHILOS]</span>
             </button>
             <button class="hub-btn" onclick="switchSection('anamnese')">
                 <span class="icon">📋</span>
-                [ANAMNESE]
+                <span class="label">[ANAMNESE]</span>
             </button>
         </div>
     </div>
@@ -553,7 +627,7 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
         </div>
         <div class="card">
             <div class="sub-tabs">
-                <button class="sub-tab-btn active" onclick="switchSub('manha')">[manha]</button>
+                <button class="sub-tab-btn active" onclick="switchSub('manha')">[manhã]</button>
                 <button class="sub-tab-btn" onclick="switchSub('tarde')">[tarde]</button>
                 <button class="sub-tab-btn" onclick="switchSub('noite')">[noite]</button>
             </div>
@@ -631,7 +705,6 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
                 <button type="button" class="breath-style-btn" style="padding: 6px 12px;" onclick="togglePranaInfo()">ℹ️ Informações</button>
             </div>
 
-            <!-- MODAL INFO / MODO DE SEGURANÇA -->
             <div class="info-modal-box" id="pranaInfoBox">
                 <strong>📜 Fontes de Referência:</strong> Gheranda Samhita, Goraksha Sataka, Hatha Yoga Pradipika e Alícia Solto.<br><br>
                 <strong>🛡️ Modo de Segurança (40 a 60 anos):</strong><br>
@@ -640,14 +713,14 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
                 • Foco na regulação do sistema nervoso autônomo e longevidade vascular.
             </div>
 
-            <p style="font-size: 12px; opacity: 0.8; margin-bottom: 8px; font-family: var(--font-mono); text-align: left;">
+            <p style="font-size: 12px; font-weight: 800; margin-bottom: 8px; font-family: var(--font-mono); text-align: left;">
                 Estilo Respiratório:
             </p>
 
             <div class="breath-styles-grid">
-                <button type="button" class="breath-style-btn active" id="styleUjjayi" onclick="setPranaStyle('Ujjayi', this)">Ujjayi (Foco Vago)</button>
-                <button type="button" class="breath-style-btn" id="styleSurya" onclick="setPranaStyle('Surya Bhedana', this)">Surya Bhedana (Solar)</button>
-                <button type="button" class="breath-style-btn" id="styleNadi" onclick="setPranaStyle('Nadi Shodhana', this)">Nadi Shodhana (Canais)</button>
+                <button type="button" class="breath-style-btn active" id="styleUjjayi" onclick="setPranaStyle('Ujjayi', this)">Ujjayi (Vago)</button>
+                <button type="button" class="breath-style-btn" id="styleSurya" onclick="setPranaStyle('Surya Bhedana', this)">Surya (Solar)</button>
+                <button type="button" class="breath-style-btn" id="styleNadi" onclick="setPranaStyle('Nadi Shodhana', this)">Nadi (Canais)</button>
             </div>
 
             <div class="mode-selector">
@@ -667,7 +740,7 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
 
             <div class="prana-controls">
                 <button type="button" class="action-btn" id="pranaToggleBtn" onclick="togglePranaSession()">Iniciar Prática</button>
-                <button type="button" class="action-btn" style="background: rgba(39, 39, 42, 0.8); color: #fff;" onclick="resetPranaSession()">Parar</button>
+                <button type="button" class="action-btn" style="background: #d4cebe; color: var(--text-color);" onclick="resetPranaSession()">Parar</button>
             </div>
         </div>
     </div>
@@ -690,44 +763,99 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
 
         <div class="card">
             <h2>📜 Os 3 Pilares da Alquimia</h2>
-            <ul style="padding-left: 18px; font-size: 13px; line-height: 1.6; opacity: 0.85;">
+            <ul style="padding-left: 18px; font-size: 14px; font-weight: 600; line-height: 1.6; color: var(--text-color);">
                 <li><strong>Semente da Vitória:</strong> Atividade física, hábitos de saúde e comportamento alimentar (Nuno Cobra).</li>
                 <li><strong>Iluminação Oriental:</strong> Koans e frases reflexivas de essência profunda (Otávio Leal).</li>
-                <li><strong>Acuidade & Visão:</strong> Frases diretivas extraídas de <em>Tudo é Possível</em>, <em>Insight 1 & 2</em> e pensadores clássicos/modernos.</li>
+                <li><strong>Acuidade & Visão:</strong> Frases diretivas extraídas de <em>Tudo é Possível</em>, <em>Insight 1 & 2</em> e pensadores clássicos.</li>
             </ul>
         </div>
     </div>
 
-    <!-- SECTION 4: ANAMNESE -->
+    <!-- SECTION 4: ANAMNESE WOW (4 ABAS + SILHUETAS CORPORAIS) -->
     <div id="section-anamnese" class="section-panel">
         <div class="back-bar">
             <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
         </div>
         <div class="card">
-            <h2>📋 Ficha de Anamnese Pro</h2>
-            <p style="font-size: 12px; opacity: 0.8; margin-bottom: 14px; font-family: var(--font-mono);">
-                Alinhado diretamente com a base de dados do Método Groppo.
-            </p>
+            <h2>📋 Ficha de Anamnese WOW</h2>
+            
+            <div class="sub-tabs">
+                <button class="sub-tab-btn active" onclick="switchAnamneseTab('aba1', this)">[1. Identidade]</button>
+                <button class="sub-tab-btn" onclick="switchAnamneseTab('aba2', this)">[2. Percepção Corpo]</button>
+                <button class="sub-tab-btn" onclick="switchAnamneseTab('aba3', this)">[3. Rotina & Hábitos]</button>
+                <button class="sub-tab-btn" onclick="switchAnamneseTab('aba4', this)">[4. Metas 90D]</button>
+            </div>
 
             <form id="anamneseForm" onsubmit="submitAnamnese(event)">
-                <label>Nome Completo / Alquimista:</label>
-                <input type="text" name="nomeCliente" id="anamneseNome" placeholder="Ex: Bruno Groppo">
+                
+                <!-- ABA 1: IDENTIDADE & FOCO -->
+                <div id="anamnese-aba1" class="sub-content active">
+                    <label>Nome Completo / Alquimista:</label>
+                    <input type="text" name="nomeCliente" id="anamneseNome" placeholder="Ex: Bruno Groppo">
 
-                <label>Foco Principal de Saúde / Performance:</label>
-                <select name="focoPrincipal">
-                    <option value="Longevidade e Vitalidade">Longevidade e Vitalidade</option>
-                    <option value="Força e Alquimia Bruta">Força e Alquimia Bruta</option>
-                    <option value="Recuperação e Gestão de Estresse">Recuperação e Gestão de Estresse</option>
-                    <option value="Mobilidade e Alívio de Rigidez">Mobilidade e Alívio de Rigidez</option>
-                </select>
+                    <label>Foco Principal de Saúde / Performance:</label>
+                    <select name="focoPrincipal">
+                        <option value="Longevidade e Vitalidade">Longevidade e Vitalidade</option>
+                        <option value="Força e Alquimia Bruta">Força e Alquimia Bruta</option>
+                        <option value="Recuperação e Gestão de Estresse">Recuperação e Gestão de Estresse</option>
+                        <option value="Mobilidade e Alívio de Rigidez">Mobilidade e Alívio de Rigidez</option>
+                    </select>
+                </div>
 
-                <label>Restrições Físicas / Lesões Ativas:</label>
-                <textarea name="restricoes" id="anamneseRestricoes" placeholder="Pontos de atenção biomecânica..."></textarea>
+                <!-- ABA 2: PERCEPÇÃO CORPORAL & GÊNERO -->
+                <div id="anamnese-aba2" class="sub-content">
+                    <label>Seleção de Gênero / Silhueta Base:</label>
+                    <div class="gender-select-grid">
+                        <div class="gender-card selected" id="genderMasculino" onclick="selectGender('Masculino')">
+                            <div class="gender-silhouette">🧔🏻‍♂️</div>
+                            <div class="gender-title">MASCULINO</div>
+                        </div>
+                        <div class="gender-card" id="genderFeminino" onclick="selectGender('Feminino')">
+                            <div class="gender-silhouette">👩🏻‍🦰</div>
+                            <div class="gender-title">FEMININO</div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="genero" id="inputGenero" value="Masculino">
 
-                <label>Metas Inegociáveis (Próximos 90 Dias):</label>
-                <textarea name="metas" id="anamneseMetas" placeholder="Ex: Constância matinal, hidratação estruturada..."></textarea>
+                    <label>Mapa de Tensão / Pontos Críticos (Escolha Múltipla):</label>
+                    <div class="body-zones-grid">
+                        <button type="button" class="zone-btn" onclick="toggleZone(this)"><span> cervical / pescoço</span> ⚡</button>
+                        <button type="button" class="zone-btn" onclick="toggleZone(this)"><span> ombros / trapezius</span> ⚡</button>
+                        <button type="button" class="zone-btn" onclick="toggleZone(this)"><span> lombar / coluna</span> ⚡</button>
+                        <button type="button" class="zone-btn" onclick="toggleZone(this)"><span> joelhos / quadris</span> ⚡</button>
+                    </div>
 
-                <button type="submit" class="action-btn" style="margin-top: 10px;">Registrar na Planilha</button>
+                    <label>Restrições Biomecânicas / Lesões:</label>
+                    <textarea name="restricoes" placeholder="Descreva os pontos de atenção e restrições médicas..."></textarea>
+                </div>
+
+                <!-- ABA 3: ROTINA & HÁBITOS -->
+                <div id="anamnese-aba3" class="sub-content">
+                    <label>Qualidade Média do Sono (1 a 5):</label>
+                    <select name="sono">
+                        <option value="5">Excelente (Acorda revigorado)</option>
+                        <option value="4">Bom (Descansa o suficiente)</option>
+                        <option value="3">Regular (Acorda cansado às vezes)</option>
+                        <option value="2">Ruim (Insônia frequente)</option>
+                        <option value="1">Crítico (Esgotamento crônico)</option>
+                    </select>
+
+                    <label>Nível de Estresse Cotidiano:</label>
+                    <select name="estresse">
+                        <option value="Baixo">Baixo / Equilibrado</option>
+                        <option value="Moderado">Moderado / Gerenciável</option>
+                        <option value="Alto">Alto / Exigente</option>
+                    </select>
+                </div>
+
+                <!-- ABA 4: METAS INEGOCIÁVEIS -->
+                <div id="anamnese-aba4" class="sub-content">
+                    <label>Metas Inegociáveis (Próximos 90 Dias):</label>
+                    <textarea name="metas" placeholder="Ex: Constância matinal, hidratação estruturada, 3 treinos semanais..."></textarea>
+                    
+                    <button type="submit" class="action-btn" style="margin-top: 10px;">Salvar Ficha de Anamnese Pro</button>
+                </div>
+
             </form>
         </div>
     </div>
@@ -740,7 +868,6 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
         let streak = parseInt(localStorage.getItem('bussola_streak') || '0');
         document.getElementById('streakDisplay').textContent = streak + (streak === 1 ? ' Dia' : ' Dias');
 
-        // Switch Section (Home vs Sub-sections with Back button logic)
         function switchSection(sectionId) {
             document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
             document.getElementById('section-' + sectionId).classList.add('active');
@@ -751,7 +878,6 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Sub-tabs Switcher (Bússola)
         function switchSub(subId) {
             document.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
             document.querySelectorAll('.sub-content').forEach(c => c.classList.remove('active'));
@@ -760,7 +886,32 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
             document.getElementById('sub-' + subId).classList.add('active');
         }
 
-        // Radio Buttons Selection Handler
+        function switchAnamneseTab(tabId, btn) {
+            const parentCard = btn.closest('.card');
+            parentCard.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+            parentCard.querySelectorAll('.sub-content').forEach(c => c.classList.remove('active'));
+
+            btn.classList.add('active');
+            document.getElementById('anamnese-' + tabId).classList.add('active');
+        }
+
+        function selectGender(genero) {
+            document.getElementById('genderMasculino').classList.remove('selected');
+            document.getElementById('genderFeminino').classList.remove('selected');
+            if(genero === 'Masculino') {
+                document.getElementById('genderMasculino').classList.add('selected');
+            } else {
+                document.getElementById('genderFeminino').classList.add('selected');
+            }
+            document.getElementById('inputGenero').value = genero;
+            if (tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
+        }
+
+        function toggleZone(btn) {
+            btn.classList.toggle('selected');
+            if (tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
+        }
+
         function selectRadio(groupId, val) {
             const group = document.getElementById(groupId);
             group.querySelectorAll('.radio-btn').forEach(btn => {
@@ -886,7 +1037,6 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
             statusEl.textContent = 'Toque em Iniciar para começar';
         }
 
-        // Checkin Form Submit Handler (Bússola Diária)
         function submitCheckin(event) {
             event.preventDefault();
             streak++;
@@ -897,7 +1047,6 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
             switchSection('home');
         }
 
-        // Philos / Fiat Lux Sorteio
         const fiatLuxQuotes = [
             { quote: "A constância e a disciplina diária moldam o corpo livre de amarras. A vitalidade não é acaso, é biologia respeitada.", source: "Nuno Cobra (Semente da Vitória)", tag: "Pilar I • Semente da Vitória" },
             { quote: "O obstáculo no caminho torna-se o caminho. O que desvia a atenção destrói a presença.", source: "Iluminação Oriental (Otávio Leal)", tag: "Pilar II • Iluminação Oriental" },
@@ -913,20 +1062,17 @@ Abaixo segue o código completo e corrigido, finalizando a função de interface
             if (tg.HapticFeedback) tg.HapticFeedback.selectionChanged();
         }
 
-        // Anamnese Form Submit Handler
         function submitAnamnese(event) {
             event.preventDefault();
             const nome = document.getElementById('anamneseNome').value;
             if (!nome) {
-                alert('Por favor, preencha o nome do alquimista.');
+                alert('Por favor, preencha o nome do alquimista na Aba 1.');
                 return;
             }
             if (tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
-            alert('Ficha de Anamnese Pro registrada com sucesso!');
+            alert('Ficha de Anamnese WOW registrada com sucesso!');
             switchSection('home');
         }
     </script>
 </body>
 </html>
-
-```
