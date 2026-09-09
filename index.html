@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bússola PRO - Método Groppo (Etapa 2: Prana & Philos)</title>
+    <title>Bússola PRO - Método Groppo </title>
     <!-- Telegram WebApp SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <!-- Tailwind CSS CDN -->
@@ -79,6 +79,7 @@
             font-weight: 700;
         }
 
+        /* HUB PRINCIPAL - 4 ETAPAS DA REFORMA */
         .hub-nav {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -351,7 +352,7 @@
             color: var(--success-color);
         }
 
-        /* TELA DE IMERSÃO PRANA COM ABAS UNIFORMIZADAS */
+        /* TELA DE IMERSÃO PRANA COM ABA [INSTRUÇÕES] */
         #pranaImmersiveModal {
             display: none;
             position: fixed;
@@ -527,7 +528,7 @@
             text-align: left;
         }
 
-        /* PHILOS & ESTANTE */
+        /* PHILOS & ESTANTE (DISNEY PRINCIPLES TOUCH) */
         .philos-card {
             background: linear-gradient(135deg, #fffdf9 0%, #f4efe1 100%);
             border: 2px solid var(--border-color);
@@ -647,36 +648,39 @@
 
     <header>
         <h1>BÚSSOLA_PRO</h1>
-        <div class="subtitle">Método Groppo • Alquimia Diária (Etapa 2)</div>
+        <div class="subtitle">Método Groppo • Reforma 4 Etapas (Disney Excellence)</div>
     </header>
 
-    <!-- HUB PRINCIPAL -->
+    <!-- HUB PRINCIPAL: AS 4 ETAPAS DA REFORMA -->
     <div id="section-home" class="section-panel active">
         <div class="hub-nav">
             <button class="hub-btn" onclick="switchSection('bussola')">
                 <span class="icon">🧭</span>
                 <span class="label">[BÚSSOLA]</span>
+                <span class="sublabel">Etapa 1 ⚡</span>
             </button>
             <button class="hub-btn" onclick="switchSection('prana')">
                 <span class="icon">💨</span>
                 <span class="label">[PRANA]</span>
-                <span class="sublabel">Imersivo ⚡</span>
+                <span class="sublabel">Etapa 2 ⚡</span>
             </button>
             <button class="hub-btn" onclick="switchSection('philos')">
                 <span class="icon">📜</span>
                 <span class="label">[PHILOS]</span>
+                <span class="sublabel">Etapa 3 ⚡</span>
             </button>
             <button class="hub-btn" onclick="switchSection('anamnese')">
                 <span class="icon">📋</span>
                 <span class="label">[CALIBRAGEM]</span>
+                <span class="sublabel">Etapa 4 ⚡</span>
             </button>
         </div>
     </div>
 
-    <!-- SEÇÃO 1: BÚSSOLA DIÁRIA -->
+    <!-- ETAPA 1: BÚSSOLA DIÁRIA -->
     <div id="section-bussola" class="section-panel">
         <div class="back-bar">
-            <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
+            <button class="back-btn" onclick="switchSection('home')">← Voltar ao Hub</button>
         </div>
         <div class="card">
             <div class="sub-tabs">
@@ -747,10 +751,10 @@
         </div>
     </div>
 
-    <!-- SEÇÃO 2: PRANA (CONFIGURAÇÃO) -->
+    <!-- ETAPA 2: PRANA (CONFIGURAÇÃO) -->
     <div id="section-prana" class="section-panel">
         <div class="back-bar">
-            <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
+            <button class="back-btn" onclick="switchSection('home')">← Voltar ao Hub</button>
         </div>
         <div class="card prana-container">
             <h2>💨 Laboratório Prana (Hatha Yoga)</h2>
@@ -789,15 +793,15 @@
         </div>
     </div>
 
-    <!-- TELA DE IMERSÃO PRANA COM ABAS UNIFORMIZADAS -->
+    <!-- TELA DE IMERSÃO PRANA COM ABA [INSTRUÇÕES] -->
     <div id="pranaImmersiveModal">
         <div class="immersive-header">
-            <button class="back-btn" onclick="stopPranaSession()">← Voltar ao Menu</button>
+            <button class="back-btn" onclick="stopPranaSession()">← Sair</button>
             <div class="font-mono text-xs font-bold text-[#2b7a78] uppercase" id="immersiveModalTitle">Pranayama Imersivo</div>
             <button class="immersive-stop-btn" onclick="stopPranaSession()">Parar ⏹</button>
         </div>
 
-        <!-- ABAS INTERNAS UNIFORMIZADAS -->
+        <!-- ABAS INTERNAS UNIFORMIZADAS (COM [INSTRUÇÕES]) -->
         <div class="immersive-tabs">
             <button class="immersive-tab-btn active" onclick="switchImmersiveTab('visual', this)">👁 Prática</button>
             <button class="immersive-tab-btn" onclick="switchImmersiveTab('textos', this)">📜 Textos Clássicos</button>
@@ -815,7 +819,7 @@
                 </div>
                 <div class="immersive-hud-box" style="margin-top: 10px;">
                     <div>⏱️ <span id="immersiveTimeLeft">Tempo restante: 01:00</span></div>
-                    <div>💨 <span id="immersivePhaseSub">Siga o ritmo de expansão e contracção</span></div>
+                    <div>💨 <span id="immersivePhaseSub">Siga o ritmo de expansão e contração</span></div>
                 </div>
             </div>
 
@@ -834,24 +838,24 @@
             <!-- ABA 3: INSTRUÇÕES -->
             <div id="imm-tab-instrucoes" class="immersive-tab-content">
                 <div class="immersive-source-box">
-                    <div class="scripture-title">🧘 Postura & Diretrizes de Execução</div>
+                    <div class="scripture-title">🧘 Postura & Diretrizes de Execução (Padrão Disney)</div>
                     <div class="scripture-desc" id="immersiveNostrilDesc">Mantenha a coluna ereta, ombros relaxados e respiração nasal constante com leve constrição na glote.</div>
                 </div>
                 <div class="immersive-hud-box">
-                    <div>🛡️ **Segurança Alquímica:** Nunca force a retenção (*Kumbhaka*) além do conforto natural. O fluxo deve ser suave como o óleo derramado.</div>
+                    <div>🛡️ **Segurança Alquímica:** Nunca force a retenção (*Kumbhaka*) além do conforto natural. O fluxo deve ser impecável.</div>
                 </div>
             </div>
         </div>
 
         <div style="text-align:center; font-size:11px; font-family:var(--font-mono); color:#5c554e; padding-top:10px;">
-            Método Groppo • Alquimia Tradicional do Hatha-Yoga
+            Método Groppo • Alquimia Tradicional & Excelência Operacional
         </div>
     </div>
 
-    <!-- SEÇÃO 3: PHILOS (ATUALIZADA COM OS 3 PILARES E ESTANTE) -->
+    <!-- ETAPA 3: PHILOS (3 PILARES & ESTANTE DE LIVROS) -->
     <div id="section-philos" class="section-panel">
         <div class="back-bar">
-            <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
+            <button class="back-btn" onclick="switchSection('home')">← Voltar ao Hub</button>
         </div>
         <div class="philos-card">
             <div class="philos-header-row">
@@ -873,10 +877,10 @@
         </div>
     </div>
 
-    <!-- SEÇÃO 4: CALIBRAGEM -->
+    <!-- ETAPA 4: CALIBRAGEM -->
     <div id="section-anamnese" class="section-panel">
         <div class="back-bar">
-            <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
+            <button class="back-btn" onclick="switchSection('home')">← Voltar ao Hub</button>
         </div>
         <div class="card">
             <h2>📋 Calibragem (Anamnese & Coluna F)</h2>
@@ -1095,3 +1099,4 @@
     </script>
 </body>
 </html>
+
