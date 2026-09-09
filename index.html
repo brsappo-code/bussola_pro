@@ -575,7 +575,7 @@
             font-family: var(--font-mono);
         }
 
-        /* CALIBRAGEM DA BÚSSOLA (ANAMNESE) */
+        /* CALIBRAGEM DA BÚSSOLA (ANAMNESE) & SILHUETAS (COLUNA F) */
         .gender-select-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -639,6 +639,42 @@
             color: #fff;
             border-color: var(--accent-color);
         }
+
+        /* Seletor de Silhuetas 1 a 10 (Coluna F) */
+        .silhouette-scale-container {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .silhouette-box {
+            background: var(--input-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 10px 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .silhouette-box.selected {
+            background: var(--accent-color);
+            color: #fff;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        .silhouette-box .s-icon {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+
+        .silhouette-box .s-num {
+            font-size: 13px;
+            font-weight: 900;
+            font-family: var(--font-mono);
+        }
     </style>
 </head>
 <body>
@@ -671,7 +707,7 @@
         </div>
     </div>
 
-    <!-- SECTION 1: BÚSSOLA DIÁRIA -->
+    <!-- SECTION 1: BÚSSOLA DIÁRIA (Checkins_Diarios) -->
     <div id="section-bussola" class="section-panel">
         <div class="back-bar">
             <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
@@ -687,7 +723,6 @@
                 <!-- MANHÃ -->
                 <div id="sub-manha" class="sub-content active">
                     <h2>🌅 Check-in Matinal</h2>
-                    
                     <label>Rigidez ou Dor Corporal (1 a 5):</label>
                     <div class="radio-group" id="rigidezGroup">
                         <div class="radio-btn" onclick="selectRadio('rigidezGroup', '1', this)">1<input type="radio" name="rigidez" value="1"></div>
@@ -720,15 +755,15 @@
                     <input type="number" step="0.5" min="0" max="10" name="hidratacao" value="2.0">
                 </div>
 
-                <!-- NOITE -->
+                <!-- NOITE (Rito Noturno com Prática Realizada) -->
                 <div id="sub-noite" class="sub-content">
-                    <h2>🌙 Fechamento Noturno</h2>
-                    <label>Prática Realizada:</label>
+                    <h2>🌙 Fechamento Noturno (Rito)</h2>
+                    <label>Tipo de Prática Realizada Hoje (Presencial/Outros):</label>
                     <select name="pratica">
-                        <option value="Alquimia Bruta">Alquimia Bruta (Força/Movimento)</option>
-                        <option value="Fluida">Fluida (Mobilidade/Yoga)</option>
-                        <option value="Sutil">Sutil (Respiração/PRANA)</option>
-                        <option value="Invisível">Invisível (Recuperação/Descanso)</option>
+                        <option value="Alquimia Bruta">Alquimia Bruta (Força / Presencial)</option>
+                        <option value="Fluida">Fluida (Mobilidade / Yoga)</option>
+                        <option value="Sutil">Sutil (Respiração / PRANA)</option>
+                        <option value="Invisível">Invisível (Recuperação / Descanso)</option>
                     </select>
 
                     <label>Balanço Alimentar:</label>
@@ -740,7 +775,7 @@
                     </select>
                 </div>
 
-                <button type="submit" class="action-btn" style="margin-top: 14px;">Registrar na Bússola</button>
+                <button type="submit" class="action-btn" style="margin-top: 14px;">Registrar na Bússola Diária</button>
             </form>
         </div>
     </div>
@@ -755,11 +790,10 @@
                 <h2>💨 Alquimia PRANA</h2>
                 <button type="button" class="breath-style-btn" style="padding: 6px 12px;" onclick="togglePranaInfo()">ℹ️ Informações</button>
             </div>
-
             <div class="info-modal-box" id="pranaInfoBox">
                 <strong>📜 Referências:</strong> Goraksha Shataka, Gheranda Samhita, Hatha Pradipika.<br><br>
                 <strong>🛡️ Cuidados ao Praticar:</strong><br>
-                • Inspire <strong>>>70%<<</strong> de sua capacidade sempre puxando o ar devagar.<br>
+                • Inspire <strong>> >70%<<</strong> de sua capacidade sempre puxando o ar devagar.<br>
                 • Controle rigoroso de esforço, evitando hiperventilação e picos tensionais.<br>
                 • Foco na regulação do sistema nervoso autônomo e longevidade vascular.
             </div>
@@ -767,7 +801,6 @@
             <p style="font-size: 12px; font-weight: 800; margin-bottom: 8px; font-family: var(--font-mono); text-align: left;">
                 Práticas Alquímicas:
             </p>
-
             <div class="breath-styles-grid">
                 <button type="button" class="breath-style-btn active" id="styleSono" onclick="setPranaStyle('sono', this)">A - Sono<br>(Chandra)</button>
                 <button type="button" class="breath-style-btn" id="styleFoco" onclick="setPranaStyle('foco', this)">B - Foco<br>(Sama Vritti)</button>
@@ -832,41 +865,73 @@
         </div>
     </div>
 
-    <!-- SECTION 4: CALIBRAGEM DA BÚSSOLA (ANAMNESE) -->
+    <!-- SECTION 4: CALIBRAGEM DA BÚSSOLA / ANAMNESE (Aba alquimistas - Coluna F) -->
     <div id="section-anamnese" class="section-panel">
         <div class="back-bar">
             <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
         </div>
         <div class="card">
             <h2>🧭 Calibragem da Bússola</h2>
-            <div style="font-size: 12px; font-weight: 700; color: #5c554e; font-family: var(--font-mono); margin-bottom: 14px; margin-top: -8px;">(Ficha de Anamnese WOW)</div>
-            
+            <div style="font-size: 12px; font-weight: 700; color: #5c554e; font-family: var(--font-mono); margin-bottom: 14px; margin-top: -8px;">(Ficha de Anamnese WOW • Alquimistas)</div>
+
             <div class="sub-tabs">
-                <button class="sub-tab-btn active" onclick="switchAnamneseTab('anamnese-aba1', this)">[1. Perfil]</button>
+                <button class="sub-tab-btn active" onclick="switchAnamneseTab('anamnese-aba1', this)">[1. Perfil & Silhuetas]</button>
                 <button class="sub-tab-btn" onclick="switchAnamneseTab('anamnese-aba2', this)">[2. Zonas]</button>
                 <button class="sub-tab-btn" onclick="switchAnamneseTab('anamnese-aba3', this)">[3. Metas]</button>
             </div>
 
             <form id="anamneseForm" onsubmit="submitAnamnese(event)">
-                <!-- ABA 1: PERFIL -->
+                <!-- ABA 1: PERFIL & SILHUETAS CORPORAIS (COLUNA F) -->
                 <div id="anamnese-aba1" class="sub-content active">
                     <label>Selecione o Perfil Biológico:</label>
                     <div class="gender-select-grid">
                         <div class="gender-card selected" onclick="selectGender('Masculino', this)">
-                            <div class="gender-silhouette">🧔‍♂️</div>
+                            <div class="gender-silhouette">🧘‍♂️</div>
                             <div class="gender-title">Masculino</div>
                         </div>
                         <div class="gender-card" onclick="selectGender('Feminino', this)">
-                            <div class="gender-silhouette">👩‍🦰</div>
+                            <div class="gender-silhouette">🧘‍♀️</div>
                             <div class="gender-title">Feminino</div>
                         </div>
                     </div>
 
-                    <label>Nome do Aluno / Aluna:</label>
+                    <label>Nome do Alguimista:</label>
                     <input type="text" name="alunoNome" placeholder="Ex: Nome completo" required>
 
                     <label>Idade:</label>
                     <input type="number" name="alunoIdade" placeholder="Ex: 35">
+
+                    <!-- SELEÇÃO DE SILHUETAS DE 1 A 10 (CONSCIÊNCIA CORPORAL - COLUNA F) -->
+                    <label style="margin-top: 16px;">Como você enxerga sua Autopercepção Corporal Atual (1 a 10)?</label>
+                    <div class="silhouette-scale-container" id="silhuetaAtualGroup">
+                        <!-- Gerado via JS ou fixo de 1 a 10 -->
+                        <div class="silhouette-box selected" onclick="selectSilhouette('silhuetaAtualGroup', '1', this)"><div class="s-icon">🧍</div><div class="s-num">1</div></div>
+                        <div class="silhouette-box" onclick="selectSilhouette('silhuetaAtualGroup', '2', this)"><div class="s-icon">🧍</div><div class="s-num">2</div></div>
+                        <div class="silhouette-box" onclick="selectSilhouette('silhuetaAtualGroup', '3', this)"><div class="s-icon">🧍</div><div class="s-num">3</div></div>
+                        <div class="silhouette-box" onclick="selectSilhouette('silhuetaAtualGroup', '4', this)"><div class="s-icon">🧍</div><div class="s-num">4</div></div>
+                        <div class="silhouette-box" onclick="selectSilhouette('silhuetaAtualGroup', '5', this)"><div class="s-icon">🧍</div><div class="s-num">5</div></div>
+                        <div class="silhouette-box" onclick="selectSilhouette('silhuetaAtualGroup', '6', this)"><div class="s-icon">🧍</div><div class="s-num">6</div></div>
+                        <div class="silhouette-box" onclick="selectSilhouette('silhuetaAtualGroup', '7', this)"><div class="s-icon">🧍</div><div class="s-num">7</div></div>
+                        <div class="silhouette-box" onclick="selectSilhouette('silhuetaAtualGroup', '8', this)"><div class="s-icon">🧍</div><div class="s-num">8</div></div>
+                        <div class="silhouette-box" onclick="selectSilhouette('silhuetaAtualGroup', '9', this)"><div class="s-icon">🧍</div><div class="s-num">9</div></div>
+                        <div class="silhouette-box" onclick="selectSilhouette('silhuetaAtualGroup', '10', this)"><div class="s-icon">🧍‍♂️</div><div class="s-num">10</div></div>
+                    </div>
+                    <input type="hidden" name="scoreConscienciaCorporal" id="scoreConscienciaCorporal" value="1">
+
+                    <label style="margin-top: 12px;">Qual o Score Ideal Desejado (1 a 10)?</label>
+                    <div class="silhouette-scale-container" id="silhuetaIdealGroup">
+                        <div class="silhouette-box" onclick="selectSilhouette('silhuetaIdealGroup', '1', this)"><div class="s-icon">🎯</div><div class="s-num">1</div></div>
+                        <div class="silhouette-box" onclick="selectSilhouette('silhuetaIdealGroup', '2', this)"><div class="s-icon">🎯</div><div class="s-num">2</div></div>
+                        <div class="silhouette-box" onclick="selectSilhouette('silhuetaIdealGroup', '3', this)"><div class="s-icon">🎯</div><div class="s-num">3</div></div>
+                        <div class="silhouette-box" onclick="selectSilhouette('silhuetaIdealGroup', '4', this)"><div class="s-icon">🎯</div><div class="s-num">4</div></div>
+                        <div class="silhouette-box" onclick="selectSilhouette('silhuetaIdealGroup', '5', this)"><div class="s-icon">🎯</div><div class="s-num">5</div></div>
+                        <div class="silhouette-box" onclick="selectSilhouette('silhuetaIdealGroup', '6', this)"><div class="s-icon">🎯</div><div class="s-num">6</div></div>
+                        <div class="silhouette-box" onclick="selectSilhouette('silhuetaIdealGroup', '7', this)"><div class="s-icon">🎯</div><div class="s-num">7</div></div>
+                        <div class="silhouette-box" onclick="selectSilhouette('silhuetaIdealGroup', '8', this)"><div class="s-icon">🎯</div><div class="s-num">8</div></div>
+                        <div class="silhouette-box" onclick="selectSilhouette('silhuetaIdealGroup', '9', this)"><div class="s-icon">🎯</div><div class="s-num">9</div></div>
+                        <div class="silhouette-box selected" onclick="selectSilhouette('silhuetaIdealGroup', '10', this)"><div class="s-icon">🎯</div><div class="s-num">10</div></div>
+                    </div>
+                    <input type="hidden" name="scoreIdeal" id="scoreIdeal" value="10">
                 </div>
 
                 <!-- ABA 2: ZONAS DE ATENÇÃO -->
@@ -878,7 +943,6 @@
                         <div class="zone-btn" onclick="toggleZone(this)">Joelhos / Tornozelos <span>📍</span></div>
                         <div class="zone-btn" onclick="toggleZone(this)">Fadiga Geral / Mental <span>📍</span></div>
                     </div>
-
                     <label>Observações Clínicas / Histórico:</label>
                     <textarea name="historico" placeholder="Descreva lesões passadas ou restrições..."></textarea>
                 </div>
@@ -954,6 +1018,18 @@
             element.classList.add('selected');
         }
 
+        // Seleção de Silhueta / Consciência Corporal (Coluna F)
+        function selectSilhouette(groupId, val, element) {
+            const group = document.getElementById(groupId);
+            group.querySelectorAll('.silhouette-box').forEach(box => box.classList.remove('selected'));
+            element.classList.add('selected');
+            if(groupId === 'silhuetaAtualGroup') {
+                document.getElementById('scoreConscienciaCorporal').value = val;
+            } else {
+                document.getElementById('scoreIdeal').value = val;
+            }
+        }
+
         // Toggle zonas corporais
         function toggleZone(element) {
             element.classList.toggle('selected');
@@ -973,10 +1049,9 @@
             document.querySelectorAll('.breath-style-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             currentStyle = style;
-
             const expl = document.getElementById('pranaExplanation');
             if(style === 'sono') {
-                expl.innerHTML = "<strong>Chandra Bhedana</strong>: Inspire devagar pela narina esquerda (70%). Rete o ar com relaxamento dos ombros.";
+                expl.innerHTML = "<strong>Chandra Bhedana</strong>: Inspire devagar pela narina esquerda (70%). Retenha o ar com relaxamento dos ombros.";
             } else if(style === 'foco') {
                 expl.innerHTML = "<strong>Sama Vritti (Foco)</strong>: Respiração em quadrado. Equalização exata entre inspiração, retenção cheia, exalação e retenção vazia.";
             } else {
@@ -1000,7 +1075,6 @@
                 pranaRunning = true;
                 toggleBtn.textContent = "Pausar Prática";
                 status.textContent = "Alquimia em curso... Respire com presença.";
-                
                 if(currentStyle === 'foco') {
                     document.getElementById('breathCircle').style.display = 'none';
                     document.getElementById('breathMandalaSquare').classList.add('active-mandala');
@@ -1008,7 +1082,6 @@
                     document.getElementById('breathMandalaSquare').classList.remove('active-mandala');
                     document.getElementById('breathCircle').style.display = 'flex';
                 }
-
                 startBreathCycle();
             } else {
                 resetPranaSession();
@@ -1025,7 +1098,7 @@
 
         function startBreathCycle() {
             let timeLeft = 4;
-            let phase = 0; 
+            let phase = 0;
             const timerEl = currentStyle === 'foco' ? document.getElementById('mandalaTimer') : document.getElementById('breathTimer');
             const labelEl = currentStyle === 'foco' ? document.getElementById('mandalaPhaseLabel') : document.getElementById('breathPhaseLabel');
 
@@ -1056,12 +1129,15 @@
             document.getElementById('philosTag').textContent = q.tag;
         }
 
-        // SUBMISSÃO DE FORMULÁRIOS COM LOCALSTORAGE
+        // SUBMISSÃO DOS FORMULÁRIOS (Integração LocalStorage / Apps Script WebHook)
         function submitCheckin(event) {
             event.preventDefault();
             const formData = new FormData(event.target);
             const data = Object.fromEntries(formData.entries());
-            localStorage.setItem('bussola_checkin_' + new Date().toISOString().slice(0,10), JSON.stringify(data));
+            data.tipoRegistro = 'Checkin_Diario';
+            data.timestamp = new Date().toISOString();
+
+            localStorage.setItem('bussola_checkin_' + data.timestamp, JSON.stringify(data));
             alert("✨ Check-in registrado com sucesso na Bússola!");
             switchSection('home');
         }
@@ -1070,6 +1146,16 @@
             event.preventDefault();
             const formData = new FormData(event.target);
             const data = Object.fromEntries(formData.entries());
+            
+            // Coleta as zonas corporais selecionadas
+            const selectedZones = [];
+            document.querySelectorAll('#anamnese-aba2 .zone-btn.selected').forEach(b => {
+                selectedZones.push(b.innerText.replace('📍', '').trim());
+            });
+            data.zonasAtencao = selectedZones.join(', ');
+            data.tipoRegistro = 'Anamnese_Alquimistas';
+            data.timestamp = new Date().toISOString();
+
             localStorage.setItem('bussola_anamnese_' + data.alunoNome, JSON.stringify(data));
             alert("🧭 Calibragem e Anamnese salvas com sucesso!");
             switchSection('home');
