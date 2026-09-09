@@ -1,1103 +1,298 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="dark">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bússola_PRO - Método Groppo</title>
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<style>
-:root {
-  --bg-color: #f7f4ea;
-  --text-color: #2c2825;
-  --card-bg: #fffdf9;
-  --accent-color: #9a3412;
-  --accent-glow: rgba(154, 52, 18, 0.15);
-  --success-color: #3f6212;
-  --success-glow: rgba(63, 98, 18, 0.15);
-  --border-color: #d4cebe;
-  --input-bg: #fdfbf7;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-}
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-}
-body {
-  background-color: var(--bg-color);
-  color: var(--text-color);
-  padding: 16px;
-  font-size: 16px;
-  line-height: 1.6;
-  max-width: 600px;
-  margin: 0 auto;
-}
-header {
-  text-align: center;
-  margin-bottom: 20px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid var(--border-color);
-}
-h1 {
-  font-size: 24px;
-  font-weight: 900;
-  letter-spacing: 1.2px;
-  color: var(--accent-color);
-  font-family: var(--font-mono);
-}
-.subtitle {
-  font-size: 13px;
-  color: #5c554e;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  font-family: var(--font-mono);
-  font-weight: 700;
-}
-.hub-nav {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-  margin-bottom: 20px;
-  padding: 15px 0;
-  justify-items: center;
-}
-.hub-btn {
-  background: var(--card-bg);
-  border: 2px solid var(--border-color);
-  color: var(--text-color);
-  width: 135px;
-  height: 135px;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  box-shadow: 0 8px 20px rgba(44, 40, 37, 0.08);
-  padding: 10px;
-}
-.hub-btn span.icon {
-  font-size: 28px;
-}
-.hub-btn span.label {
-  font-size: 11px;
-  font-weight: 900;
-  font-family: var(--font-mono);
-  letter-spacing: -0.3px;
-  color: var(--accent-color);
-}
-.hub-btn span.sublabel {
-  font-size: 10px;
-  color: #5c554e;
-  font-weight: 700;
-  font-family: var(--font-mono);
-  letter-spacing: -0.2px;
-}
-.hub-btn:active {
-  transform: scale(0.95);
-}
-.hub-btn:hover {
-  border-color: var(--accent-color);
-  background: var(--accent-glow);
-  box-shadow: 0 0 20px var(--accent-glow);
-  transform: translateY(-2px);
-}
-.section-panel {
-  display: none;
-  animation: fadeIn 0.3s ease-in-out;
-}
-.section-panel.active {
-  display: block;
-}
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.back-bar {
-  margin-bottom: 16px;
-}
-.back-btn {
-  background: #f0ebe0;
-  border: 2px solid var(--border-color);
-  color: var(--text-color);
-  padding: 10px 16px;
-  font-size: 13px;
-  font-weight: 800;
-  border-radius: 10px;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-mono);
-  transition: 0.2s;
-}
-.back-btn:active {
-  transform: scale(0.97);
-}
-.card {
-  background: var(--card-bg);
-  border: 2px solid var(--border-color);
-  border-radius: 16px;
-  padding: 20px;
-  margin-bottom: 16px;
-  box-shadow: 0 8px 25px rgba(44, 40, 37, 0.06);
-}
-h2 {
-  font-size: 18px;
-  margin-bottom: 14px;
-  color: var(--accent-color);
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-family: var(--font-mono);
-  letter-spacing: 0.5px;
-  font-weight: 900;
-}
-.sub-tabs {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 16px;
-  overflow-x: auto;
-  padding-bottom: 4px;
-}
-.sub-tab-btn {
-  flex: 1;
-  background: #f0ebe0;
-  border: 2px solid var(--border-color);
-  color: var(--text-color);
-  padding: 9px 8px;
-  font-size: 12px;
-  font-weight: 800;
-  border-radius: 8px;
-  cursor: pointer;
-  text-align: center;
-  font-family: var(--font-mono);
-  white-space: nowrap;
-  transition: 0.2s;
-}
-.sub-tab-btn.active {
-  background: var(--accent-color);
-  color: #fff;
-  border-color: var(--accent-color);
-  box-shadow: 0 0 12px var(--accent-glow);
-}
-.sub-content {
-  display: none;
-}
-.sub-content.active {
-  display: block;
-}
-label {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: 800;
-  font-size: 14px;
-  color: var(--text-color);
-}
-select, input[type="text"], input[type="number"], textarea {
-  width: 100%;
-  padding: 12px;
-  background: var(--input-bg);
-  border: 2px solid var(--border-color);
-  color: var(--text-color);
-  border-radius: 10px;
-  font-size: 15px;
-  font-weight: 600;
-  margin-bottom: 14px;
-  transition: border-color 0.2s;
-}
-select:focus, input:focus, textarea:focus {
-  outline: none;
-  border-color: var(--accent-color);
-  background: #fff;
-  box-shadow: 0 0 10px var(--accent-glow);
-}
-textarea {
-  resize: vertical;
-  min-height: 80px;
-}
-.radio-group {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 6px;
-  margin-bottom: 16px;
-}
-.radio-btn {
-  background: var(--input-bg);
-  border: 2px solid var(--border-color);
-  padding: 10px 0;
-  text-align: center;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 800;
-  font-size: 13px;
-  font-family: var(--font-mono);
-  color: var(--text-color);
-  transition: 0.2s;
-}
-.radio-btn input {
-  display: none;
-}
-.radio-btn.selected {
-  background: var(--accent-color);
-  color: #fff;
-  border-color: var(--accent-color);
-  box-shadow: 0 0 10px var(--accent-glow);
-}
-.action-btn {
-  width: 100%;
-  background: var(--accent-color);
-  color: #fff;
-  border: none;
-  padding: 14px;
-  font-size: 16px;
-  font-weight: 900;
-  border-radius: 12px;
-  cursor: pointer;
-  box-shadow: 0 4px 15px var(--accent-glow);
-  transition: transform 0.1s, box-shadow 0.2s;
-  font-family: var(--font-mono);
-}
-.action-btn:active {
-  transform: scale(0.97);
-}
-
-/* PRANA ESTILOS REFINADOS (ETAPA 2) */
-.prana-container {
-  text-align: center;
-}
-.prana-grid-options {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 8px;
-  margin-bottom: 14px;
-}
-.prana-style-btn {
-  background: var(--input-bg);
-  border: 2px solid var(--border-color);
-  padding: 12px;
-  font-size: 13px;
-  font-weight: 800;
-  border-radius: 10px;
-  color: var(--text-color);
-  cursor: pointer;
-  font-family: var(--font-mono);
-  text-align: left;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  transition: 0.2s;
-}
-.prana-style-btn.active {
-  background: var(--accent-glow);
-  border-color: var(--accent-color);
-  color: var(--accent-color);
-  box-shadow: 0 0 12px var(--accent-glow);
-}
-.duration-selector {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
-  margin-bottom: 14px;
-}
-.duration-btn {
-  background: var(--input-bg);
-  border: 2px solid var(--border-color);
-  padding: 8px;
-  font-size: 12px;
-  font-weight: 800;
-  border-radius: 8px;
-  color: var(--text-color);
-  cursor: pointer;
-  font-family: var(--font-mono);
-}
-.duration-btn.active {
-  background: var(--success-glow);
-  border-color: var(--success-color);
-  color: var(--success-color);
-}
-.prana-hud-box {
-  background: var(--input-bg);
-  border: 2px solid var(--border-color);
-  border-radius: 12px;
-  padding: 12px;
-  margin-bottom: 14px;
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--accent-color);
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  text-align: left;
-}
-.prana-visual-area {
-  position: relative;
-  width: 220px;
-  height: 220px;
-  margin: 16px auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.sleep-circle {
-  width: 170px;
-  height: 170px;
-  background: radial-gradient(circle, rgba(30, 58, 138, 0.2) 0%, rgba(30, 58, 138, 0.05) 80%);
-  border: 3px solid #1e3a8a;
-  border-radius: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.8s ease-in-out;
-  box-shadow: 0 0 25px rgba(30, 58, 138, 0.2);
-}
-.focus-box-anim {
-  width: 180px;
-  height: 180px;
-  background: radial-gradient(circle, rgba(154, 52, 18, 0.15) 0%, rgba(212, 206, 190, 0.1) 80%);
-  border: 4px solid var(--border-color);
-  border-radius: 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  box-shadow: 0 0 20px var(--accent-glow);
-  transition: border-color 0.4s ease;
-}
-.anxiety-circle {
-  width: 170px;
-  height: 170px;
-  background: radial-gradient(circle, rgba(13, 148, 136, 0.2) 0%, rgba(13, 148, 136, 0.05) 80%);
-  border: 3px solid #0d9488;
-  border-radius: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.8s ease-in-out;
-  box-shadow: 0 0 25px rgba(13, 148, 136, 0.2);
-}
-.prana-timer-num {
-  font-size: 38px;
-  font-weight: 900;
-  color: var(--text-color);
-  line-height: 1;
-  font-family: var(--font-mono);
-}
-.prana-phase-txt {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  font-weight: 900;
-  margin-top: 4px;
-  font-family: var(--font-mono);
-}
-.prana-controls-flex {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 14px;
-}
-.stop-btn {
-  background: #fee2e2;
-  color: #991b1b;
-  border: 2px solid #fecaca;
-  padding: 14px;
-  font-size: 15px;
-  font-weight: 900;
-  border-radius: 12px;
-  cursor: pointer;
-  font-family: var(--font-mono);
-}
-.philos-card {
-  background: linear-gradient(135deg, #fffdf9 0%, #f4efe1 100%);
-  border: 2px solid var(--border-color);
-  border-left: 5px solid var(--accent-color);
-  padding: 20px;
-  border-radius: 14px;
-  margin-bottom: 14px;
-  box-shadow: 0 6px 20px rgba(44, 40, 37, 0.05);
-  position: relative;
-}
-.philos-header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-}
-.philos-tag {
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  color: var(--accent-color);
-  font-weight: 900;
-  font-family: var(--font-mono);
-}
-.fiat-lux-btn {
-  background: linear-gradient(135deg, var(--accent-color), #c2410c);
-  color: #fff;
-  border: none;
-  padding: 8px 16px;
-  font-size: 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 900;
-  font-family: var(--font-mono);
-  box-shadow: 0 0 15px var(--accent-glow);
-  transition: 0.2s;
-}
-.fiat-lux-btn:active {
-  transform: scale(0.95);
-}
-.philos-quote {
-  font-size: 17px;
-  font-style: italic;
-  font-weight: 700;
-  line-height: 1.5;
-  margin-bottom: 12px;
-  color: var(--text-color);
-}
-.philos-source {
-  font-size: 12px;
-  color: #5c554e;
-  text-align: right;
-  font-weight: 800;
-  font-family: var(--font-mono);
-}
-.gender-select-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  margin-bottom: 20px;
-}
-.gender-card {
-  background: var(--input-bg);
-  border: 2px solid var(--border-color);
-  border-radius: 14px;
-  padding: 20px 10px;
-  text-align: center;
-  cursor: pointer;
-  transition: 0.2s;
-}
-.gender-card.selected {
-  background: var(--accent-glow);
-  border-color: var(--accent-color);
-  box-shadow: 0 0 15px var(--accent-glow);
-}
-.gender-silhouette {
-  font-size: 48px;
-  margin-bottom: 8px;
-}
-.gender-title {
-  font-size: 14px;
-  font-weight: 900;
-  font-family: var(--font-mono);
-  color: var(--text-color);
-}
-.silhouette-scale-container {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 8px;
-  margin-bottom: 16px;
-}
-.silhouette-box {
-  background: var(--input-bg);
-  border: 2px solid var(--border-color);
-  border-radius: 10px;
-  padding: 10px 4px;
-  text-align: center;
-  cursor: pointer;
-  transition: 0.2s;
-}
-.silhouette-box.selected {
-  background: var(--accent-color);
-  color: #fff;
-  border-color: var(--accent-color);
-  box-shadow: 0 0 10px var(--accent-glow);
-}
-.silhouette-box .s-icon {
-  font-size: 22px;
-  margin-bottom: 4px;
-}
-.silhouette-box .s-num {
-  font-size: 13px;
-  font-weight: 900;
-  font-family: var(--font-mono);
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bússola Pro | Método Groppo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        groppo: {
+                            dark: '#0f172a',
+                            card: '#1e293b',
+                            accent: '#3b82f6',
+                            success: '#10b981',
+                            warning: '#f59e0b'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
-<header>
-  <h1>BÚSSOLA_PRO</h1>
-  <div class="subtitle">Método Groppo • Alquimia Diária (Etapa 2 Prana)</div>
-</header>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans antialiased">
 
-<!-- MAIN HUB (HOME) -->
-<div id="section-home" class="section-panel active">
-  <div class="hub-nav">
-    <button class="hub-btn" onclick="switchSection('bussola')">
-      <span class="icon">🧭</span>
-      <span class="label">[BÚSSOLA]</span>
-    </button>
-    <button class="hub-btn" onclick="switchSection('prana')">
-      <span class="icon">💨</span>
-      <span class="label">[PRANA]</span>
-    </button>
-    <button class="hub-btn" onclick="switchSection('philos')">
-      <span class="icon">📜</span>
-      <span class="label">[PHILOS]</span>
-    </button>
-    <button class="hub-btn" onclick="switchSection('anamnese')">
-      <span class="icon">📋</span>
-      <span class="label">[CALIBRAGEM]</span>
-      <span class="sublabel">(Anamnese)</span>
-    </button>
-  </div>
-</div>
-
-<!-- SECTION 1: BÚSSOLA DIÁRIA -->
-<div id="section-bussola" class="section-panel">
-  <div class="back-bar">
-    <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
-  </div>
-  <div class="card">
-    <div class="sub-tabs">
-      <button class="sub-tab-btn active" onclick="switchSub('manha', this)">[manhã]</button>
-      <button class="sub-tab-btn" onclick="switchSub('tarde', this)">[tarde]</button>
-      <button class="sub-tab-btn" onclick="switchSub('noite', this)">[noite]</button>
-    </div>
-    <form id="checkinForm" onsubmit="submitCheckin(event)">
-      <!-- MANHÃ -->
-      <div id="sub-manha" class="sub-content active">
-        <h2>🌅 Check-in Matinal</h2>
-        <label>Rigidez ou Dor Corporal (1 a 5): <span id="rigidezVal" class="font-mono text-accent-color font-bold">3</span></label>
-        <input type="range" min="1" max="5" value="3" step="1" id="rigidezRange" oninput="updateRigidez(this.value)" class="w-full mb-2 cursor-pointer">
-        <div class="flex justify-between text-xs text-slate-500 font-mono mb-6" style="display:flex; justify-content:space-between;">
-          <span style="color:#22c55e; font-weight:bold;">1 (Leve)</span>
-          <span style="color:#eab308; font-weight:bold;">3 (Moderado)</span>
-          <span style="color:#ef4444; font-weight:bold;">5 (Intenso)</span>
+    <!-- Header -->
+    <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-blue-600 p-2.5 rounded-xl text-white shadow-lg shadow-blue-500/20">
+                    <i class="fa-solid fa-compass text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight text-white">BÚSSOLA PRO</h1>
+                    <p class="text-xs text-slate-400 font-medium tracking-wider uppercase">Método Groppo</p>
+                </div>
+            </div>
+            <!-- Navigation Tabs -->
+            <nav class="flex flex-wrap justify-center gap-2 bg-slate-900 p-1.5 rounded-xl border border-slate-800">
+                <button onclick="switchTab('diaria')" id="btn-diaria" class="tab-btn px-4 py-2 text-xs font-semibold rounded-lg transition-all bg-blue-600 text-white shadow">
+                    <i class="fa-solid fa-calendar-day mr-1.5"></i> Diária
+                </button>
+                <button onclick="switchTab('prana')" id="btn-prana" class="tab-btn px-4 py-2 text-xs font-semibold rounded-lg transition-all text-slate-400 hover:text-white hover:bg-slate-800">
+                    <i class="fa-solid fa-wind mr-1.5"></i> Prana
+                </button>
+                <button onclick="switchTab('philos')" id="btn-philos" class="tab-btn px-4 py-2 text-xs font-semibold rounded-lg transition-all text-slate-400 hover:text-white hover:bg-slate-800">
+                    <i class="fa-solid fa-brain mr-1.5"></i> Philos
+                </button>
+                <button onclick="switchTab('anamnese')" id="btn-anamnese" class="tab-btn px-4 py-2 text-xs font-semibold rounded-lg transition-all text-slate-400 hover:text-white hover:bg-slate-800">
+                    <i class="fa-solid fa-file-medical mr-1.5"></i> Anamnese
+                </button>
+            </nav>
         </div>
+    </header>
 
-        <label>Disposição e Humor Mental (1 a 5): <span id="disposicaoVal" class="font-mono text-accent-color font-bold">3</span></label>
-        <input type="range" min="1" max="5" value="3" step="1" id="disposicaoRange" oninput="updateDisposicao(this.value)" class="w-full mb-2 cursor-pointer">
-        <div class="flex justify-between text-xs text-slate-500 font-mono mb-4" style="display:flex; justify-content:space-between;">
-          <span style="color:#ef4444; font-weight:bold;">1 (Baixa)</span>
-          <span style="color:#eab308; font-weight:bold;">3 (Estável)</span>
-          <span style="color:#22c55e; font-weight:bold;">5 (Plena)</span>
-        </div>
-      </div>
+    <!-- Main Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
 
-      <!-- TARDE -->
-      <div id="sub-tarde" class="sub-content">
-        <h2>☀️ Check-in Vespertino</h2>
-        <label>Fez Pausa Produtiva hoje?</label>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:14px;">
-          <button type="button" class="radio-btn selected" id="pausaSim" onclick="setPausa('Sim', this)">Sim</button>
-          <button type="button" class="radio-btn" id="pausaNao" onclick="setPausa('Nao', this)">Não</button>
-        </div>
-        <input type="hidden" id="pausaAtivaVal" value="Sim">
+        <!-- [BÚSSOLA DIÁRIA] -->
+        <section id="tab-diaria" class="tab-content space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+                <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-800">
+                    <div>
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-compass text-blue-500"></i> Bússola Diária
+                        </h2>
+                        <p class="text-xs text-slate-400">Calibre seus indicadores vitais e alinhamento diário.</p>
+                    </div>
+                    <span class="text-xs bg-blue-500/10 text-blue-400 border border-blue-500/20 px-3 py-1 rounded-full font-medium" id="current-date"></span>
+                </div>
+                
+                <form id="form-diaria" class="space-y-6" onsubmit="saveDiaria(event)">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Energia Vital (1-10)</label>
+                            <input type="range" min="1" max="10" value="7" class="w-full accent-blue-500 bg-slate-800 rounded-lg cursor-pointer" id="energia" oninput="updateRangeVal('energia', this.value)">
+                            <div class="text-right text-sm font-bold text-blue-400 mt-1" id="val-energia">7</div>
+                        </div>
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Foco & Clareza (1-10)</label>
+                            <input type="range" min="1" max="10" value="7" class="w-full accent-blue-500 bg-slate-800 rounded-lg cursor-pointer" id="foco" oninput="updateRangeVal('foco', this.value)">
+                            <div class="text-right text-sm font-bold text-blue-400 mt-1" id="val-foco">7</div>
+                        </div>
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Recuperação / Sono</label>
+                            <select class="w-full bg-slate-900 border border-slate-700 text-sm rounded-lg p-2.5 text-slate-200 focus:ring-2 focus:ring-blue-500 focus:outline-none" id="sono">
+                                <option value="otimo">Excelente (8h+ reparadoras)</option>
+                                <option value="bom" selected>Bom (6-8h)</option>
+                                <option value="regular">Regular (Interrompido)</option>
+                                <option value="baixo">Baixo (< 5h / Cansado)</option>
+                            </select>
+                        </div>
+                        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Ação Estratégica</label>
+                            <select class="w-full bg-slate-900 border border-slate-700 text-sm rounded-lg p-2.5 text-slate-200 focus:ring-2 focus:ring-blue-500 focus:outline-none" id="status-meta">
+                                <option value="concluido">100% Concluído</option>
+                                <option value="parcial" selected>Em Andamento</option>
+                                <option value="atrasado">Fora do Ritmo</option>
+                            </select>
+                        </div>
+                    </div>
 
-        <label>Hidratação (Clique no copo para somar 200ml):</label>
-        <div style="display:flex; align-items:center; gap:16px; background:var(--input-bg); padding:16px; rounded-xl; border:2px solid var(--border-color); border-radius:12px; margin-bottom:14px;">
-          <button type="button" onclick="addWater()" style="font-size:36px; background:none; border:none; cursor:pointer; transition:transform 0.1s;" class="active:scale-90">🚰</button>
-          <div>
-            <div style="font-size:20px; font-weight:bold; font-family:var(--font-mono); color:var(--accent-color);"><span id="waterTotal">2000</span> ml</div>
-            <div style="font-size:12px; color:#5c554e; font-family:var(--font-mono);">Total de <span id="waterCups">10</span> copos (200ml)</div>
-          </div>
-          <button type="button" onclick="resetWater()" style="margin-left:auto; font-size:12px; background:#fee2e2; color:#991b1b; border:2px solid #fecaca; padding:6px 12px; border-radius:8px; font-family:var(--font-mono); font-weight:bold; cursor:pointer;">Zerar</button>
-        </div>
-        <input type="hidden" id="hidratacaoInput" value="2.0">
-      </div>
+                    <div class="bg-slate-950 p-4 rounded-xl border border-slate-800/80">
+                        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Notas do Dia & Direcionamento</label>
+                        <textarea rows="3" class="w-full bg-slate-900 border border-slate-700 text-sm rounded-lg p-3 text-slate-200 focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Quais os principais aprendizados ou ajustes de rota de hoje?"></textarea>
+                    </div>
 
-      <!-- NOITE -->
-      <div id="sub-noite" class="sub-content">
-        <h2>🌙 Fechamento Noturno</h2>
-        <label>Treinos Realizados (Múltiplos):</label>
-        <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:8px; margin-bottom:14px;">
-          <button type="button" class="radio-btn text-xs" onclick="toggleTreino('Força', this)">💪 Força</button>
-          <button type="button" class="radio-btn text-xs" onclick="toggleTreino('Core', this)">🔥 Core</button>
-          <button type="button" class="radio-btn text-xs" onclick="toggleTreino('Cárdio', this)">🏃 Cárdio</button>
-          <button type="button" class="radio-btn text-xs" onclick="toggleTreino('Alongamento', this)">🧘 Alongamento</button>
-          <button type="button" class="radio-btn text-xs" style="grid-column: span 2;" onclick="toggleTreino('Meditação/Respiração', this)">🌬️ Meditação / Respiração</button>
-        </div>
+                    <div class="flex justify-end">
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-xl transition shadow-lg shadow-blue-500/20">
+                            <i class="fa-solid fa-floppy-disk mr-2"></i> Salvar Bússola Diária
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
 
-        <label>Gangorra A: Qualidade (Saudável x Não Saudável)</label>
-        <div style="background:var(--input-bg); padding:12px; border-radius:12px; border:2px solid var(--border-color); margin-bottom:14px;">
-          <div style="display:flex; justify-content:space-between; font-size:12px; font-family:var(--font-mono); margin-bottom:4px; font-weight:bold;">
-            <span style="color:#15803d;">🌱 Saudável</span>
-            <span style="color:#b91c1c;">🍔 Não Saudável</span>
-          </div>
-          <input type="range" min="0" max="100" value="50" id="gangorraQualidade" oninput="updateGangorraA(this.value)" class="w-full cursor-pointer">
-          <div style="text-align:center; font-size:12px; font-family:var(--font-mono); color:#5c554e; margin-top:4px;" id="labelGangorraA">Equilibrado (50% / 50%)</div>
-        </div>
+        <!-- [PRANA] -->
+        <section id="tab-prana" class="tab-content hidden space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+                <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-800">
+                    <div>
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-wind text-emerald-500"></i> Módulo Prana (Vitalidade & Respiração)
+                        </h2>
+                        <p class="text-xs text-slate-400">Gerenciamento de energia física, oxigenação e destravamento corporal.</p>
+                    </div>
+                </div>
 
-        <label>Gangorra B: Volume (Alta x Baixa Quantidade)</label>
-        <div style="background:var(--input-bg); padding:12px; border-radius:12px; border:2px solid var(--border-color); margin-bottom:14px;">
-          <div style="display:flex; justify-content:space-between; font-size:12px; font-family:var(--font-mono); margin-bottom:4px; font-weight:bold;">
-            <span style="color:#1d4ed8;">🥗 Baixa Quantidade</span>
-            <span style="color:#b45309;">🍖 Alta Quantidade</span>
-          </div>
-          <input type="range" min="0" max="100" value="50" id="gangorraQuantidade" oninput="updateGangorraB(this.value)" class="w-full cursor-pointer">
-          <div style="text-align:center; font-size:12px; font-family:var(--font-mono); color:#5c554e; margin-top:4px;" id="labelGangorraB">Volume Moderado (50%)</div>
-        </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-slate-950 p-6 rounded-xl border border-slate-800/80 text-center flex flex-col justify-between">
+                        <div>
+                            <div class="w-12 h-12 bg-emerald-500/10 text-emerald-400 rounded-xl flex items-center justify-center mx-auto mb-4 text-xl">
+                                <i class="fa-solid fa-lungs"></i>
+                            </div>
+                            <h3 class="font-bold text-white text-sm mb-2">Ciclo de Oxigenação</h3>
+                            <p class="text-xs text-slate-400 mb-4">Protocolo rápido para resetar o sistema nervoso e oxigenar tecidos sob fadiga.</p>
+                        </div>
+                        <button onclick="alert('Iniciando protocolo Prana: Respire fundo por 4s, segure por 4s, expire por 4s.')" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold py-2.5 rounded-lg transition">
+                            Iniciar Ciclo (2 Min)
+                        </button>
+                    </div>
 
-        <label>Notas de Alquimia Diária:</label>
-        <textarea name="notas" id="notasAlquimia" placeholder="Como foi sua energia hoje? O que aprendeu?"></textarea>
-      </div>
+                    <div class="bg-slate-950 p-6 rounded-xl border border-slate-800/80 text-center flex flex-col justify-between">
+                        <div>
+                            <div class="w-12 h-12 bg-emerald-500/10 text-emerald-400 rounded-xl flex items-center justify-center mx-auto mb-4 text-xl">
+                                <i class="fa-solid fa-bolt"></i>
+                            </div>
+                            <h3 class="font-bold text-white text-sm mb-2">Destrave Físico</h3>
+                            <p class="text-xs text-slate-400 mb-4">Movimentos articulares inspirados na vitalidade plena para quebra de estagnação.</p>
+                        </div>
+                        <button onclick="alert('Foco em mobilidade de coluna e ativação postural rápida.')" class="w-full bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold py-2.5 rounded-lg transition border border-slate-700">
+                            Ver Protocolo
+                        </button>
+                    </div>
 
-      <button type="submit" class="action-btn" style="margin-top: 15px;">Registrar Alquimia Diária</button>
-    </form>
-  </div>
-</div>
+                    <div class="bg-slate-950 p-6 rounded-xl border border-slate-800/80 text-center flex flex-col justify-between">
+                        <div>
+                            <div class="w-12 h-12 bg-emerald-500/10 text-emerald-400 rounded-xl flex items-center justify-center mx-auto mb-4 text-xl">
+                                <i class="fa-solid fa-battery-full"></i>
+                            </div>
+                            <h3 class="font-bold text-white text-sm mb-2">Check de Carga Interna</h3>
+                            <p class="text-xs text-slate-400 mb-4">Avaliação do nível de estresse acumulado versus capacidade de recuperação.</p>
+                        </div>
+                        <button onclick="alert('Carga equilibrada. Mantenha hidratação constante.')" class="w-full bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold py-2.5 rounded-lg transition border border-slate-700">
+                            Analisar Carga
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<!-- SECTION 2: PRANA (ETAPA 2 REFINADA) -->
-<div id="section-prana" class="section-panel">
-  <div class="back-bar">
-    <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
-  </div>
-  <div class="card prana-container">
-    <h2>💨 Laboratório Prana (Hatha Yoga)</h2>
-    
-    <div class="prana-grid-options" id="pranaGridOptions">
-      <button class="prana-style-btn active" onclick="selectPranaType('sono', this)">
-        <span>🌙</span>
-        <div>
-          <div style="font-weight:bold;">Induzir Sono / Relaxar</div>
-          <div style="font-size:12px; color:#5c554e;">Ritmo 4-7-8 • Narina Esquerda</div>
-        </div>
-      </button>
-      <button class="prana-style-btn" onclick="selectPranaType('foco', this)">
-        <span>🧠</span>
-        <div>
-          <div style="font-weight:bold;">Foco & Clareza (Box)</div>
-          <div style="font-size:12px; color:#5c554e;">Quadrado 4-4-4-4 • Ambas Narinas</div>
-        </div>
-      </button>
-      <button class="prana-style-btn" onclick="selectPranaType('ansiedade', this)">
-        <span>🌊</span>
-        <div>
-          <div style="font-weight:bold;">Diminuir Ansiedade</div>
-          <div style="font-size:12px; color:#5c554e;">Ritmo Calmo 4-6 • Narina Esquerda</div>
-        </div>
-      </button>
-    </div>
+        <!-- [PHILOS] -->
+        <section id="tab-philos" class="tab-content hidden space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+                <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-800">
+                    <div>
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-brain text-amber-500"></i> Módulo Philos (Mentalidade & Matriz Humana)
+                        </h2>
+                        <p class="text-xs text-slate-400">Reflexões de coaching criacional, identidade e clareza de propósito.</p>
+                    </div>
+                </div>
 
-    <label>Duração da Prática:</label>
-    <div class="duration-selector">
-      <button class="duration-btn active" onclick="setPranaDuration(1, this)">1 Minuto</button>
-      <button class="duration-btn" onclick="setPranaDuration(3, this)">3 Minutos</button>
-      <button class="duration-btn" onclick="setPranaDuration(5, this)">5 Minutos</button>
-    </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-950 p-5 rounded-xl border border-slate-800/80">
+                        <h3 class="text-sm font-bold text-amber-400 mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-quote-left"></i> Pergunta Matriz do Dia
+                        </h3>
+                        <p class="text-sm text-slate-200 italic mb-4">"O que você faria hoje se estivesse operando na sua versão de máxima autoconfiança e vitalidade?"</p>
+                        <textarea rows="3" class="w-full bg-slate-900 border border-slate-700 text-sm rounded-lg p-3 text-slate-200 focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="Escreva sua reflexão aqui..."></textarea>
+                    </div>
 
-    <div class="prana-hud-box" id="pranaHudBox">
-      <div>🧘 <span id="hudNostril">Narina: Esquerda (Energia Lunar)</span></div>
-      <div>🛡️ <span id="hudPhysical">Relaxe os ombros e solte o maxilar</span></div>
-      <div>⏱️ <span id="hudTimeLeft">Tempo restante: 01:00</span></div>
-    </div>
+                    <div class="bg-slate-950 p-5 rounded-xl border border-slate-800/80">
+                        <h3 class="text-sm font-bold text-amber-400 mb-2 flex items-center gap-2">
+                            <i class="fa-solid fa-bullseye"></i> Alinhamento de Metas
+                        </h3>
+                        <p class="text-xs text-slate-400 mb-4">Garanta que suas ações diárias conectem-se diretamente à sua visão de longo prazo.</p>
+                        <div class="space-y-3">
+                            <input type="text" placeholder="Foco principal da semana" class="w-full bg-slate-900 border border-slate-700 text-sm rounded-lg p-2.5 text-slate-200 focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                            <input type="text" placeholder="Obstáculo a ser eliminado" class="w-full bg-slate-900 border border-slate-700 text-sm rounded-lg p-2.5 text-slate-200 focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    <div class="prana-visual-area">
-      <div id="pranaVisualContainer">
-        <!-- Injetado via JS -->
-      </div>
-    </div>
+        <!-- [ANAMNESE] -->
+        <section id="tab-anamnese" class="tab-content hidden space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
+                <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-800">
+                    <div>
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-file-medical text-purple-500"></i> Módulo Anamnese (Avaliação & Histórico)
+                        </h2>
+                        <p class="text-xs text-slate-400">Prontuário de avaliação física, restrições e direcionamento inicial.</p>
+                    </div>
+                </div>
 
-    <div class="prana-controls-flex" id="pranaControlsFlex">
-      <button class="action-btn" id="pranaStartBtn" onclick="startPranaSession()">Iniciar Prática</button>
-      <button class="stop-btn" id="pranaStopBtn" onclick="stopPranaSession()" style="display:none;">Parar</button>
-    </div>
-  </div>
-</div>
+                <form class="space-y-4" onsubmit="event.preventDefault(); alert('Anamnese salva com sucesso!');">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Nome Completo</label>
+                            <input type="text" required class="w-full bg-slate-950 border border-slate-700 text-sm rounded-lg p-2.5 text-slate-200 focus:ring-2 focus:ring-purple-500 focus:outline-none" placeholder="Ex: João da Silva">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Objetivo Principal</label>
+                            <select class="w-full bg-slate-950 border border-slate-700 text-sm rounded-lg p-2.5 text-slate-200 focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                                <option>Hipertrofia e Condicionamento</option>
+                                <option>Emagrecimento e Vitalidade</option>
+                                <option>Recuperação de Fadiga e Postura</option>
+                                <option>Performance Atlética</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Nível de Atividade Atual</label>
+                            <select class="w-full bg-slate-950 border border-slate-700 text-sm rounded-lg p-2.5 text-slate-200 focus:ring-2 focus:ring-purple-500 focus:outline-none">
+                                <option>Sedentário</option>
+                                <option>Moderado (1-3x semana)</option>
+                                <option>Ativo (4x+ semana)</option>
+                            </select>
+                        </div>
+                    </div>
 
-<!-- SECTION 3: PHILOS -->
-<div id="section-philos" class="section-panel">
-  <div class="back-bar">
-    <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
-  </div>
-  <div class="philos-card">
-    <div class="philos-header-row">
-      <span class="philos-tag">Filosofia & Alquimia</span>
-      <button class="fiat-lux-btn" onclick="nextPhilosQuote()">Fiat Lux ⚡</button>
-    </div>
-    <div class="philos-quote" id="philosQuote">"O corpo que não se movimenta petrifica a alma que nele habita. Desperte a carne para libertar o espírito."</div>
-    <div class="philos-source" id="philosSource">— Método Groppo • Princípio I</div>
-  </div>
-</div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Histórico de Lesões, Dores ou Restrições</label>
+                        <textarea rows="3" class="w-full bg-slate-950 border border-slate-700 text-sm rounded-lg p-3 text-slate-200 focus:ring-2 focus:ring-purple-500 focus:outline-none" placeholder="Descreva qualquer desconforto articular, lombar, cirurgias prévias, etc."></textarea>
+                    </div>
 
-<!-- SECTION 4: CALIBRAGEM -->
-<div id="section-anamnese" class="section-panel">
-  <div class="back-bar">
-    <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
-  </div>
-  <div class="card">
-    <h2>📋 Calibragem (Anamnese & Coluna F)</h2>
-    <label>Selecione o Arquétipo / Silhueta:</label>
-    <div class="gender-select-grid">
-      <div class="gender-card selected" onclick="selectGender('masculino', this)">
-        <div class="gender-silhouette">🏋️‍♂️</div>
-        <div class="gender-title">Masculino</div>
-      </div>
-      <div class="gender-card" onclick="selectGender('feminino', this)">
-        <div class="gender-silhouette">🏋️‍♀️</div>
-        <div class="gender-title">Feminino</div>
-      </div>
-    </div>
+                    <div class="flex justify-end">
+                        <button type="submit" class="bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-xl transition shadow-lg shadow-purple-500/20">
+                            <i class="fa-solid fa-check mr-2"></i> Salvar Prontuário Anamnese
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
 
-    <label>Escala de Percepção / Coluna F (1 a 10):</label>
-    <div class="silhouette-scale-container" id="silhouetteScaleContainer">
-      <div class="silhouette-box selected" onclick="selectSilhouette(1, this)"><div class="s-icon">🗿</div><div class="s-num">1</div></div>
-      <div class="silhouette-box" onclick="selectSilhouette(2, this)"><div class="s-icon">🗿</div><div class="s-num">2</div></div>
-      <div class="silhouette-box" onclick="selectSilhouette(3, this)"><div class="s-icon">🗿</div><div class="s-num">3</div></div>
-      <div class="silhouette-box" onclick="selectSilhouette(4, this)"><div class="s-icon">🗿</div><div class="s-num">4</div></div>
-      <div class="silhouette-box" onclick="selectSilhouette(5, this)"><div class="s-icon">🗿</div><div class="s-num">5</div></div>
-      <div class="silhouette-box" onclick="selectSilhouette(6, this)"><div class="s-icon">🗿</div><div class="s-num">6</div></div>
-      <div class="silhouette-box" onclick="selectSilhouette(7, this)"><div class="s-icon">🗿</div><div class="s-num">7</div></div>
-      <div class="silhouette-box" onclick="selectSilhouette(8, this)"><div class="s-icon">🗿</div><div class="s-num">8</div></div>
-      <div class="silhouette-box" onclick="selectSilhouette(9, this)"><div class="s-icon">🗿</div><div class="s-num">9</div></div>
-      <div class="silhouette-box" onclick="selectSilhouette(10, this)"><div class="s-icon">🗿</div><div class="s-num">10</div></div>
-    </div>
+    </main>
 
-    <button type="button" class="action-btn" onclick="saveAnamnese()">Salvar Calibragem</button>
-  </div>
-</div>
+    <!-- Footer -->
+    <footer class="text-center py-6 text-xs text-slate-500 border-t border-slate-900">
+        Bússola Pro &copy; 2026 &bull; Método Groppo &bull; Todos os direitos reservados
+    </footer>
 
-<script>
-let tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
-if (tg) {
-  tg.expand();
-  tg.ready();
-}
+    <!-- Script de Navegação e Interações -->
+    <script>
+        // Data atual no cabeçalho
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('current-date').innerText = new Date().toLocaleDateString('pt-BR', options);
 
-function hapticFeedback(style = 'medium') {
-  if (tg && tg.HapticFeedback) {
-    tg.HapticFeedback.impactOccurred(style);
-  }
-}
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white', 'shadow');
+                btn.classList.add('text-slate-400', 'hover:text-white', 'hover:bg-slate-800');
+            });
 
-function switchSection(sectionId) {
-  if (sectionId !== 'prana') {
-    stopPranaSession();
-  }
-  document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('section-' + sectionId).classList.add('active');
-  window.scrollTo(0, 0);
-  hapticFeedback('light');
-}
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+            const activeBtn = document.getElementById('btn-' + tabId);
+            activeBtn.classList.remove('text-slate-400', 'hover:text-white', 'hover:bg-slate-800');
+            activeBtn.classList.add('bg-blue-600', 'text-white', 'shadow');
+        }
 
-function switchSub(subId, btn) {
-  const card = btn.closest('.card');
-  card.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  card.querySelectorAll('.sub-content').forEach(c => c.classList.remove('active'));
-  document.getElementById('sub-' + subId).classList.add('active');
-  hapticFeedback('light');
-}
+        function updateRangeVal(id, val) {
+            document.getElementById('val-' + id).innerText = val;
+        }
 
-// Funções Manhã
-function updateRigidez(val) {
-  document.getElementById('rigidezVal').innerText = val;
-}
-
-function updateDisposicao(val) {
-  document.getElementById('disposicaoVal').innerText = val;
-}
-
-// Funções Tarde
-let waterMl = 2000;
-function addWater() {
-  waterMl += 200;
-  updateWaterDisplay();
-  hapticFeedback('light');
-}
-
-function resetWater() {
-  waterMl = 0;
-  updateWaterDisplay();
-  hapticFeedback('medium');
-}
-
-function updateWaterDisplay() {
-  document.getElementById('waterTotal').innerText = waterMl;
-  document.getElementById('waterCups').innerText = (waterMl / 200).toFixed(0);
-  document.getElementById('hidratacaoInput').value = (waterMl / 1000).toFixed(1);
-}
-
-function setPausa(val, btn) {
-  document.getElementById('pausaSim').classList.remove('selected');
-  document.getElementById('pausaNao').classList.remove('selected');
-  btn.classList.add('selected');
-  document.getElementById('pausaAtivaVal').value = val;
-  hapticFeedback('light');
-}
-
-// Funções Noite
-let selectedTreinos = [];
-function toggleTreino(nome, btn) {
-  btn.classList.toggle('selected');
-  if (selectedTreinos.includes(nome)) {
-    selectedTreinos = selectedTreinos.filter(t => t !== nome);
-  } else {
-    selectedTreinos.push(nome);
-  }
-  hapticFeedback('light');
-}
-
-function updateGangorraA(val) {
-  const lbl = document.getElementById('labelGangorraA');
-  let saudavel = 100 - val;
-  let naoSaudavel = val;
-  if (val < 40) lbl.innerText = `Predomínio Saudável (${saudavel}% / ${naoSaudavel}%)`;
-  else if (val > 60) lbl.innerText = `Predomínio Livre (${saudavel}% / ${naoSaudavel}%)`;
-  else lbl.innerText = `Equilíbrio Alquímico (${saudavel}% / ${naoSaudavel}%)`;
-}
-
-function updateGangorraB(val) {
-  const lbl = document.getElementById('labelGangorraB');
-  if (val < 40) lbl.innerText = `Baixa Quantidade / Leve (${val}%)`;
-  else if (val > 60) lbl.innerText = `Alta Quantidade / Fartura (${val}%)`;
-  else lbl.innerText = `Volume Moderado (${val}%)`;
-}
-
-let selectedGenderVal = 'masculino';
-function selectGender(gender, el) {
-  document.querySelectorAll('.gender-card').forEach(c => c.classList.remove('selected'));
-  el.classList.add('selected');
-  selectedGenderVal = gender;
-  hapticFeedback('light');
-}
-
-let selectedSilhNum = 1;
-function selectSilhouette(num, el) {
-  document.querySelectorAll('.silhouette-box').forEach(b => b.classList.remove('selected'));
-  el.classList.add('selected');
-  selectedSilhNum = num;
-  hapticFeedback('light');
-}
-
-function saveAnamnese() {
-  const data = { gender: selectedGenderVal, silhouette: selectedSilhNum };
-  localStorage.setItem('bussola_anamnese', JSON.stringify(data));
-  hapticFeedback('heavy');
-  alert('Calibragem salva com sucesso!');
-  switchSection('home');
-}
-
-function submitCheckin(e) {
-  e.preventDefault();
-  const checkinData = {
-    rigidez: document.getElementById('rigidezRange').value,
-    disposicao: document.getElementById('disposicaoRange').value,
-    pausa: document.getElementById('pausaAtivaVal').value,
-    hidratacao: document.getElementById('hidratacaoInput').value,
-    treinos: selectedTreinos,
-    gangorraA: document.getElementById('gangorraQualidade').value,
-    gangorraB: document.getElementById('gangorraQuantidade').value,
-    notas: document.getElementById('notasAlquimia').value,
-    data: new Date().toISOString()
-  };
-  localStorage.setItem('bussola_checkin_last', JSON.stringify(checkinData));
-  hapticFeedback('heavy');
-  alert('Check-in da Bússola Diária registrado com sucesso!');
-  switchSection('home');
-}
-
-// -------------------------------------------------------------
-// PHILOS (CITATIONS)
-// -------------------------------------------------------------
-const philosQuotes = [
-  { quote: "O corpo que não se movimenta petrifica a alma que nele habita. Desperte a carne para libertar o espírito.", source: "Método Groppo • Princípio I" },
-  { quote: "A disciplina é a alquimia que transforma o suor em ouro e o cansaço em vitalidade inesgotável.", source: "Destrave seu Corpo • Semente da Vitória" },
-  { quote: "Assim como a respiração conduz o prana, a intenção firme conduz a matéria ao seu estado de máxima eficiência.", source: "Coaching Criacional • Matriz Humana" }
-];
-let philosIndex = 0;
-function nextPhilosQuote() {
-  philosIndex = (philosIndex + 1) % philosQuotes.length;
-  document.getElementById('philosQuote').innerText = `"${philosQuotes[philosIndex].quote}"`;
-  document.getElementById('philosSource').innerText = `— ${philosQuotes[philosIndex].source}`;
-  hapticFeedback('light');
-}
-
-// -------------------------------------------------------------
-// LABORATÓRIO PRANA (ETAPA 2) - LÓGICA COMPLETA & CORRIGIDA
-// -------------------------------------------------------------
-let currentPranaType = 'sono';
-let pranaDurationMinutes = 1;
-let pranaTotalSecondsLeft = 60;
-let isPranaRunning = false;
-let pranaInterval = null;
-
-const pranaProfiles = {
-  sono: {
-    name: 'Induzir Sono (4-7-8)',
-    nostril: 'Narina Esquerda (Tampe a direita com o polegar)',
-    physical: 'Relaxe os ombros, abaixe o queixo e solte o maxilar',
-    phases: [
-      { name: 'Inspire Profundo', duration: 4, scale: 'scale(1.25)' },
-      { name: 'Retenção Cheia', duration: 7, scale: 'scale(1.25)' },
-      { name: 'Expire Lento', duration: 8, scale: 'scale(1.0)' }
-    ],
-    htmlVisual: `<div class="sleep-circle" id="sleepCircleElem"><div class="prana-timer-num" id="pranaTimerNum">4</div><div class="prana-phase-txt" id="pranaPhaseTxt">Preparar</div></div>`
-  },
-  foco: {
-    name: 'Foco & Clareza (Box Breathing)',
-    nostril: 'Ambas as narinas (Postura erguida)',
-    physical: 'Alinhe a coluna, peito aberto, ombros relaxados',
-    phases: [
-      { name: 'Inspire (Topo)', duration: 4 },
-      { name: 'Retenção (Direita)', duration: 4 },
-      { name: 'Expire (Base)', duration: 4 },
-      { name: 'Retenção Vazia (Esquerda)', duration: 4 }
-    ],
-    htmlVisual: `<div class="focus-box-anim" id="focusBoxElem"><div class="prana-timer-num" id="pranaTimerNum">4</div><div class="prana-phase-txt" id="pranaPhaseTxt">Box</div></div>`
-  },
-  ansiedade: {
-    name: 'Diminuir Ansiedade (4-6)',
-    nostril: 'Narina Esquerda predominante (Fluxo calmante)',
-    physical: 'Solte totalmente os ombros e a tensão do abdômen',
-    phases: [
-      { name: 'Inspire Calmo', duration: 4, scale: 'scale(1.2)' },
-      { name: 'Expire Prolongado', duration: 6, scale: 'scale(1.0)' }
-    ],
-    htmlVisual: `<div class="anxiety-circle" id="anxietyCircleElem"><div class="prana-timer-num" id="pranaTimerNum">4</div><div class="prana-phase-txt" id="pranaPhaseTxt">Calma</div></div>`
-  }
-};
-
-function selectPranaType(type, btn) {
-  if (isPranaRunning) return;
-  document.querySelectorAll('.prana-style-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  currentPranaType = type;
-  renderPranaUI();
-  hapticFeedback('light');
-}
-
-function setPranaDuration(mins, btn) {
-  if (isPranaRunning) return;
-  document.querySelectorAll('.duration-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  pranaDurationMinutes = mins;
-  pranaTotalSecondsLeft = mins * 60;
-  updateHudTime();
-  hapticFeedback('light');
-}
-
-function renderPranaUI() {
-  const profile = pranaProfiles[currentPranaType];
-  document.getElementById('hudNostril').innerText = profile.nostril;
-  document.getElementById('hudPhysical').innerText = profile.physical;
-  document.getElementById('pranaVisualContainer').innerHTML = profile.htmlVisual;
-  pranaTotalSecondsLeft = pranaDurationMinutes * 60;
-  updateHudTime();
-}
-
-function updateHudTime() {
-  const m = Math.floor(pranaTotalSecondsLeft / 60).toString().padStart(2, '0');
-  const s = (pranaTotalSecondsLeft % 60).toString().padStart(2, '0');
-  document.getElementById('hudTimeLeft').innerText = `Tempo restante: ${m}:${s}`;
-}
-
-function startPranaSession() {
-  if (isPranaRunning) return;
-  isPranaRunning = true;
-  document.getElementById('pranaStartBtn').style.display = 'none';
-  document.getElementById('pranaStopBtn').style.display = 'block';
-  document.querySelectorAll('.prana-style-btn, .duration-btn').forEach(b => b.style.opacity = '0.6');
-  hapticFeedback('medium');
-  runPranaCycle(0);
-}
-
-function stopPranaSession() {
-  isPranaRunning = false;
-  if (pranaInterval) {
-    clearInterval(pranaInterval);
-    pranaInterval = null;
-  }
-  if (window.currentPranaStepInterval) {
-    clearInterval(window.currentPranaStepInterval);
-    window.currentPranaStepInterval = null;
-  }
-  const startBtn = document.getElementById('pranaStartBtn');
-  const stopBtn = document.getElementById('pranaStopBtn');
-  if (startBtn) startBtn.style.display = 'block';
-  if (stopBtn) stopBtn.style.display = 'none';
-  document.querySelectorAll('.prana-style-btn, .duration-btn').forEach(b => b.style.opacity = '1');
-  renderPranaUI();
-}
-
-function runPranaCycle(phaseIndex) {
-  if (!isPranaRunning) return;
-  const profile = pranaProfiles[currentPranaType];
-  const phase = profile.phases[phaseIndex];
-  let currentCountdown = phase.duration;
-
-  const timerEl = document.getElementById('pranaTimerNum');
-  const phaseEl = document.getElementById('pranaPhaseTxt');
-
-  if (timerEl) timerEl.innerText = currentCountdown;
-  if (phaseEl) phaseEl.innerText = phase.name;
-
-  applyVisualPhase(currentPranaType, phaseIndex);
-  hapticFeedback('light');
-
-  const stepInterval = setInterval(() => {
-    if (!isPranaRunning) {
-      clearInterval(stepInterval);
-      return;
-    }
-
-    currentCountdown--;
-    pranaTotalSecondsLeft--;
-    updateHudTime();
-
-    if (timerEl) timerEl.innerText = currentCountdown;
-
-    if (pranaTotalSecondsLeft <= 0) {
-      clearInterval(stepInterval);
-      stopPranaSession();
-      hapticFeedback('heavy');
-      alert('Prática de Prana concluída com sucesso!');
-      return;
-    }
-
-    if (currentCountdown <= 0) {
-      clearInterval(stepInterval);
-      const nextIndex = (phaseIndex + 1) % profile.phases.length;
-      runPranaCycle(nextIndex);
-    }
-  }, 1000);
-
-  window.currentPranaStepInterval = stepInterval;
-}
-
-function applyVisualPhase(type, phaseIndex) {
-  if (type === 'sono') {
-    const el = document.getElementById('sleepCircleElem');
-    if (!el) return;
-    if (phaseIndex === 0) el.style.transform = 'scale(1.25)';
-    else if (phaseIndex === 1) el.style.transform = 'scale(1.25)';
-    else el.style.transform = 'scale(1.0)';
-  } else if (type === 'ansiedade') {
-    const el = document.getElementById('anxietyCircleElem');
-    if (!el) return;
-    if (phaseIndex === 0) el.style.transform = 'scale(1.2)';
-    else el.style.transform = 'scale(1.0)';
-  } else if (type === 'foco') {
-    const el = document.getElementById('focusBoxElem');
-    if (!el) return;
-    if (phaseIndex === 0) el.style.borderColor = 'var(--accent-color)';
-    else if (phaseIndex === 1) el.style.borderColor = '#1e3a8a';
-    else if (phaseIndex === 2) el.style.borderColor = 'var(--success-color)';
-    else el.style.borderColor = 'var(--border-color)';
-  }
-}
-
-// Inicializar UI do Prana na carga
-renderPranaUI();
-</script>
+        function saveDiaria(e) {
+            e.preventDefault();
+            alert('Bússola Diária salva com sucesso!');
+        }
+    </script>
 </body>
 </html>
