@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bússola_PRO - Método Groppo (Etapa 2: Prana Integrado)</title>
+<title>Bússola_PRO - Método Groppo (Etapa 2: Prana Imersivo)</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 :root {
@@ -266,7 +266,7 @@ textarea {
   transform: scale(0.97);
 }
 
-/* PRANA ESTILOS REFINADOS (ETAPA 2) */
+/* PRANA ESTILOS GERAIS */
 .prana-container {
   text-align: center;
 }
@@ -320,105 +320,142 @@ textarea {
   border-color: var(--success-color);
   color: var(--success-color);
 }
-.prana-hud-box {
-  background: var(--input-bg);
-  border: 2px solid var(--border-color);
-  border-radius: 12px;
-  padding: 12px;
-  margin-bottom: 14px;
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--accent-color);
-  display: flex;
+
+/* TELA DE IMERSÃO / JANELA SEPARADA DE PRANA (WOW) */
+#pranaImmersiveModal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--bg-color);
+  z-index: 9999;
+  padding: 20px;
+  overflow-y: auto;
   flex-direction: column;
-  gap: 4px;
+  justify-content: space-between;
+}
+#pranaImmersiveModal.active {
+  display: flex;
+}
+.immersive-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 12px;
+  margin-bottom: 10px;
+}
+.immersive-stop-btn {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 2px solid #fecaca;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 900;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+}
+.immersive-source-box {
+  background: #f4efe1;
+  border: 2px solid var(--border-color);
+  border-left: 5px solid var(--accent-color);
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  font-size: 12px;
   text-align: left;
 }
-.prana-visual-area {
+.immersive-source-box .scripture-title {
+  font-weight: 900;
+  font-family: var(--font-mono);
+  color: var(--accent-color);
+  margin-bottom: 3px;
+}
+.immersive-source-box .scripture-desc {
+  color: #5c554e;
+  font-style: italic;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.prana-visual-area-large {
   position: relative;
-  width: 220px;
-  height: 220px;
-  margin: 16px auto;
+  width: 240px;
+  height: 240px;
+  margin: 10px auto;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-/* Animação para sono (Onda suave / Pulso profundo) */
-.sleep-circle {
-  width: 170px;
-  height: 170px;
-  background: radial-gradient(circle, rgba(30, 58, 138, 0.2) 0%, rgba(30, 58, 138, 0.05) 80%);
-  border: 3px solid #1e3a8a;
+.sleep-circle-lg {
+  width: 210px;
+  height: 210px;
+  background: radial-gradient(circle, rgba(30, 58, 138, 0.25) 0%, rgba(30, 58, 138, 0.05) 80%);
+  border: 4px solid #1e3a8a;
   border-radius: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   transition: transform 0.2s linear;
-  box-shadow: 0 0 25px rgba(30, 58, 138, 0.2);
+  box-shadow: 0 0 35px rgba(30, 58, 138, 0.3);
 }
-/* Animação para foco (Quadrado progressivo) */
-.focus-box-anim {
-  width: 180px;
-  height: 180px;
-  background: radial-gradient(circle, rgba(154, 52, 18, 0.15) 0%, rgba(212, 206, 190, 0.1) 80%);
-  border: 4px solid var(--border-color);
-  border-radius: 16px;
+.focus-box-anim-lg {
+  width: 210px;
+  height: 210px;
+  background: radial-gradient(circle, rgba(154, 52, 18, 0.2) 0%, rgba(212, 206, 190, 0.1) 80%);
+  border: 5px solid var(--border-color);
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
-  box-shadow: 0 0 20px var(--accent-glow);
+  box-shadow: 0 0 30px var(--accent-glow);
   transition: border-color 0.3s ease;
 }
-.focus-box-anim.active-side {
-  border-color: var(--accent-color);
-}
-/* Animação para ansiedade (Onda fluida relaxante) */
-.anxiety-circle {
-  width: 170px;
-  height: 170px;
-  background: radial-gradient(circle, rgba(13, 148, 136, 0.2) 0%, rgba(13, 148, 136, 0.05) 80%);
-  border: 3px solid #0d9488;
+.anxiety-circle-lg {
+  width: 210px;
+  height: 210px;
+  background: radial-gradient(circle, rgba(13, 148, 136, 0.25) 0%, rgba(13, 148, 136, 0.05) 80%);
+  border: 4px solid #0d9488;
   border-radius: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 25px rgba(13, 148, 136, 0.2);
+  box-shadow: 0 0 35px rgba(13, 148, 136, 0.3);
 }
-.prana-timer-num {
-  font-size: 38px;
+.prana-timer-num-lg {
+  font-size: 52px;
   font-weight: 900;
   color: var(--text-color);
   line-height: 1;
   font-family: var(--font-mono);
 }
-.prana-phase-txt {
-  font-size: 11px;
+.prana-phase-txt-lg {
+  font-size: 13px;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
+  letter-spacing: 1px;
   font-weight: 900;
-  margin-top: 4px;
+  margin-top: 6px;
   font-family: var(--font-mono);
 }
-.prana-controls-flex {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 14px;
-}
-.stop-btn {
-  background: #fee2e2;
-  color: #991b1b;
-  border: 2px solid #fecaca;
-  padding: 14px;
-  font-size: 15px;
-  font-weight: 900;
+.immersive-hud-box {
+  background: var(--input-bg);
+  border: 2px solid var(--border-color);
   border-radius: 12px;
-  cursor: pointer;
+  padding: 14px;
   font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--accent-color);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+  margin-bottom: 14px;
 }
 
 .philos-card {
@@ -541,7 +578,7 @@ textarea {
 <body>
 <header>
   <h1>BÚSSOLA_PRO</h1>
-  <div class="subtitle">Método Groppo • Alquimia Diária (Etapa 2 Prana)</div>
+  <div class="subtitle">Método Groppo • Alquimia Diária (Prana Imersivo)</div>
 </header>
 
 <!-- MAIN HUB (HOME) -->
@@ -663,7 +700,7 @@ textarea {
   </div>
 </div>
 
-<!-- SECTION 2: PRANA (ETAPA 2 REFINADA) -->
+<!-- SECTION 2: PRANA (CONFIGURAÇÃO) -->
 <div id="section-prana" class="section-panel">
   <div class="back-bar">
     <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
@@ -671,27 +708,27 @@ textarea {
   <div class="card prana-container">
     <h2>💨 Laboratório Prana (Hatha Yoga)</h2>
     
-    <!-- Seleção dos 3 Pranayamas Clássicos -->
+    <!-- Seleção dos 3 Pranayamas Clássicos com Fontes -->
     <div class="prana-grid-options" id="pranaGridOptions">
       <button class="prana-style-btn active" onclick="selectPranaType('sono', this)">
         <span>🌙</span>
         <div>
-          <div class="font-bold">Induzir Sono / Relaxar</div>
-          <div class="text-xs text-slate-500">Ritmo 4-7-8 • Narina Esquerda</div>
+          <div class="font-bold">Induzir Sono (Chandra Bhedana)</div>
+          <div class="text-xs text-slate-500">Hatha Pradipika 2.50 • Narina Esquerda</div>
         </div>
       </button>
       <button class="prana-style-btn" onclick="selectPranaType('foco', this)">
         <span>🧠</span>
         <div>
-          <div class="font-bold">Foco & Clareza (Box)</div>
-          <div class="text-xs text-slate-500">Quadrado 4-4-4-4 • Ambas Narinas</div>
+          <div class="font-bold">Foco & Clareza (Sama Vritti / Box)</div>
+          <div class="text-xs text-slate-500">Goraksha Shataka • Canais Nadi</div>
         </div>
       </button>
       <button class="prana-style-btn" onclick="selectPranaType('ansiedade', this)">
         <span>🌊</span>
         <div>
-          <div class="font-bold">Diminuir Ansiedade</div>
-          <div class="text-xs text-slate-500">Ritmo Calmo 4-6 • Narina Esquerda/Alternada</div>
+          <div class="font-bold">Diminuir Ansiedade (Ujjayi)</div>
+          <div class="text-xs text-slate-500">Gheranda Samhita 5.54 • Acalma Vayus</div>
         </div>
       </button>
     </div>
@@ -704,25 +741,45 @@ textarea {
       <button class="duration-btn" onclick="setPranaDuration(5, this)">5 Minutos</button>
     </div>
 
-    <!-- HUD de Orientação Física e Respiração -->
-    <div class="prana-hud-box" id="pranaHudBox">
-      <div>🧘 <span id="hudNostril">Narina: Esquerda (Energia Lunar)</span></div>
-      <div>🛡️ <span id="hudPhysical">Relaxe os ombros e solte o maxilar</span></div>
-      <div>⏱️ <span id="hudTimeLeft">Tempo restante: 01:00</span></div>
+    <!-- Botão para abrir Janela Imersiva (WOW) -->
+    <button class="action-btn" onclick="startPranaSession()" style="margin-top: 10px;">Abrir Tela Imersiva ⚡</button>
+  </div>
+</div>
+
+<!-- TELA DE IMERSÃO / JANELA SEPARADA DE PRANA (WOW) -->
+<div id="pranaImmersiveModal">
+  <div class="immersive-header">
+    <button class="back-btn" onclick="stopPranaSession()">← Voltar ao Menu</button>
+    <div class="font-mono text-xs font-bold text-accent-color uppercase" id="immersiveModalTitle">Pranayama Imersivo</div>
+    <button class="immersive-stop-btn" onclick="stopPranaSession()">Parar ⏹</button>
+  </div>
+
+  <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 450px; margin: 0 auto; width: 100%;">
+    
+    <!-- Informação da Fonte Clássica -->
+    <div class="immersive-source-box" id="immersiveSourceBox">
+      <div class="scripture-title" id="scriptureTitle">📖 Hatha Pradipika (Cap. 2, Versículo 50)</div>
+      <div class="scripture-desc" id="scriptureDesc">"Inalando pela narina esquerda resfria-se o corpo, apazigua-se a mente e induz-se o sono profundo."</div>
     </div>
 
-    <!-- Área Visual Dinâmica -->
-    <div class="prana-visual-area">
-      <div id="pranaVisualContainer">
-        <!-- Injetado via JS dependendo do Pranayama -->
+    <!-- HUD de Orientação Física e Respiração -->
+    <div class="immersive-hud-box">
+      <div>🧘 <span id="immersiveNostril">Narina: Esquerda (Energia Lunar / Ida)</span></div>
+      <div>🛡️ <span id="immersivePhysical">Relaxe os ombros, abaixe o queixo e solte o maxilar</span></div>
+      <div>⏱️ <span id="immersiveTimeLeft">Tempo restante: 01:00</span></div>
+    </div>
+
+    <!-- Área Visual Dinâmica Grande -->
+    <div class="prana-visual-area-large">
+      <div id="pranaVisualContainerLarge">
+        <!-- Injetado via JS -->
       </div>
     </div>
 
-    <!-- Controles -->
-    <div class="prana-controls-flex" id="pranaControlsFlex">
-      <button class="action-btn" id="pranaStartBtn" onclick="startPranaSession()">Iniciar Prática</button>
-      <button class="stop-btn" id="pranaStopBtn" onclick="stopPranaSession()" style="display:none;">Parar</button>
-    </div>
+  </div>
+  
+  <div style="text-align:center; font-size:11px; font-family:var(--font-mono); color:#5c554e; padding-top:10px;">
+    Método Groppo • Alquimia Tradicional do Hatha-Yoga
   </div>
 </div>
 
@@ -781,7 +838,6 @@ let tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : nu
 if (tg) tg.expand();
 
 function switchSection(sectionId) {
-  // Parar sessão prana se sair da aba
   if (sectionId !== 'prana') {
     stopPranaSession();
   }
@@ -878,7 +934,7 @@ function submitCheckin(e) {
 }
 
 // -------------------------------------------------------------
-// LÓGICA DO LABORATÓRIO PRANA (ETAPA 2)
+// LÓGICA DO LABORATÓRIO PRANA IMERSIVO (HATHA YOGA)
 // -------------------------------------------------------------
 let currentPranaType = 'sono';
 let pranaDurationMinutes = 1;
@@ -886,40 +942,46 @@ let pranaInterval = null;
 let pranaTotalSecondsLeft = 60;
 let isPranaRunning = false;
 
-// Perfis dos Pranayamas Hatha Yoga
+// Informações refinadas baseadas nas fontes clássicas do Hatha Yoga
 const pranaProfiles = {
   sono: {
-    name: 'Induzir Sono (4-7-8)',
+    name: 'Induzir Sono (Chandra Bhedana)',
     nostril: 'Narina Esquerda (Tampe a direita com o polegar)',
-    physical: 'Relaxe os ombros, abaixe o queixo e solte o maxilar',
+    physical: 'Relaxe os ombros, abaixe o queixo (Jalandhara Bandha leve) e solte o maxilar',
+    scriptureTitle: '📖 Hatha Pradipika (Cap. 2, Versículo 50)',
+    scriptureDesc: '"Inalando pela narina esquerda resfria-se o corpo (canal lunar/Ida), apazigua-se o sistema nervoso e induz-se o sono profundo."',
     phases: [
-      { name: 'Inspire Profundo', duration: 4, scale: 'scale(1.25)' },
-      { name: 'Retenção Cheia', duration: 7, scale: 'scale(1.25)' },
-      { name: 'Expire Lento', duration: 8, scale: 'scale(1.0)' }
+      { name: 'Inspire Profundo (Esquerda)', duration: 4, scale: 'scale(1.2)' },
+      { name: 'Retenção Cheia (Kumbhaka)', duration: 7, scale: 'scale(1.2)' },
+      { name: 'Expire Lento (Direita)', duration: 8, scale: 'scale(1.0)' }
     ],
-    htmlVisual: `<div class="sleep-circle" id="sleepCircleElem"><div class="prana-timer-num" id="pranaTimerNum">4</div><div class="prana-phase-txt" id="pranaPhaseTxt">Preparar</div></div>`
+    htmlVisual: `<div class="sleep-circle-lg" id="sleepCircleElem"><div class="prana-timer-num-lg" id="pranaTimerNum">4</div><div class="prana-phase-txt-lg" id="pranaPhaseTxt">Preparar</div></div>`
   },
   foco: {
-    name: 'Foco & Clareza (Box Breathing)',
-    nostril: 'Ambas as narinas (Postura erguida)',
-    physical: 'Alinhe a coluna, peito aberto, ombros relaxados',
+    name: 'Foco & Clareza (Sama Vritti / Box)',
+    nostril: 'Ambas as narinas (Equilíbrio de Ida e Pingala)',
+    physical: 'Alinhe a coluna verticalmente, peito aberto, ombros relaxados e firmes',
+    scriptureTitle: '📖 Goraksha Shataka (Versos 30-32)',
+    scriptureDesc: '"Através da equalização do sopro vital (Prana e Apana), a mente se estabiliza e alcança a clareza suprema no lótus do coração."',
     phases: [
-      { name: 'Inspire (Topo)', duration: 4, border: 'border-top-color: var(--accent-color)' },
-      { name: 'Retenção (Direita)', duration: 4, border: 'border-right-color: var(--accent-color)' },
-      { name: 'Expire (Base)', duration: 4, border: 'border-bottom-color: var(--accent-color)' },
-      { name: 'Retenção Vazia (Esquerda)', duration: 4, border: 'border-left-color: var(--accent-color)' }
+      { name: 'Inspire (Topo)', duration: 4 },
+      { name: 'Retenção Cheia (Direita)', duration: 4 },
+      { name: 'Expire (Base)', duration: 4 },
+      { name: 'Retenção Vazia (Esquerda)', duration: 4 }
     ],
-    htmlVisual: `<div class="focus-box-anim" id="focusBoxElem"><div class="prana-timer-num" id="pranaTimerNum">4</div><div class="prana-phase-txt" id="pranaPhaseTxt">Box</div></div>`
+    htmlVisual: `<div class="focus-box-anim-lg" id="focusBoxElem"><div class="prana-timer-num-lg" id="pranaTimerNum">4</div><div class="prana-phase-txt-lg" id="pranaPhaseTxt">Box</div></div>`
   },
   ansiedade: {
-    name: 'Diminuir Ansiedade (4-6)',
-    nostril: 'Narina Esquerda predominante (Fluxo calmante)',
-    physical: 'Solte totalmente os ombros e a tensão do abdômen',
+    name: 'Diminuir Ansiedade (Ujjayi)',
+    nostril: 'Respiração nasal com leve constrição na glote',
+    physical: 'Solte totalmente a tensão do abdômen e ombros. Sinta o som oceânico interno',
+    scriptureTitle: '📖 Gheranda Samhita (Cap. 5, Versículo 54)',
+    scriptureDesc: '"Ujjayi purifica os nadis, remove o excesso de Vayu (ar/ansiedade) no corpo e aquece suavemente o Fogo Interior (Agni)."',
     phases: [
-      { name: 'Inspire Calmo', duration: 4, scale: 'scale(1.2)' },
-      { name: 'Expire Prolongado', duration: 6, scale: 'scale(1.0)' }
+      { name: 'Inspire com Fricção Suave', duration: 4, scale: 'scale(1.15)' },
+      { name: 'Expire Longo e Contínuo', duration: 6, scale: 'scale(1.0)' }
     ],
-    htmlVisual: `<div class="anxiety-circle" id="anxietyCircleElem"><div class="prana-timer-num" id="pranaTimerNum">4</div><div class="prana-phase-txt" id="pranaPhaseTxt">Calma</div></div>`
+    htmlVisual: `<div class="anxiety-circle-lg" id="anxietyCircleElem"><div class="prana-timer-num-lg" id="pranaTimerNum">4</div><div class="prana-phase-txt-lg" id="pranaPhaseTxt">Calma</div></div>`
   }
 };
 
@@ -928,7 +990,6 @@ function selectPranaType(type, btn) {
   document.querySelectorAll('.prana-style-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
   currentPranaType = type;
-  renderPranaUI();
 }
 
 function setPranaDuration(mins, btn) {
@@ -937,32 +998,30 @@ function setPranaDuration(mins, btn) {
   btn.classList.add('active');
   pranaDurationMinutes = mins;
   pranaTotalSecondsLeft = mins * 60;
-  updateHudTime();
 }
 
-function renderPranaUI() {
-  const profile = pranaProfiles[currentPranaType];
-  document.getElementById('hudNostril').innerText = profile.nostril;
-  document.getElementById('hudPhysical').innerText = profile.physical;
-  document.getElementById('pranaVisualContainer').innerHTML = profile.htmlVisual;
-  pranaTotalSecondsLeft = pranaDurationMinutes * 60;
-  updateHudTime();
-}
-
-function updateHudTime() {
+function updateImmersiveHudTime() {
   const m = Math.floor(pranaTotalSecondsLeft / 60).toString().padStart(2, '0');
   const s = (pranaTotalSecondsLeft % 60).toString().padStart(2, '0');
-  document.getElementById('hudTimeLeft').innerText = `Tempo restante: ${m}:${s}`;
+  document.getElementById('immersiveTimeLeft').innerText = `Tempo restante: ${m}:${s}`;
 }
 
 function startPranaSession() {
-  if (isPranaRunning) return;
   isPranaRunning = true;
-  document.getElementById('pranaStartBtn').style.display = 'none';
-  document.getElementById('pranaStopBtn').style.display = 'block';
+  pranaTotalSecondsLeft = pranaDurationMinutes * 60;
   
-  // Desativar seletores durante a execução
-  document.querySelectorAll('.prana-style-btn, .duration-btn').forEach(b => b.style.opacity = '0.6');
+  const profile = pranaProfiles[currentPranaType];
+  document.getElementById('immersiveModalTitle').innerText = profile.name;
+  document.getElementById('scriptureTitle').innerText = profile.scriptureTitle;
+  document.getElementById('scriptureDesc').innerText = profile.scriptureDesc;
+  document.getElementById('immersiveNostril').innerText = `Postura: ${profile.nostril}`;
+  document.getElementById('immersivePhysical').innerText = profile.physical;
+  document.getElementById('pranaVisualContainerLarge').innerHTML = profile.htmlVisual;
+
+  updateImmersiveHudTime();
+  
+  // Abrir janela imersiva (Modal separado em tela cheia)
+  document.getElementById('pranaImmersiveModal').classList.add('active');
 
   runPranaCycle(0);
 }
@@ -980,8 +1039,7 @@ function runPranaCycle(phaseIndex) {
   if (timerEl) timerEl.innerText = currentCountdown;
   if (phaseEl) phaseEl.innerText = phase.name;
 
-  // Atualiza animações visuais da fase
-  applyVisualPhase(currentPranaType, phaseIndex);
+  applyVisualPhaseLarge(currentPranaType, phaseIndex);
 
   const stepInterval = setInterval(() => {
     if (!isPranaRunning) {
@@ -991,11 +1049,10 @@ function runPranaCycle(phaseIndex) {
 
     currentCountdown--;
     pranaTotalSecondsLeft--;
-    updateHudTime();
+    updateImmersiveHudTime();
 
     if (timerEl) timerEl.innerText = currentCountdown;
 
-    // Condição de término do tempo total
     if (pranaTotalSecondsLeft <= 0) {
       clearInterval(stepInterval);
       stopPranaSession();
@@ -1013,21 +1070,19 @@ function runPranaCycle(phaseIndex) {
   window.currentPranaStepInterval = stepInterval;
 }
 
-function applyVisualPhase(type, phaseIndex) {
+function applyVisualPhaseLarge(type, phaseIndex) {
   if (type === 'sono') {
     const el = document.getElementById('sleepCircleElem');
     if (!el) return;
-    if (phaseIndex === 0) el.style.transform = 'scale(1.2)';
-    else if (phaseIndex === 1) el.style.transform = 'scale(1.2)';
+    if (phaseIndex === 0 || phaseIndex === 1) el.style.transform = 'scale(1.18)';
     else el.style.transform = 'scale(1.0)';
   } else if (type === 'foco') {
     const el = document.getElementById('focusBoxElem');
     if (!el) return;
-    // Simula as 4 fases do quadrado
-    if (phaseIndex === 0) el.style.boxShadow = '0 0 30px var(--accent-color)';
-    else if (phaseIndex === 1) el.style.boxShadow = '10px 10px 30px var(--accent-glow)';
-    else if (phaseIndex === 2) el.style.boxShadow = '0 15px 30px rgba(154,52,18,0.3)';
-    else el.style.boxShadow = '-10px 0 30px var(--accent-glow)';
+    if (phaseIndex === 0) el.style.boxShadow = '0 0 35px var(--accent-color)';
+    else if (phaseIndex === 1) el.style.boxShadow = '12px 12px 35px var(--accent-glow)';
+    else if (phaseIndex === 2) el.style.boxShadow = '0 18px 35px rgba(154,52,18,0.35)';
+    else el.style.boxShadow = '-12px 0 35px var(--accent-glow)';
   } else if (type === 'ansiedade') {
     const el = document.getElementById('anxietyCircleElem');
     if (!el) return;
@@ -1040,16 +1095,9 @@ function stopPranaSession() {
   isPranaRunning = false;
   if (window.currentPranaStepInterval) clearInterval(window.currentPranaStepInterval);
   
-  document.getElementById('pranaStartBtn').style.display = 'block';
-  document.getElementById('pranaStopBtn').style.display = 'none';
-  document.querySelectorAll('.prana-style-btn, .duration-btn').forEach(b => b.style.opacity = '1');
-  
-  pranaTotalSecondsLeft = pranaDurationMinutes * 60;
-  renderPranaUI();
+  // Fechar janela imersiva
+  document.getElementById('pranaImmersiveModal').classList.remove('active');
 }
-
-// Inicializar UI do Prana ao carregar
-renderPranaUI();
 
 // Philos & Quotations
 const quotes = [
