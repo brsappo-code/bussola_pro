@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bússola_PRO - Método Groppo (Etapa 2: Prana Imersivo)</title>
+<title>Bússola_PRO - Método Groppo (Etapa 2: Prana Imersivo Avançado)</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 :root {
@@ -80,9 +80,7 @@ h1 {
   box-shadow: 0 8px 20px rgba(44, 40, 37, 0.08);
   padding: 10px;
 }
-.hub-btn span.icon {
-  font-size: 28px;
-}
+.hub-btn span.icon { font-size: 28px; }
 .hub-btn span.label {
   font-size: 11px;
   font-weight: 900;
@@ -97,9 +95,7 @@ h1 {
   font-family: var(--font-mono);
   letter-spacing: -0.2px;
 }
-.hub-btn:active {
-  transform: scale(0.95);
-}
+.hub-btn:active { transform: scale(0.95); }
 .hub-btn:hover {
   border-color: var(--accent-color);
   background: var(--accent-glow);
@@ -110,16 +106,12 @@ h1 {
   display: none;
   animation: fadeIn 0.3s ease-in-out;
 }
-.section-panel.active {
-  display: block;
-}
+.section-panel.active { display: block; }
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
-.back-bar {
-  margin-bottom: 16px;
-}
+.back-bar { margin-bottom: 16px; }
 .back-btn {
   background: #f0ebe0;
   border: 2px solid var(--border-color);
@@ -135,9 +127,7 @@ h1 {
   font-family: var(--font-mono);
   transition: 0.2s;
 }
-.back-btn:active {
-  transform: scale(0.97);
-}
+.back-btn:active { transform: scale(0.97); }
 .card {
   background: var(--card-bg);
   border: 2px solid var(--border-color);
@@ -185,12 +175,8 @@ h2 {
   border-color: var(--accent-color);
   box-shadow: 0 0 12px var(--accent-glow);
 }
-.sub-content {
-  display: none;
-}
-.sub-content.active {
-  display: block;
-}
+.sub-content { display: none; }
+.sub-content.active { display: block; }
 label {
   display: block;
   margin-bottom: 6px;
@@ -216,10 +202,7 @@ select:focus, input:focus, textarea:focus {
   background: #fff;
   box-shadow: 0 0 10px var(--accent-glow);
 }
-textarea {
-  resize: vertical;
-  min-height: 80px;
-}
+textarea { resize: vertical; min-height: 80px; }
 .radio-group {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -238,9 +221,6 @@ textarea {
   font-family: var(--font-mono);
   color: var(--text-color);
   transition: 0.2s;
-}
-.radio-btn input {
-  display: none;
 }
 .radio-btn.selected {
   background: var(--accent-color);
@@ -262,14 +242,10 @@ textarea {
   transition: transform 0.1s, box-shadow 0.2s;
   font-family: var(--font-mono);
 }
-.action-btn:active {
-  transform: scale(0.97);
-}
+.action-btn:active { transform: scale(0.97); }
 
 /* PRANA ESTILOS GERAIS */
-.prana-container {
-  text-align: center;
-}
+.prana-container { text-align: center; }
 .prana-grid-options {
   display: grid;
   grid-template-columns: 1fr;
@@ -321,7 +297,7 @@ textarea {
   color: var(--success-color);
 }
 
-/* TELA DE IMERSÃO / JANELA SEPARADA DE PRANA (WOW) */
+/* TELA DE IMERSÃO / JANELA SEPARADA DE PRANA COM TABULAÇÃO INTERNA (WOW) */
 #pranaImmersiveModal {
   display: none;
   position: fixed;
@@ -331,48 +307,80 @@ textarea {
   height: 100vh;
   background-color: var(--bg-color);
   z-index: 9999;
-  padding: 20px;
+  padding: 16px;
   overflow-y: auto;
   flex-direction: column;
   justify-content: space-between;
 }
-#pranaImmersiveModal.active {
-  display: flex;
-}
+#pranaImmersiveModal.active { display: flex; }
 .immersive-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-bottom: 2px solid var(--border-color);
-  padding-bottom: 12px;
+  padding-bottom: 10px;
   margin-bottom: 10px;
 }
 .immersive-stop-btn {
   background: #fee2e2;
   color: #991b1b;
   border: 2px solid #fecaca;
-  padding: 10px 16px;
-  font-size: 13px;
+  padding: 8px 14px;
+  font-size: 12px;
   font-weight: 900;
   border-radius: 10px;
   cursor: pointer;
   font-family: var(--font-mono);
 }
+
+/* SISTEMA DE ABAS INTERNO DA TELA IMERSIVA */
+.immersive-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  background: #f0ebe0;
+  padding: 4px;
+  border-radius: 10px;
+  border: 2px solid var(--border-color);
+  margin-bottom: 12px;
+}
+.immersive-tab-btn {
+  background: transparent;
+  border: none;
+  padding: 8px 4px;
+  font-size: 11px;
+  font-weight: 900;
+  font-family: var(--font-mono);
+  color: var(--text-color);
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: center;
+  transition: 0.2s;
+}
+.immersive-tab-btn.active {
+  background: var(--card-bg);
+  color: var(--accent-color);
+  box-shadow: 0 2px 8px rgba(44, 40, 37, 0.1);
+}
+.immersive-tab-content { display: none; }
+.immersive-tab-content.active { display: block; }
+
 .immersive-source-box {
   background: #f4efe1;
   border: 2px solid var(--border-color);
   border-left: 5px solid var(--accent-color);
   padding: 12px;
   border-radius: 10px;
-  margin-bottom: 14px;
-  font-size: 12px;
+  font-size: 13px;
   text-align: left;
+  margin-bottom: 10px;
 }
 .immersive-source-box .scripture-title {
   font-weight: 900;
   font-family: var(--font-mono);
   color: var(--accent-color);
-  margin-bottom: 3px;
+  margin-bottom: 4px;
+  font-size: 12px;
 }
 .immersive-source-box .scripture-desc {
   color: #5c554e;
@@ -382,16 +390,16 @@ textarea {
 }
 .prana-visual-area-large {
   position: relative;
-  width: 240px;
-  height: 240px;
+  width: 220px;
+  height: 220px;
   margin: 10px auto;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .sleep-circle-lg {
-  width: 210px;
-  height: 210px;
+  width: 200px;
+  height: 200px;
   background: radial-gradient(circle, rgba(30, 58, 138, 0.25) 0%, rgba(30, 58, 138, 0.05) 80%);
   border: 4px solid #1e3a8a;
   border-radius: 50%;
@@ -403,8 +411,8 @@ textarea {
   box-shadow: 0 0 35px rgba(30, 58, 138, 0.3);
 }
 .focus-box-anim-lg {
-  width: 210px;
-  height: 210px;
+  width: 200px;
+  height: 200px;
   background: radial-gradient(circle, rgba(154, 52, 18, 0.2) 0%, rgba(212, 206, 190, 0.1) 80%);
   border: 5px solid var(--border-color);
   border-radius: 20px;
@@ -417,8 +425,8 @@ textarea {
   transition: border-color 0.3s ease;
 }
 .anxiety-circle-lg {
-  width: 210px;
-  height: 210px;
+  width: 200px;
+  height: 200px;
   background: radial-gradient(circle, rgba(13, 148, 136, 0.25) 0%, rgba(13, 148, 136, 0.05) 80%);
   border: 4px solid #0d9488;
   border-radius: 50%;
@@ -429,14 +437,14 @@ textarea {
   box-shadow: 0 0 35px rgba(13, 148, 136, 0.3);
 }
 .prana-timer-num-lg {
-  font-size: 52px;
+  font-size: 48px;
   font-weight: 900;
   color: var(--text-color);
   line-height: 1;
   font-family: var(--font-mono);
 }
 .prana-phase-txt-lg {
-  font-size: 13px;
+  font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 900;
@@ -447,15 +455,14 @@ textarea {
   background: var(--input-bg);
   border: 2px solid var(--border-color);
   border-radius: 12px;
-  padding: 14px;
+  padding: 12px;
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 12px;
   color: var(--accent-color);
   display: flex;
   flex-direction: column;
   gap: 6px;
   text-align: left;
-  margin-bottom: 14px;
 }
 
 .philos-card {
@@ -495,9 +502,7 @@ textarea {
   box-shadow: 0 0 15px var(--accent-glow);
   transition: 0.2s;
 }
-.fiat-lux-btn:active {
-  transform: scale(0.95);
-}
+.fiat-lux-btn:active { transform: scale(0.95); }
 .philos-quote {
   font-size: 17px;
   font-style: italic;
@@ -533,10 +538,7 @@ textarea {
   border-color: var(--accent-color);
   box-shadow: 0 0 15px var(--accent-glow);
 }
-.gender-silhouette {
-  font-size: 48px;
-  margin-bottom: 8px;
-}
+.gender-silhouette { font-size: 48px; margin-bottom: 8px; }
 .gender-title {
   font-size: 14px;
   font-weight: 900;
@@ -564,10 +566,7 @@ textarea {
   border-color: var(--accent-color);
   box-shadow: 0 0 10px var(--accent-glow);
 }
-.silhouette-box .s-icon {
-  font-size: 22px;
-  margin-bottom: 4px;
-}
+.silhouette-box .s-icon { font-size: 22px; margin-bottom: 4px; }
 .silhouette-box .s-num {
   font-size: 13px;
   font-weight: 900;
@@ -708,7 +707,6 @@ textarea {
   <div class="card prana-container">
     <h2>💨 Laboratório Prana (Hatha Yoga)</h2>
     
-    <!-- Seleção dos 3 Pranayamas Clássicos com Fontes -->
     <div class="prana-grid-options" id="pranaGridOptions">
       <button class="prana-style-btn active" onclick="selectPranaType('sono', this)">
         <span>🌙</span>
@@ -733,7 +731,6 @@ textarea {
       </button>
     </div>
 
-    <!-- Duração da Prática -->
     <label>Duração da Prática:</label>
     <div class="duration-selector">
       <button class="duration-btn active" onclick="setPranaDuration(1, this)">1 Minuto</button>
@@ -741,12 +738,11 @@ textarea {
       <button class="duration-btn" onclick="setPranaDuration(5, this)">5 Minutos</button>
     </div>
 
-    <!-- Botão para abrir Janela Imersiva (WOW) -->
     <button class="action-btn" onclick="startPranaSession()" style="margin-top: 10px;">Abrir Tela Imersiva ⚡</button>
   </div>
 </div>
 
-<!-- TELA DE IMERSÃO / JANELA SEPARADA DE PRANA (WOW) -->
+<!-- TELA DE IMERSÃO / JANELA SEPARADA DE PRANA COM TABULAÇÃO INTERNA (WOW) -->
 <div id="pranaImmersiveModal">
   <div class="immersive-header">
     <button class="back-btn" onclick="stopPranaSession()">← Voltar ao Menu</button>
@@ -754,25 +750,46 @@ textarea {
     <button class="immersive-stop-btn" onclick="stopPranaSession()">Parar ⏹</button>
   </div>
 
-  <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 450px; margin: 0 auto; width: 100%;">
+  <!-- ABAS DE NAVEGAÇÃO INTERNA NO MODAL -->
+  <div class="immersive-tabs">
+    <button class="immersive-tab-btn active" onclick="switchImmersiveTab('visual', this)">👁️ Prática</button>
+    <button class="immersive-tab-btn" onclick="switchImmersiveTab('fontes', this)">📜 Textos Clássicos</button>
+    <button class="immersive-tab-btn" onclick="switchImmersiveTab('postura', this)">🧘 Postura & Vayus</button>
+  </div>
+
+  <div style="flex: 1; display: flex; flex-direction: column; justify-content: flex-start; max-width: 450px; margin: 0 auto; width: 100%;">
     
-    <!-- Informação da Fonte Clássica -->
-    <div class="immersive-source-box" id="immersiveSourceBox">
-      <div class="scripture-title" id="scriptureTitle">📖 Hatha Pradipika (Cap. 2, Versículo 50)</div>
-      <div class="scripture-desc" id="scriptureDesc">"Inalando pela narina esquerda resfria-se o corpo, apazigua-se a mente e induz-se o sono profundo."</div>
+    <!-- ABA 1: VISUAL E TEMPORIZADOR -->
+    <div id="imm-tab-visual" class="immersive-tab-content active text-center">
+      <div class="prana-visual-area-large">
+        <div id="pranaVisualContainerLarge">
+          <!-- Injetado via JS -->
+        </div>
+      </div>
+      <div class="immersive-hud-box" style="margin-top: 10px;">
+        <div>⏱️ <span id="immersiveTimeLeft">Tempo restante: 01:00</span></div>
+        <div>💨 <span id="immersivePhaseSub">Siga o ritmo de expansão e contracção</span></div>
+      </div>
     </div>
 
-    <!-- HUD de Orientação Física e Respiração -->
-    <div class="immersive-hud-box">
-      <div>🧘 <span id="immersiveNostril">Narina: Esquerda (Energia Lunar / Ida)</span></div>
-      <div>🛡️ <span id="immersivePhysical">Relaxe os ombros, abaixe o queixo e solte o maxilar</span></div>
-      <div>⏱️ <span id="immersiveTimeLeft">Tempo restante: 01:00</span></div>
+    <!-- ABA 2: FONTES CLÁSSICAS (Hatha Pradipika, Gheranda, Goraksha) -->
+    <div id="imm-tab-fontes" class="immersive-tab-content">
+      <div class="immersive-source-box">
+        <div class="scripture-title" id="scriptureTitle">📖 Hatha Pradipika (Cap. 2, Versículo 50)</div>
+        <div class="scripture-desc" id="scriptureDesc">"Inalando pela narina esquerda resfria-se o corpo, apazigua-se a mente e induz-se o sono profundo."</div>
+      </div>
+      <div class="immersive-hud-box">
+        <div>📜 **Tradição Ancestral:** Manuscritos sânscritos originais verificados.</div>
+        <div>⚖️ **Alquimia dos Canais:** Balanço direto entre *Ida* (lunar/frio) e *Pingala* (solar/quente).</div>
+      </div>
     </div>
 
-    <!-- Área Visual Dinâmica Grande -->
-    <div class="prana-visual-area-large">
-      <div id="pranaVisualContainerLarge">
-        <!-- Injetado via JS -->
+    <!-- ABA 3: INSTRUÇÕES DE POSTURA E USO -->
+    <div id="imm-tab-postura" class="immersive-tab-content">
+      <div class="immersive-hud-box">
+        <div>🧘 <span id="immersiveNostril">Narina: Esquerda (Energia Lunar / Ida)</span></div>
+        <div>🛡️ <span id="immersivePhysical">Relaxe os ombros, abaixe o queixo (Jalandhara Bandha) e solte o maxilar.</span></div>
+        <div>⚠️ **Diretriz de Segurança:** Nunca force a retenção (*Kumbhaka*) além do conforto natural. O fluxo deve ser suave como o óleo derramado.</div>
       </div>
     </div>
 
@@ -838,9 +855,7 @@ let tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : nu
 if (tg) tg.expand();
 
 function switchSection(sectionId) {
-  if (sectionId !== 'prana') {
-    stopPranaSession();
-  }
+  if (sectionId !== 'prana') { stopPranaSession(); }
   document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
   document.getElementById('section-'+sectionId).classList.add('active');
   window.scrollTo(0,0);
@@ -854,6 +869,15 @@ function switchSub(subId, btn) {
   document.getElementById('sub-'+subId).classList.add('active');
 }
 
+// Abas Internas da Tela Imersiva Prana
+function switchImmersiveTab(tabKey, btn) {
+  const modal = document.getElementById('pranaImmersiveModal');
+  modal.querySelectorAll('.immersive-tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  modal.querySelectorAll('.immersive-tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('imm-tab-'+tabKey).classList.add('active');
+}
+
 // Funções Manhã
 function updateRigidez(val) {
   document.getElementById('rigidezVal').innerText = val;
@@ -864,20 +888,12 @@ function updateRigidez(val) {
   else if(val == 4) slider.style.accentColor = '#f97316';
   else slider.style.accentColor = '#ef4444';
 }
-function updateDisposicao(val) {
-  document.getElementById('disposicaoVal').innerText = val;
-}
+function updateDisposicao(val) { document.getElementById('disposicaoVal').innerText = val; }
 
 // Funções Tarde
 let waterMl = 2000;
-function addWater() {
-  waterMl += 200;
-  updateWaterDisplay();
-}
-function resetWater() {
-  waterMl = 0;
-  updateWaterDisplay();
-}
+function addWater() { waterMl += 200; updateWaterDisplay(); }
+function resetWater() { waterMl = 0; updateWaterDisplay(); }
 function updateWaterDisplay() {
   document.getElementById('waterTotal').innerText = waterMl;
   document.getElementById('waterCups').innerText = (waterMl / 200).toFixed(0);
@@ -894,11 +910,8 @@ function setPausa(val, btn) {
 let selectedTreinos = [];
 function toggleTreino(nome, btn) {
   btn.classList.toggle('selected');
-  if(selectedTreinos.includes(nome)) {
-    selectedTreinos = selectedTreinos.filter(t => t !== nome);
-  } else {
-    selectedTreinos.push(nome);
-  }
+  if(selectedTreinos.includes(nome)) { selectedTreinos = selectedTreinos.filter(t => t !== nome); }
+  else { selectedTreinos.push(nome); }
 }
 function updateGangorraA(val) {
   const lbl = document.getElementById('labelGangorraA');
@@ -923,15 +936,8 @@ function selectSilhouette(num, el) {
   document.querySelectorAll('.silhouette-box').forEach(b => b.classList.remove('selected'));
   el.classList.add('selected');
 }
-function saveAnamnese() {
-  alert('Calibragem salva com sucesso!');
-  switchSection('home');
-}
-function submitCheckin(e) {
-  e.preventDefault();
-  alert('Check-in da Bússola Diária registrado com sucesso!');
-  switchSection('home');
-}
+function saveAnamnese() { alert('Calibragem salva com sucesso!'); switchSection('home'); }
+function submitCheckin(e) { e.preventDefault(); alert('Check-in da Bússola Diária registrado com sucesso!'); switchSection('home'); }
 
 // -------------------------------------------------------------
 // LÓGICA DO LABORATÓRIO PRANA IMERSIVO (HATHA YOGA)
@@ -942,7 +948,6 @@ let pranaInterval = null;
 let pranaTotalSecondsLeft = 60;
 let isPranaRunning = false;
 
-// Informações refinadas baseadas nas fontes clássicas do Hatha Yoga
 const pranaProfiles = {
   sono: {
     name: 'Induzir Sono (Chandra Bhedana)',
@@ -951,9 +956,9 @@ const pranaProfiles = {
     scriptureTitle: '📖 Hatha Pradipika (Cap. 2, Versículo 50)',
     scriptureDesc: '"Inalando pela narina esquerda resfria-se o corpo (canal lunar/Ida), apazigua-se o sistema nervoso e induz-se o sono profundo."',
     phases: [
-      { name: 'Inspire Profundo (Esquerda)', duration: 4, scale: 'scale(1.2)' },
-      { name: 'Retenção Cheia (Kumbhaka)', duration: 7, scale: 'scale(1.2)' },
-      { name: 'Expire Lento (Direita)', duration: 8, scale: 'scale(1.0)' }
+      { name: 'Inspire Profundo (Esquerda)', duration: 4 },
+      { name: 'Retenção Cheia (Kumbhaka)', duration: 7 },
+      { name: 'Expire Lento (Direita)', duration: 8 }
     ],
     htmlVisual: `<div class="sleep-circle-lg" id="sleepCircleElem"><div class="prana-timer-num-lg" id="pranaTimerNum">4</div><div class="prana-phase-txt-lg" id="pranaPhaseTxt">Preparar</div></div>`
   },
@@ -978,8 +983,8 @@ const pranaProfiles = {
     scriptureTitle: '📖 Gheranda Samhita (Cap. 5, Versículo 54)',
     scriptureDesc: '"Ujjayi purifica os nadis, remove o excesso de Vayu (ar/ansiedade) no corpo e aquece suavemente o Fogo Interior (Agni)."',
     phases: [
-      { name: 'Inspire com Fricção Suave', duration: 4, scale: 'scale(1.15)' },
-      { name: 'Expire Longo e Contínuo', duration: 6, scale: 'scale(1.0)' }
+      { name: 'Inspire com Fricção Suave', duration: 4 },
+      { name: 'Expire Longo e Contínuo', duration: 6 }
     ],
     htmlVisual: `<div class="anxiety-circle-lg" id="anxietyCircleElem"><div class="prana-timer-num-lg" id="pranaTimerNum">4</div><div class="prana-phase-txt-lg" id="pranaPhaseTxt">Calma</div></div>`
   }
@@ -1020,9 +1025,17 @@ function startPranaSession() {
 
   updateImmersiveHudTime();
   
-  // Abrir janela imersiva (Modal separado em tela cheia)
-  document.getElementById('pranaImmersiveModal').classList.add('active');
+  // Reset para a aba visual ao abrir
+  const tabBtns = document.querySelectorAll('.immersive-tab-btn');
+  const tabContents = document.querySelectorAll('.immersive-tab-content');
+  tabBtns.forEach((b, idx) => {
+    if(idx === 0) b.classList.add('active'); else b.classList.remove('active');
+  });
+  tabContents.forEach((c, idx) => {
+    if(idx === 0) c.classList.add('active'); else c.classList.remove('active');
+  });
 
+  document.getElementById('pranaImmersiveModal').classList.add('active');
   runPranaCycle(0);
 }
 
@@ -1094,8 +1107,6 @@ function applyVisualPhaseLarge(type, phaseIndex) {
 function stopPranaSession() {
   isPranaRunning = false;
   if (window.currentPranaStepInterval) clearInterval(window.currentPranaStepInterval);
-  
-  // Fechar janela imersiva
   document.getElementById('pranaImmersiveModal').classList.remove('active');
 }
 
