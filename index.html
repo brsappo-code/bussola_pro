@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bússola_PRO - Método Groppo (Etapa 1: Bússola Aprimorada)</title>
+<title>Bússola_PRO - Método Groppo (Etapa 2: Prana Integrado)</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
 :root {
@@ -265,16 +265,46 @@ textarea {
 .action-btn:active {
   transform: scale(0.97);
 }
+
+/* PRANA ESTILOS REFINADOS (ETAPA 2) */
 .prana-container {
   text-align: center;
 }
-.mode-selector {
+.prana-grid-options {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.prana-style-btn {
+  background: var(--input-bg);
+  border: 2px solid var(--border-color);
+  padding: 12px;
+  font-size: 13px;
+  font-weight: 800;
+  border-radius: 10px;
+  color: var(--text-color);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  text-align: left;
   display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: 0.2s;
+}
+.prana-style-btn.active {
+  background: var(--accent-glow);
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+  box-shadow: 0 0 12px var(--accent-glow);
+}
+.duration-selector {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 6px;
   margin-bottom: 14px;
 }
-.mode-btn {
-  flex: 1;
+.duration-btn {
   background: var(--input-bg);
   border: 2px solid var(--border-color);
   padding: 8px;
@@ -285,102 +315,112 @@ textarea {
   cursor: pointer;
   font-family: var(--font-mono);
 }
-.mode-btn.active {
+.duration-btn.active {
   background: var(--success-glow);
   border-color: var(--success-color);
   color: var(--success-color);
 }
-.breath-styles-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 6px;
+.prana-hud-box {
+  background: var(--input-bg);
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 12px;
   margin-bottom: 14px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--accent-color);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
 }
-.circle-wrapper {
+.prana-visual-area {
   position: relative;
-  width: 210px;
-  height: 210px;
+  width: 220px;
+  height: 220px;
   margin: 16px auto;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  animation: fadeInScale 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.circle-wrapper.active {
-  display: flex;
-}
-@keyframes fadeInScale {
-  from { opacity: 0; transform: scale(0.7); }
-  to { opacity: 1; transform: scale(1); }
-}
-.breath-animation-container {
-  position: absolute;
-  width: 190px;
-  height: 190px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.breath-circle {
-  position: absolute;
-  width: 150px;
-  height: 150px;
-  background: radial-gradient(circle, rgba(154,52,18,0.25) 0%, rgba(154,52,18,0.06) 75%);
-  border: 3px solid var(--accent-color);
+/* Animação para sono (Onda suave / Pulso profundo) */
+.sleep-circle {
+  width: 170px;
+  height: 170px;
+  background: radial-gradient(circle, rgba(30, 58, 138, 0.2) 0%, rgba(30, 58, 138, 0.05) 80%);
+  border: 3px solid #1e3a8a;
   border-radius: 50%;
-  transition: transform 0.1s linear, background 0.4s ease;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 30px var(--accent-glow);
+  transition: transform 0.2s linear;
+  box-shadow: 0 0 25px rgba(30, 58, 138, 0.2);
 }
-.breath-timer {
-  font-size: 32px;
+/* Animação para foco (Quadrado progressivo) */
+.focus-box-anim {
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(154, 52, 18, 0.15) 0%, rgba(212, 206, 190, 0.1) 80%);
+  border: 4px solid var(--border-color);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  box-shadow: 0 0 20px var(--accent-glow);
+  transition: border-color 0.3s ease;
+}
+.focus-box-anim.active-side {
+  border-color: var(--accent-color);
+}
+/* Animação para ansiedade (Onda fluida relaxante) */
+.anxiety-circle {
+  width: 170px;
+  height: 170px;
+  background: radial-gradient(circle, rgba(13, 148, 136, 0.2) 0%, rgba(13, 148, 136, 0.05) 80%);
+  border: 3px solid #0d9488;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 25px rgba(13, 148, 136, 0.2);
+}
+.prana-timer-num {
+  font-size: 38px;
   font-weight: 900;
   color: var(--text-color);
   line-height: 1;
   font-family: var(--font-mono);
-  z-index: 3;
 }
-.breath-phase-label {
+.prana-phase-txt {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.8px;
   font-weight: 900;
-  color: var(--accent-color);
   margin-top: 4px;
   font-family: var(--font-mono);
-  z-index: 3;
-  text-align: center;
-  padding: 0 8px;
 }
-.prana-status {
-  font-size: 14px;
-  font-weight: 800;
-  margin: 10px 0;
-  color: var(--accent-color);
-  min-height: 22px;
-  font-family: var(--font-mono);
-}
-.prana-explanation {
-  font-size: 12px;
-  font-weight: 600;
-  color: #5c554e;
-  margin-bottom: 12px;
-  font-family: var(--font-mono);
-  background: var(--input-bg);
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid var(--border-color);
-  text-align: left;
-  line-height: 1.5;
-}
-.prana-controls {
-  display: flex;
+.prana-controls-flex {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 10px;
   margin-top: 14px;
 }
+.stop-btn {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 2px solid #fecaca;
+  padding: 14px;
+  font-size: 15px;
+  font-weight: 900;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+}
+
 .philos-card {
   background: linear-gradient(135deg, #fffdf9 0%, #f4efe1 100%);
   border: 2px solid var(--border-color);
@@ -501,7 +541,7 @@ textarea {
 <body>
 <header>
   <h1>BÚSSOLA_PRO</h1>
-  <div class="subtitle">Método Groppo • Alquimia Diária (Etapa 1 Aprimorada)</div>
+  <div class="subtitle">Método Groppo • Alquimia Diária (Etapa 2 Prana)</div>
 </header>
 
 <!-- MAIN HUB (HOME) -->
@@ -527,7 +567,7 @@ textarea {
   </div>
 </div>
 
-<!-- SECTION 1: BÚSSOLA DIÁRIA (APRIMORADA COM SLIDERS E GANGORRAS) -->
+<!-- SECTION 1: BÚSSOLA DIÁRIA -->
 <div id="section-bussola" class="section-panel">
   <div class="back-bar">
     <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
@@ -540,16 +580,15 @@ textarea {
     </div>
     <form id="checkinForm" onsubmit="submitCheckin(event)">
       
-      <!-- MANHÃ (Sliders com Feedback Dinâmico de Cor) -->
+      <!-- MANHÃ -->
       <div id="sub-manha" class="sub-content active">
         <h2>🌅 Check-in Matinal</h2>
-        
         <label>Rigidez ou Dor Corporal (1 a 5): <span id="rigidezVal" class="font-mono text-accent-color font-bold">3</span></label>
         <input type="range" min="1" max="5" value="3" step="1" id="rigidezRange" oninput="updateRigidez(this.value)" class="w-full accent-green-600 mb-2 cursor-pointer">
         <div class="flex justify-between text-xs text-slate-500 font-mono mb-6">
-          <span class="text-green-600 font-bold">1 (Leve / Verde)</span>
+          <span class="text-green-600 font-bold">1 (Leve)</span>
           <span class="text-amber-500 font-bold">3 (Moderado)</span>
-          <span class="text-red-600 font-bold">5 (Intenso / Vermelho)</span>
+          <span class="text-red-600 font-bold">5 (Intenso)</span>
         </div>
 
         <label>Disposição e Humor Mental (1 a 5): <span id="disposicaoVal" class="font-mono text-accent-color font-bold">3</span></label>
@@ -561,10 +600,9 @@ textarea {
         </div>
       </div>
 
-      <!-- TARDE (Pausa Produtiva & Copo Interativo de Água) -->
+      <!-- TARDE -->
       <div id="sub-tarde" class="sub-content">
         <h2>☀️ Check-in Vespertino</h2>
-        
         <label>Fez Pausa Produtiva hoje?</label>
         <div class="grid grid-cols-2 gap-2 mb-4">
           <button type="button" class="radio-btn selected" id="pausaSim" onclick="setPausa('Sim', this)">Sim</button>
@@ -577,18 +615,17 @@ textarea {
           <button type="button" onclick="addWater()" class="text-4xl active:scale-90 transition-transform cursor-pointer bg-transparent border-none">🥛</button>
           <div>
             <div class="text-xl font-bold font-mono text-accent-color"><span id="waterTotal">2000</span> ml</div>
-            <div class="text-xs text-slate-500 font-mono">Total de <span id="waterCups">10</span> copos (200ml cada)</div>
+            <div class="text-xs text-slate-500 font-mono">Total de <span id="waterCups">10</span> copos (200ml)</div>
           </div>
           <button type="button" onclick="resetWater()" class="ml-auto text-xs bg-red-100 text-red-700 px-3 py-1.5 rounded-lg font-mono font-bold">Zerar</button>
         </div>
         <input type="hidden" id="hidratacaoInput" value="2.0">
       </div>
 
-      <!-- NOITE (Múltiplos Treinos & Gangorras de Alimentação) -->
+      <!-- NOITE -->
       <div id="sub-noite" class="sub-content">
         <h2>🌙 Fechamento Noturno</h2>
-        
-        <label>Treinos Realizados (Selecione múltiplos):</label>
+        <label>Treinos Realizados (Múltiplos):</label>
         <div class="grid grid-cols-2 gap-2 mb-4">
           <button type="button" class="radio-btn text-xs" onclick="toggleTreino('Força', this)">💪 Força</button>
           <button type="button" class="radio-btn text-xs" onclick="toggleTreino('Core', this)">🔥 Core</button>
@@ -626,30 +663,65 @@ textarea {
   </div>
 </div>
 
-<!-- SECTION 2: PRANA -->
+<!-- SECTION 2: PRANA (ETAPA 2 REFINADA) -->
 <div id="section-prana" class="section-panel">
   <div class="back-bar">
     <button class="back-btn" onclick="switchSection('home')">← Voltar ao Início</button>
   </div>
   <div class="card prana-container">
-    <h2>💨 Laboratório Prana</h2>
-    <div class="mode-selector">
-      <button class="mode-btn active" onclick="setPranaMode('coerencia', this)">Coerência Cardíaca</button>
-      <button class="mode-btn" onclick="setPranaMode('pranayama', this)">Pranayama Clássico</button>
-    </div>
-    <div class="breath-styles-grid" id="breathStylesGrid"></div>
-    <div class="prana-explanation" id="pranaExplanation">Selecione um ritmo para iniciar a alquimia respiratória.</div>
-    <div class="circle-wrapper" id="circleWrapper">
-      <div class="breath-animation-container">
-        <div class="breath-circle" id="breathCircle">
-          <div class="breath-timer" id="breathTimer">0</div>
-          <div class="breath-phase-label" id="breathPhaseLabel">Preparar</div>
+    <h2>💨 Laboratório Prana (Hatha Yoga)</h2>
+    
+    <!-- Seleção dos 3 Pranayamas Clássicos -->
+    <div class="prana-grid-options" id="pranaGridOptions">
+      <button class="prana-style-btn active" onclick="selectPranaType('sono', this)">
+        <span>🌙</span>
+        <div>
+          <div class="font-bold">Induzir Sono / Relaxar</div>
+          <div class="text-xs text-slate-500">Ritmo 4-7-8 • Narina Esquerda</div>
         </div>
+      </button>
+      <button class="prana-style-btn" onclick="selectPranaType('foco', this)">
+        <span>🧠</span>
+        <div>
+          <div class="font-bold">Foco & Clareza (Box)</div>
+          <div class="text-xs text-slate-500">Quadrado 4-4-4-4 • Ambas Narinas</div>
+        </div>
+      </button>
+      <button class="prana-style-btn" onclick="selectPranaType('ansiedade', this)">
+        <span>🌊</span>
+        <div>
+          <div class="font-bold">Diminuir Ansiedade</div>
+          <div class="text-xs text-slate-500">Ritmo Calmo 4-6 • Narina Esquerda/Alternada</div>
+        </div>
+      </button>
+    </div>
+
+    <!-- Duração da Prática -->
+    <label>Duração da Prática:</label>
+    <div class="duration-selector">
+      <button class="duration-btn active" onclick="setPranaDuration(1, this)">1 Minuto</button>
+      <button class="duration-btn" onclick="setPranaDuration(3, this)">3 Minutos</button>
+      <button class="duration-btn" onclick="setPranaDuration(5, this)">5 Minutos</button>
+    </div>
+
+    <!-- HUD de Orientação Física e Respiração -->
+    <div class="prana-hud-box" id="pranaHudBox">
+      <div>🧘 <span id="hudNostril">Narina: Esquerda (Energia Lunar)</span></div>
+      <div>🛡️ <span id="hudPhysical">Relaxe os ombros e solte o maxilar</span></div>
+      <div>⏱️ <span id="hudTimeLeft">Tempo restante: 01:00</span></div>
+    </div>
+
+    <!-- Área Visual Dinâmica -->
+    <div class="prana-visual-area">
+      <div id="pranaVisualContainer">
+        <!-- Injetado via JS dependendo do Pranayama -->
       </div>
     </div>
-    <div class="prana-status" id="pranaStatus">Pronto para iniciar</div>
-    <div class="prana-controls">
-      <button class="action-btn" id="pranaToggleBtn" onclick="togglePranaSession()">Iniciar Prática</button>
+
+    <!-- Controles -->
+    <div class="prana-controls-flex" id="pranaControlsFlex">
+      <button class="action-btn" id="pranaStartBtn" onclick="startPranaSession()">Iniciar Prática</button>
+      <button class="stop-btn" id="pranaStopBtn" onclick="stopPranaSession()" style="display:none;">Parar</button>
     </div>
   </div>
 </div>
@@ -709,6 +781,10 @@ let tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : nu
 if (tg) tg.expand();
 
 function switchSection(sectionId) {
+  // Parar sessão prana se sair da aba
+  if (sectionId !== 'prana') {
+    stopPranaSession();
+  }
   document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
   document.getElementById('section-'+sectionId).classList.add('active');
   window.scrollTo(0,0);
@@ -722,7 +798,7 @@ function switchSub(subId, btn) {
   document.getElementById('sub-'+subId).classList.add('active');
 }
 
-// Funções Manhã (Sliders Dinâmicos)
+// Funções Manhã
 function updateRigidez(val) {
   document.getElementById('rigidezVal').innerText = val;
   const slider = document.getElementById('rigidezRange');
@@ -732,12 +808,11 @@ function updateRigidez(val) {
   else if(val == 4) slider.style.accentColor = '#f97316';
   else slider.style.accentColor = '#ef4444';
 }
-
 function updateDisposicao(val) {
   document.getElementById('disposicaoVal').innerText = val;
 }
 
-// Funções Tarde (Água interativa e Pausa)
+// Funções Tarde
 let waterMl = 2000;
 function addWater() {
   waterMl += 200;
@@ -759,7 +834,7 @@ function setPausa(val, btn) {
   document.getElementById('pausaAtivaVal').value = val;
 }
 
-// Funções Noite (Treinos múltiplos e Gangorras)
+// Funções Noite
 let selectedTreinos = [];
 function toggleTreino(nome, btn) {
   btn.classList.toggle('selected');
@@ -769,7 +844,6 @@ function toggleTreino(nome, btn) {
     selectedTreinos.push(nome);
   }
 }
-
 function updateGangorraA(val) {
   const lbl = document.getElementById('labelGangorraA');
   let saudavel = 100 - val;
@@ -778,7 +852,6 @@ function updateGangorraA(val) {
   else if(val > 60) lbl.innerText = `Predomínio Livre (${saudavel}% / ${naoSaudavel}%)`;
   else lbl.innerText = `Equilíbrio Alquímico (${saudavel}% / ${naoSaudavel}%)`;
 }
-
 function updateGangorraB(val) {
   const lbl = document.getElementById('labelGangorraB');
   if(val < 40) lbl.innerText = `Baixa Quantidade / Leve (${val}%)`;
@@ -790,23 +863,195 @@ function selectGender(gender, el) {
   document.querySelectorAll('.gender-card').forEach(c => c.classList.remove('selected'));
   el.classList.add('selected');
 }
-
 function selectSilhouette(num, el) {
   document.querySelectorAll('.silhouette-box').forEach(b => b.classList.remove('selected'));
   el.classList.add('selected');
 }
-
 function saveAnamnese() {
   alert('Calibragem salva com sucesso!');
   switchSection('home');
 }
-
 function submitCheckin(e) {
   e.preventDefault();
   alert('Check-in da Bússola Diária registrado com sucesso!');
   switchSection('home');
 }
 
+// -------------------------------------------------------------
+// LÓGICA DO LABORATÓRIO PRANA (ETAPA 2)
+// -------------------------------------------------------------
+let currentPranaType = 'sono';
+let pranaDurationMinutes = 1;
+let pranaInterval = null;
+let pranaTotalSecondsLeft = 60;
+let isPranaRunning = false;
+
+// Perfis dos Pranayamas Hatha Yoga
+const pranaProfiles = {
+  sono: {
+    name: 'Induzir Sono (4-7-8)',
+    nostril: 'Narina Esquerda (Tampe a direita com o polegar)',
+    physical: 'Relaxe os ombros, abaixe o queixo e solte o maxilar',
+    phases: [
+      { name: 'Inspire Profundo', duration: 4, scale: 'scale(1.25)' },
+      { name: 'Retenção Cheia', duration: 7, scale: 'scale(1.25)' },
+      { name: 'Expire Lento', duration: 8, scale: 'scale(1.0)' }
+    ],
+    htmlVisual: `<div class="sleep-circle" id="sleepCircleElem"><div class="prana-timer-num" id="pranaTimerNum">4</div><div class="prana-phase-txt" id="pranaPhaseTxt">Preparar</div></div>`
+  },
+  foco: {
+    name: 'Foco & Clareza (Box Breathing)',
+    nostril: 'Ambas as narinas (Postura erguida)',
+    physical: 'Alinhe a coluna, peito aberto, ombros relaxados',
+    phases: [
+      { name: 'Inspire (Topo)', duration: 4, border: 'border-top-color: var(--accent-color)' },
+      { name: 'Retenção (Direita)', duration: 4, border: 'border-right-color: var(--accent-color)' },
+      { name: 'Expire (Base)', duration: 4, border: 'border-bottom-color: var(--accent-color)' },
+      { name: 'Retenção Vazia (Esquerda)', duration: 4, border: 'border-left-color: var(--accent-color)' }
+    ],
+    htmlVisual: `<div class="focus-box-anim" id="focusBoxElem"><div class="prana-timer-num" id="pranaTimerNum">4</div><div class="prana-phase-txt" id="pranaPhaseTxt">Box</div></div>`
+  },
+  ansiedade: {
+    name: 'Diminuir Ansiedade (4-6)',
+    nostril: 'Narina Esquerda predominante (Fluxo calmante)',
+    physical: 'Solte totalmente os ombros e a tensão do abdômen',
+    phases: [
+      { name: 'Inspire Calmo', duration: 4, scale: 'scale(1.2)' },
+      { name: 'Expire Prolongado', duration: 6, scale: 'scale(1.0)' }
+    ],
+    htmlVisual: `<div class="anxiety-circle" id="anxietyCircleElem"><div class="prana-timer-num" id="pranaTimerNum">4</div><div class="prana-phase-txt" id="pranaPhaseTxt">Calma</div></div>`
+  }
+};
+
+function selectPranaType(type, btn) {
+  if (isPranaRunning) return;
+  document.querySelectorAll('.prana-style-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentPranaType = type;
+  renderPranaUI();
+}
+
+function setPranaDuration(mins, btn) {
+  if (isPranaRunning) return;
+  document.querySelectorAll('.duration-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  pranaDurationMinutes = mins;
+  pranaTotalSecondsLeft = mins * 60;
+  updateHudTime();
+}
+
+function renderPranaUI() {
+  const profile = pranaProfiles[currentPranaType];
+  document.getElementById('hudNostril').innerText = profile.nostril;
+  document.getElementById('hudPhysical').innerText = profile.physical;
+  document.getElementById('pranaVisualContainer').innerHTML = profile.htmlVisual;
+  pranaTotalSecondsLeft = pranaDurationMinutes * 60;
+  updateHudTime();
+}
+
+function updateHudTime() {
+  const m = Math.floor(pranaTotalSecondsLeft / 60).toString().padStart(2, '0');
+  const s = (pranaTotalSecondsLeft % 60).toString().padStart(2, '0');
+  document.getElementById('hudTimeLeft').innerText = `Tempo restante: ${m}:${s}`;
+}
+
+function startPranaSession() {
+  if (isPranaRunning) return;
+  isPranaRunning = true;
+  document.getElementById('pranaStartBtn').style.display = 'none';
+  document.getElementById('pranaStopBtn').style.display = 'block';
+  
+  // Desativar seletores durante a execução
+  document.querySelectorAll('.prana-style-btn, .duration-btn').forEach(b => b.style.opacity = '0.6');
+
+  runPranaCycle(0);
+}
+
+function runPranaCycle(phaseIndex) {
+  if (!isPranaRunning) return;
+  
+  const profile = pranaProfiles[currentPranaType];
+  const phase = profile.phases[phaseIndex];
+  let currentCountdown = phase.duration;
+
+  const timerEl = document.getElementById('pranaTimerNum');
+  const phaseEl = document.getElementById('pranaPhaseTxt');
+  
+  if (timerEl) timerEl.innerText = currentCountdown;
+  if (phaseEl) phaseEl.innerText = phase.name;
+
+  // Atualiza animações visuais da fase
+  applyVisualPhase(currentPranaType, phaseIndex);
+
+  const stepInterval = setInterval(() => {
+    if (!isPranaRunning) {
+      clearInterval(stepInterval);
+      return;
+    }
+
+    currentCountdown--;
+    pranaTotalSecondsLeft--;
+    updateHudTime();
+
+    if (timerEl) timerEl.innerText = currentCountdown;
+
+    // Condição de término do tempo total
+    if (pranaTotalSecondsLeft <= 0) {
+      clearInterval(stepInterval);
+      stopPranaSession();
+      alert('Prática de Prana concluída com sucesso!');
+      return;
+    }
+
+    if (currentCountdown <= 0) {
+      clearInterval(stepInterval);
+      const nextIndex = (phaseIndex + 1) % profile.phases.length;
+      runPranaCycle(nextIndex);
+    }
+  }, 1000);
+
+  window.currentPranaStepInterval = stepInterval;
+}
+
+function applyVisualPhase(type, phaseIndex) {
+  if (type === 'sono') {
+    const el = document.getElementById('sleepCircleElem');
+    if (!el) return;
+    if (phaseIndex === 0) el.style.transform = 'scale(1.2)';
+    else if (phaseIndex === 1) el.style.transform = 'scale(1.2)';
+    else el.style.transform = 'scale(1.0)';
+  } else if (type === 'foco') {
+    const el = document.getElementById('focusBoxElem');
+    if (!el) return;
+    // Simula as 4 fases do quadrado
+    if (phaseIndex === 0) el.style.boxShadow = '0 0 30px var(--accent-color)';
+    else if (phaseIndex === 1) el.style.boxShadow = '10px 10px 30px var(--accent-glow)';
+    else if (phaseIndex === 2) el.style.boxShadow = '0 15px 30px rgba(154,52,18,0.3)';
+    else el.style.boxShadow = '-10px 0 30px var(--accent-glow)';
+  } else if (type === 'ansiedade') {
+    const el = document.getElementById('anxietyCircleElem');
+    if (!el) return;
+    if (phaseIndex === 0) el.style.transform = 'scale(1.15)';
+    else el.style.transform = 'scale(1.0)';
+  }
+}
+
+function stopPranaSession() {
+  isPranaRunning = false;
+  if (window.currentPranaStepInterval) clearInterval(window.currentPranaStepInterval);
+  
+  document.getElementById('pranaStartBtn').style.display = 'block';
+  document.getElementById('pranaStopBtn').style.display = 'none';
+  document.querySelectorAll('.prana-style-btn, .duration-btn').forEach(b => b.style.opacity = '1');
+  
+  pranaTotalSecondsLeft = pranaDurationMinutes * 60;
+  renderPranaUI();
+}
+
+// Inicializar UI do Prana ao carregar
+renderPranaUI();
+
+// Philos & Quotations
 const quotes = [
   {quote: "O corpo que não se movimenta petrifica a alma que nele habita. Desperte a carne para libertar o espírito.", source: "Método Groppo • Princípio I"},
   {quote: "A respiração é a ponte entre o caos mental e a clareza da ação.", source: "Laboratório Prana"},
@@ -817,12 +1062,6 @@ function nextPhilosQuote() {
   currentQuote = (currentQuote + 1) % quotes.length;
   document.getElementById('philosQuote').innerText = '"' + quotes[currentQuote].quote + '"';
   document.getElementById('philosSource').innerText = '— ' + quotes[currentQuote].source;
-}
-
-function setPranaMode(mode, el) {
-  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-  document.getElementById('pranaExplanation').innerText = mode === 'coerencia' ? "Modo Coerência Cardíaca: Ritmo equilibrado para resetar o sistema nervoso." : "Modo Pranayama Clássico: Técnicas avançadas de controle do Prana.";
 }
 </script>
 </body>
