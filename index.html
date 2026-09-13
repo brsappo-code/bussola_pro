@@ -508,17 +508,29 @@
 
         // Seleção de Treinos
         let treinosSelecionados = [];
-        function toggleTreino(nome, btn) {
-            btn.classList.toggle('bg-blue-600');
-            btn.classList.toggle('text-white');
-            btn.classList.toggle('border-blue-500');
-            if (treinosSelecionados.includes(nome)) {
-                treinosSelecionados = treinosSelecionados.filter(t => t !== nome);
-            } else {
-                treinosSelecionados.push(nome);
-            }
-            haptic('light');
-        }
+        function toggleTreino(btn, treinoNome) {
+    // Inicializa o array se não existir
+    if (!window.treinosSelecionados) window.treinosSelecionados = [];
+
+    const index = window.treinosSelecionados.indexOf(treinoNome);
+    
+    if (index > -1) {
+        // DESMARCADO: Volta para o visual escuro padrão
+        window.treinosSelecionados.splice(index, 1);
+        btn.classList.remove('bg-emerald-500', 'text-slate-950', 'font-semibold', 'border-emerald-400');
+        btn.classList.add('bg-slate-800', 'text-slate-300', 'border-slate-700');
+    } else {
+        // SELECIONADO: Fica verde com texto preto
+        window.treinosSelecionados.push(treinoNome);
+        btn.classList.remove('bg-slate-800', 'text-slate-300', 'border-slate-700');
+        btn.classList.add('bg-emerald-500', 'text-slate-950', 'font-semibold', 'border-emerald-400');
+    }
+
+    // Feedback tátil do Telegram
+    if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
+        window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
+    }
+}
 
         // ==========================================
 // LOCAL EXATO DE SUBSTITUIÇÃO NO SEU <script>
