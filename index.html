@@ -61,8 +61,8 @@
                 <button onclick="switchTab('philos')" id="btn-philos" class="tab-btn px-4 py-2 text-xs font-semibold rounded-lg transition-all text-slate-400 hover:text-white hover:bg-slate-800">
                     <i class="fa-solid fa-brain mr-1.5"></i> Philos
                 </button>
-                <button onclick="switchTab('anamnese')" id="btn-anamnese" class="tab-btn px-4 py-2 text-xs font-semibold rounded-lg transition-all text-slate-400 hover:text-white hover:bg-slate-800">
-                    <i class="fa-solid fa-file-medical mr-1.5"></i> Calibragem
+                <button onclick="switchTab('fiatlux')" id="btn-fiatlux" class="tab-btn px-4 py-2 text-xs font-semibold rounded-lg transition-all text-slate-400 hover:text-white hover:bg-slate-800">
+                    <i class="fa-solid fa-bolt mr-1.5"></i> Fiat Lux
                 </button>
             </nav>
         </div>
@@ -258,7 +258,7 @@
                     </div>
                 </div>
 
-                <!-- Display Visual Dinâmico (Sem bug de movimento automático ao parar) -->
+                <!-- Display Visual Dinâmico -->
                 <div class="my-8 flex flex-col items-center justify-center">
                     <div id="prana-circle" class="w-48 h-48 rounded-full border-4 border-emerald-500/40 bg-emerald-500/10 flex flex-col items-center justify-center shadow-2xl transition-all duration-700">
                         <span id="prana-timer" class="text-4xl font-black text-emerald-400 font-mono">04</span>
@@ -285,11 +285,11 @@
         <section id="tab-philos" class="tab-content hidden space-y-6">
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-6">
                 
-                <!-- Frase do Dia no Topo com Botão Fiat Lux integrado -->
+                <!-- Frase do Dia no Topo com Botão Mais integrado -->
                 <div class="bg-slate-950 p-6 rounded-xl border border-slate-800/80 text-center relative">
                     <div class="absolute top-4 right-4">
                         <button onclick="nextQuote()" class="bg-amber-600/20 border border-amber-500/30 text-amber-400 hover:bg-amber-600 hover:text-white px-3 py-1.5 rounded-lg text-[11px] font-bold transition flex items-center gap-1.5 shadow">
-                            <i class="fa-solid fa-bolt"></i> Fiat Lux (Clique Aqui)
+                            <i class="fa-solid fa-bolt"></i> Mais
                         </button>
                     </div>
                     <span id="philos-category-badge" class="inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-amber-500/20 text-amber-400 mb-3">💪 Corpo</span>
@@ -392,50 +392,49 @@
             </div>
         </section>
 
-        <!-- [ANAMNESE / CALIBRAGEM] -->
-        <section id="tab-anamnese" class="tab-content hidden space-y-6">
-            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl">
-                <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-800">
+        <!-- [FIAT LUX - GRUPO DE ESTUDOS] -->
+        <section id="tab-fiatlux" class="tab-content hidden space-y-6">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-6">
+                <div class="flex items-center justify-between pb-4 border-b border-slate-800">
                     <div>
                         <h2 class="text-lg font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-file-medical text-purple-500"></i> Calibragem & Anamnese
+                            <i class="fa-solid fa-users text-amber-500"></i> Grupo de Estudos &bull; Fiat Lux
                         </h2>
-                        <p class="text-xs text-slate-400">Ajuste fino de parâmetros e alinhamento de perfil.</p>
+                        <p class="text-xs text-slate-400">Comunidade de aprofundamento, imersões e diretrizes do Método Groppo.</p>
                     </div>
                 </div>
 
-                <form class="space-y-4" onsubmit="saveAnamnese(event)">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Perfil / Foco Atual</label>
-                            <select id="anamnese-foco" class="w-full bg-slate-950 border border-slate-700 text-sm rounded-lg p-2.5 text-slate-200 focus:ring-2 focus:ring-purple-500 focus:outline-none">
-                                <option>Hipertrofia e Condicionamento</option>
-                                <option>Emagrecimento e Vitalidade</option>
-                                <option>Recuperação de Fadiga e Postura</option>
-                                <option>Performance Atlética</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Nível de Carga na Rotina</label>
-                            <select id="anamnese-carga" class="w-full bg-slate-950 border border-slate-700 text-sm rounded-lg p-2.5 text-slate-200 focus:ring-2 focus:ring-purple-500 focus:outline-none">
-                                <option>Moderado / Equilibrado</option>
-                                <option>Intenso / Alta Demanda</option>
-                                <option>Recuperação Gradual</option>
-                            </select>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-slate-950 p-5 rounded-xl border border-slate-800/80 space-y-3">
+                        <h3 class="text-xs font-bold text-amber-400 uppercase tracking-widest border-l-2 border-amber-500 pl-2">Próximos Encontros</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Acompanhe os avisos e cronogramas oficiais de mentorias e debates ao vivo do grupo de estudos.
+                        </p>
+                        <div class="pt-2">
+                            <span class="inline-block bg-amber-500/20 text-amber-400 text-[10px] font-bold px-2.5 py-1 rounded-full">Quarta-feira &bull; 20:00</span>
                         </div>
                     </div>
 
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Observações ou Restrições Físicas</label>
-                        <textarea id="anamnese-obs" rows="3" class="w-full bg-slate-950 border border-slate-700 text-sm rounded-lg p-3 text-slate-200 focus:ring-2 focus:ring-purple-500 focus:outline-none" placeholder="Descreva qualquer ponto de atenção corporal ou ajuste necessário..."></textarea>
+                    <div class="bg-slate-950 p-5 rounded-xl border border-slate-800/80 space-y-3">
+                        <h3 class="text-xs font-bold text-amber-400 uppercase tracking-widest border-l-2 border-amber-500 pl-2">Materiais & Diretrizes</h3>
+                        <p class="text-xs text-slate-300 leading-relaxed">
+                            Acesse os resumos de leituras, mapas mentais e diretrizes práticas aplicadas no ecossistema do método.
+                        </p>
+                        <div class="pt-2">
+                            <button type="button" onclick="alert('Repositório de materiais do grupo de estudos em sincronização.');" class="bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg transition">
+                                <i class="fa-solid fa-folder-open mr-1.5 text-amber-400"></i> Acessar Repositório
+                            </button>
+                        </div>
                     </div>
+                </div>
 
-                    <div class="flex justify-end">
-                        <button type="submit" class="bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-xl transition shadow-lg shadow-purple-500/25">
-                            <i class="fa-solid fa-check mr-2"></i> Salvar Calibragem
-                        </button>
-                    </div>
-                </form>
+                <div class="bg-slate-950 p-5 rounded-xl border border-slate-800/80">
+                    <h3 class="text-xs font-bold text-amber-400 uppercase tracking-widest border-l-2 border-amber-500 pl-2 mb-2">Canal de Comunicação Direta</h3>
+                    <p class="text-xs text-slate-300 mb-3">Interaja com os membros, tire dúvidas sobre as ferramentas e compartilhe evoluções do ecossistema.</p>
+                    <button type="button" onclick="alert('Redirecionando para o canal/grupo oficial no Telegram...');" class="bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-xl transition shadow-lg shadow-amber-500/20">
+                        <i class="fa-brands fa-telegram mr-2"></i> Abrir Grupo de Estudos
+                    </button>
+                </div>
             </div>
         </section>
 
@@ -537,7 +536,7 @@
             alert('Bússola Diária registrada com sucesso!');
         }
 
-        // Módulo Prana (Bug de animação resolvido: anima apenas quando ativo)
+        // Módulo Prana
         let pranaActiveType = 'sono';
         let pranaRunning = false;
         let pranaInterval = null;
@@ -611,7 +610,7 @@
             }, 1000);
         }
 
-        // Módulo Philos (Abas e Fiat Lux alternando Corpo, Mente, Espírito)
+        // Módulo Philos (Abas e botão Mais alternando Corpo, Mente, Espírito)
         function selectPhilosTab(tab) {
             document.querySelectorAll('.philos-pane').forEach(p => p.classList.add('hidden'));
             document.querySelectorAll('.philos-tab-btn').forEach(b => {
@@ -640,20 +639,6 @@
             document.getElementById('philos-source').innerText = `— ${item.s}`;
             selectPhilosTab(item.cat);
             haptic('light');
-        }
-
-        // Anamnese / Calibragem
-        function saveAnamnese(e) {
-            e.preventDefault();
-            const anamneseData = {
-                foco: document.getElementById('anamnese-foco').value,
-                carga: document.getElementById('anamnese-carga').value,
-                obs: document.getElementById('anamnese-obs').value,
-                data: new Date().toISOString()
-            };
-            localStorage.setItem('bussola_anamnese', JSON.stringify(anamneseData));
-            haptic('heavy');
-            alert('Calibragem salva com sucesso!');
         }
     </script>
 </body>
