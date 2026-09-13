@@ -506,32 +506,31 @@
             haptic('light');
         }
 
-        // Seleção de Treinos
-        let treinosSelecionados = [];
-        function toggleTreino(btn, treinoNome) {
-    // Inicializa o array se não existir
-    if (!window.treinosSelecionados) window.treinosSelecionados = [];
+     // Array global de controle dos treinos
+window.treinosSelecionados = window.treinosSelecionados || [];
 
-    const index = window.treinosSelecionados.indexOf(treinoNome);
+function toggleTreino(buttonElement, nomeTreino) {
+    const index = window.treinosSelecionados.indexOf(nomeTreino);
     
     if (index > -1) {
-        // DESMARCADO: Volta para o visual escuro padrão
+        // Já estava selecionado -> Remove e volta para o estilo escuro padrão
         window.treinosSelecionados.splice(index, 1);
-        btn.classList.remove('bg-emerald-500', 'text-slate-950', 'font-semibold', 'border-emerald-400');
-        btn.classList.add('bg-slate-800', 'text-slate-300', 'border-slate-700');
+        buttonElement.classList.remove('bg-emerald-500', 'text-slate-950', 'font-semibold', 'border-emerald-400');
+        buttonElement.classList.add('bg-slate-800', 'text-slate-300', 'border-slate-700');
     } else {
-        // SELECIONADO: Fica verde com texto preto
-        window.treinosSelecionados.push(treinoNome);
-        btn.classList.remove('bg-slate-800', 'text-slate-300', 'border-slate-700');
-        btn.classList.add('bg-emerald-500', 'text-slate-950', 'font-semibold', 'border-emerald-400');
+        // Não estava selecionado -> Adiciona e fica verde com texto preto
+        window.treinosSelecionados.push(nomeTreino);
+        buttonElement.classList.remove('bg-slate-800', 'text-slate-300', 'border-slate-700');
+        buttonElement.classList.add('bg-emerald-500', 'text-slate-950', 'font-semibold', 'border-emerald-400');
     }
 
-    // Feedback tátil do Telegram
+    // Feedback tátil opcional do Telegram
     if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
         window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
     }
+    
+    console.log("Treinos atuais:", window.treinosSelecionados);
 }
-
         // ==========================================
 // LOCAL EXATO DE SUBSTITUIÇÃO NO SEU <script>
 // Substitua a função antiga de salvamento da Bússola Diária por esta:
