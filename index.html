@@ -520,21 +520,83 @@
             haptic('light');
         }
 
-        function saveDiaria(e) {
-            e.preventDefault();
-            const dados = {
-                rigidez: document.getElementById('rigidez').value,
-                disposicao: document.getElementById('disposicao').value,
-                aguaMl: waterMl,
-                qualidadeAlim: document.getElementById('qualidade-alim').value,
-                qtdAlim: document.getElementById('qtd-alim').value,
-                treinos: treinosSelecionados,
-                data: new Date().toISOString()
-            };
-            localStorage.setItem('bussola_diaria', JSON.stringify(dados));
-            haptic('heavy');
-            alert('Bússola Diária registrada com sucesso!');
+        // ==========================================
+// LOCAL EXATO DE SUBSTITUIÇÃO NO SEU <script>
+// Substitua a função antiga de salvamento da Bússola Diária por esta:
+// ==========================================
+
+async function saveDiaria(e) {
+    if (e && typeof e.preventDefault === 'function') {
+        e.preventDefault();
+    }
+    
+    // 1. Captura segura do Telegram Mini App (com fallback para testes no browser)
+    const tgUser = window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user;
+    const telegramId = tgUser ? tgUser.id : "7202627825"; 
+    const nomeCompleto = tgUser ? `${tgUser.first_name || ''} ${tgUser.last_name || ''}`.trim() : "Bruno Sandrini Groppo";
+
+    // 2. Coleta dos valores dos inputs do formulário da Bússola Diária
+    const rigidez = document.getElementById('rigidez') ? document.getElementById('rigidez').value : '3';
+    const disposicao = document.getElementById('disposicao') ? document.getElementById('disposicao').value : '3';
+    const qualidadeAlim = document.getElementById('qualidade-alim') ? document.getElementById('qualidade-alim').value : '3';
+    const qtdAlim = document.getElementById('qtd-alim') ? document.getElementById('qtd-alim').value : '3';
+    
+    // Identifica se há seletor de Rito na tela (Manhã, Tarde, Noite) ou assume padrão
+    const ritoSelect = document.getElementById('rito-select');
+    const ritoAtual = ritoSelect ? ritoSelect.value : "Rito da Manhã";
+
+    // 3. Formatação da string de parâmetros idêntica ao padrão da sua planilha
+    const aguaStr = (typeof waterMl !== 'undefined' && waterMl >= 1000) ? (waterMl/1000).toFixed(1) + 'L' : (typeof waterMl !== 'undefined' ? waterMl + 'ml' : '0ml');
+    const treinosStr = (typeof treinosSelecionados !== 'undefined' && treinosSelecionados.length > 0) ? treinosSelecionados.join(', ') : 'Nenhum registro';
+    
+    // Montagem exata da coluna 'Resposta / Parâmetros' observada na sua foto
+    const respostaParametros = `R=${rigidez}/5 | D=${disposicao}/5 | Hidratação: ${aguaStr} | Práticas: ${treinosStr} | Alimentação: Qtd ${qtdAlim}/5, Qld ${qualidadeAlim}/5`;
+
+    const payload = {
+        telegram_id: String(telegramId),
+        nome_completo: nomeCompleto,
+        rito: ritoAtual,
+        resposta: respostaParametros
+    };
+
+    // Feedback tátil nativo do Telegram
+    if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
+        window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+    }
+
+    // Persistência local de segurança
+    localStorage.setItem('bussola_diaria_last', JSON.stringify(payload));
+
+    // COLE ABAIXO A URL DO SEU GOOGLE APPS SCRIPT (obtida no Passo 1):
+    const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbwU4hpa_VYz7aLqrPc9YYv0cfpgy77kDz8nUJJJZIW1gXGsPlILeXk1b68wCxwwsdn3/exec"; 
+
+    try {
+        const submitBtn = e && e.target ? e.target.querySelector('button[type="submit"]') : null;
+        let originalText = "";
+        if (submitBtn) {
+            originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-2"></i> Sincronizando...`;
+            submitBtn.disabled = true;
         }
+
+        // Envio via fetch (mode: 'no-cors' evita bloqueios de CORS do navegador/Telegram)
+        await fetch(ENDPOINT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (submitBtn) {
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }
+        
+        console.log("Check-in enviado com sucesso para a planilha!");
+    } catch (error) {
+        console.error('Erro de sincronização com a planilha:', error);
+    }
+}
 
         // Módulo Prana
         let pranaActiveType = 'sono';
