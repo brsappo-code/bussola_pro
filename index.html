@@ -721,3 +721,24 @@ async function saveDiaria(e) {
     </script>
 </body>
 </html>
+// Envio via fetch
+        await fetch(ENDPOINT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (submitBtn) {
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+        }
+        
+        console.log("Check-in enviado com sucesso!");
+
+        // ADICIONE ESTA LINHA PARA FECHAR O MINI APP AUTOMATICAMENTE:
+        if (window.Telegram && window.Telegram.WebApp) {
+            setTimeout(() => {
+                window.Telegram.WebApp.close();
+            }, 800); // Aguarda 800ms para o aluno visualizar o feedback e fecha sozinho
+        }
