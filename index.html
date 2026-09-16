@@ -28,7 +28,7 @@
 <style>
   /* Escala tipográfica global otimizada para o Bússola Pro Mobile-First */
   html {
-    font-size: 19px; /* Eleva o padrão de 16px (1rem) para 19px, aumentando a legibilidade */
+    font-size: 17.5px; /* Eleva o padrão de 16px (1rem) para 17.5px, aumentando a legibilidade */
     -webkit-text-size-adjust: 100%;
   }
 
@@ -301,7 +301,7 @@
                     </div>
                     <span id="philos-category-badge" class="inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-amber-500/20 text-amber-400 mb-3">💪 Corpo</span>
                     <p class="text-base font-medium text-slate-200 italic mb-3 px-4" id="philos-quote">
-                        "O corpo que não se movimenta petrifica a alma que nele habita. Desperte a carne para libertar o espírito."
+                        "O corpo que não se movimenta petrifica a alma que nele habita. Desperte o movimento para libertar o espírito."
                     </p>
                     <span class="text-xs text-amber-400 font-bold uppercase tracking-wider" id="philos-source">— Princípio de Vitalidade</span>
                 </div>
@@ -400,50 +400,96 @@
         </section>
 
         <!-- [FIAT LUX - GRUPO DE ESTUDOS] -->
+        <!-- [FIAT LUX] -->
         <section id="tab-fiatlux" class="tab-content hidden space-y-6">
             <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-6">
-                <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-4 border-b border-slate-800 gap-4">
                     <div>
                         <h2 class="text-lg font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-users text-amber-500"></i> Grupo de Estudos &bull; Fiat Lux
+                            <i class="fa-solid fa-bolt text-amber-500"></i> Fiat Lux &bull; Central de Estudos
                         </h2>
-                        <p class="text-xs text-slate-400">Comunidade de aprofundamento, imersões e diretrizes do Método Groppo.</p>
+                        <p class="text-xs text-slate-400">Trilhas de aprofundamento, mentorias e diretrizes do Método Groppo.</p>
                     </div>
+                    <span class="bg-amber-500/20 text-amber-400 border border-amber-500/30 text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                        <i class="fa-solid fa-circle-dot text-[8px] mr-1.5 animate-pulse"></i> Turma Ativa
+                    </span>
                 </div>
 
+                <!-- Grid de Funcionalidades do Fiat Lux -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="bg-slate-950 p-5 rounded-xl border border-slate-800/80 space-y-3">
-                        <h3 class="text-xs font-bold text-amber-400 uppercase tracking-widest border-l-2 border-amber-500 pl-2">Próximos Encontros</h3>
-                        <p class="text-xs text-slate-300 leading-relaxed">
-                            Acompanhe os avisos e cronogramas oficiais de mentorias e debates ao vivo do grupo de estudos.
-                        </p>
-                        <div class="pt-2">
-                            <span class="inline-block bg-amber-500/20 text-amber-400 text-[10px] font-bold px-2.5 py-1 rounded-full">Quarta-feira &bull; 20:00</span>
+                    
+                    <!-- Bloco 1: Próximo Encontro / Mentoria -->
+                    <div class="bg-slate-950 p-5 rounded-xl border border-slate-800/80 space-y-4 flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-xs font-bold text-amber-400 uppercase tracking-widest border-l-2 border-amber-500 pl-2">Próxima Imersão / Encontro</h3>
+                                <span class="text-[10px] text-slate-400">Quarta-feira, 20:00</span>
+                            </div>
+                            <p class="text-xs font-semibold text-slate-200 mb-1">Análise de Casos & Alinhamento Prático</p>
+                            <p class="text-[11px] text-slate-400">Debate aberto sobre aplicação dos pilares no cotidiano e automações.</p>
                         </div>
+                        <a href="https://zoom.us" target="_blank" class="bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold uppercase tracking-wider py-2.5 px-4 rounded-xl transition text-center shadow-lg shadow-amber-500/20 block">
+                            <i class="fa-solid fa-video mr-2"></i> Entrar na Sala ao Vivo
+                        </a>
                     </div>
 
-                    <div class="bg-slate-950 p-5 rounded-xl border border-slate-800/80 space-y-3">
-                        <h3 class="text-xs font-bold text-amber-400 uppercase tracking-widest border-l-2 border-amber-500 pl-2">Materiais & Diretrizes</h3>
-                        <p class="text-xs text-slate-300 leading-relaxed">
-                            Acesse os resumos de leituras, mapas mentais e diretrizes práticas aplicadas no ecossistema do método.
-                        </p>
-                        <div class="pt-2">
-                            <button type="button" onclick="alert('Repositório de materiais do grupo de estudos em sincronização.');" class="bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs font-semibold px-3 py-1.5 rounded-lg transition">
-                                <i class="fa-solid fa-folder-open mr-1.5 text-amber-400"></i> Acessar Repositório
-                            </button>
+                    <!-- Bloco 2: Repositório de Materiais -->
+                    <div class="bg-slate-950 p-5 rounded-xl border border-slate-800/80 space-y-4 flex flex-col justify-between">
+                        <div>
+                            <h3 class="text-xs font-bold text-amber-400 uppercase tracking-widest border-l-2 border-amber-500 pl-2 mb-2">Arsenal & Documentos</h3>
+                            <p class="text-xs font-semibold text-slate-200 mb-1">Manuais, Guias e E-books</p>
+                            <p class="text-[11px] text-slate-400">Acesse o guia "Destrave seu Corpo" e os materiais de apoio complementares.</p>
+                        </div>
+                        <button type="button" onclick="alert('Abrindo repositório de arquivos do Método Groppo...');" class="bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 text-xs font-bold uppercase tracking-wider py-2.5 px-4 rounded-xl transition text-center block">
+                            <i class="fa-solid fa-folder-open mr-2"></i> Acessar Repositório
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Bloco 3: Módulos da Trilha -->
+                <div class="bg-slate-950 p-5 rounded-xl border border-slate-800/80 space-y-4">
+                    <h3 class="text-xs font-bold text-amber-400 uppercase tracking-widest border-l-2 border-amber-500 pl-2">Trilhas de Conteúdo</h3>
+                    
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between p-3 rounded-lg bg-slate-900 border border-slate-800/80">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-amber-500/20 text-amber-400 p-2 rounded-lg text-xs font-bold font-mono">01</div>
+                                <div>
+                                    <div class="text-xs font-bold text-slate-200">Fundamentos da Bússola Diária</div>
+                                    <div class="text-[10px] text-slate-400">Calibragem de rigidez, humor e autonomia circadiana.</div>
+                                </div>
+                            </div>
+                            <span class="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2.5 py-1 rounded-full">Disponível</span>
+                        </div>
+
+                        <div class="flex items-center justify-between p-3 rounded-lg bg-slate-900 border border-slate-800/80">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-amber-500/20 text-amber-400 p-2 rounded-lg text-xs font-bold font-mono">02</div>
+                                <div>
+                                    <div class="text-xs font-bold text-slate-200">Laboratório Prana & Regulação</div>
+                                    <div class="text-[10px] text-slate-400">Técnicas de respiração aplicadas ao foco e recuperação.</div>
+                                </div>
+                            </div>
+                            <span class="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2.5 py-1 rounded-full">Disponível</span>
+                        </div>
+
+                        <div class="flex items-center justify-between p-3 rounded-lg bg-slate-900 border border-slate-800/80">
+                            <div class="flex items-center gap-3">
+                                <div class="bg-amber-500/20 text-amber-400 p-2 rounded-lg text-xs font-bold font-mono">03</div>
+                                <div>
+                                    <div class="text-xs font-bold text-slate-200">Alquimia do Movimento & Matriz Humana</div>
+                                    <div class="text-[10px] text-slate-400">Princípios avançados de mobilidade e vitalidade corporal.</div>
+                                </div>
+                            </div>
+                            <span class="text-[10px] text-amber-400 font-bold bg-amber-500/10 px-2.5 py-1 rounded-full">Em Breve</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-slate-950 p-5 rounded-xl border border-slate-800/80">
-                    <h3 class="text-xs font-bold text-amber-400 uppercase tracking-widest border-l-2 border-amber-500 pl-2 mb-2">Canal de Comunicação Direta</h3>
-                    <p class="text-xs text-slate-300 mb-3">Interaja com os membros, tire dúvidas sobre as ferramentas e compartilhe evoluções do ecossistema.</p>
-                    <button type="button" onclick="alert('Redirecionando para o canal/grupo oficial no Telegram...');" class="bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold uppercase tracking-wider px-5 py-2.5 rounded-xl transition shadow-lg shadow-amber-500/20">
-                        <i class="fa-brands fa-telegram mr-2"></i> Abrir Grupo de Estudos
-                    </button>
-                </div>
             </div>
         </section>
+
 
     </main>
 
@@ -721,24 +767,5 @@ async function saveDiaria(e) {
     </script>
 </body>
 </html>
-// Envio via fetch
-        await fetch(ENDPOINT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
 
-        if (submitBtn) {
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-        }
-        
-        console.log("Check-in enviado com sucesso!");
 
-        // ADICIONE ESTA LINHA PARA FECHAR O MINI APP AUTOMATICAMENTE:
-        if (window.Telegram && window.Telegram.WebApp) {
-            setTimeout(() => {
-                window.Telegram.WebApp.close();
-            }, 800); // Aguarda 800ms para o aluno visualizar o feedback e fecha sozinho
-        }
