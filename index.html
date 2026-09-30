@@ -794,104 +794,61 @@ async function saveDiaria(e) {
             selectPhilosTab(item.cat);
             haptic('light');
         }
-    </script>
-    <!-- [CENTRAL DE ALUNOS] - Painel Exclusivo do Mentor -->
-<div id="central-alunos-modal" class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
-        
-        <!-- Cabeçalho do Painel -->
-        <div class="flex justify-between items-center p-4 border-b border-slate-800 bg-slate-900/50">
-            <div class="flex items-center gap-2">
-                <span class="text-amber-400 text-lg">🧭</span>
-                <h2 class="text-base font-bold text-slate-100">Central de Alunos — Mentor</h2>
-            </div>
-            <button onclick="fecharCentralAlunos()" class="text-slate-400 hover:text-slate-200 text-sm p-2 rounded-lg transition">
-                <i class="fa-solid fa-xmark text-lg"></i>
-            </button>
+<!-- Modal Central de Alunos Avançada -->
+<div id="central-alunos-modal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 w-full max-w-lg rounded-2xl p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
+        <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+            <h2 class="text-lg font-bold text-amber-400 flex items-center gap-2">
+                <i class="fa-solid fa-users-gear"></i> Central de Alunos — Bússola Pro
+            </h2>
+            <button onclick="fecharCentralAlunos()" class="text-slate-400 hover:text-white text-xl">&times;</button>
         </div>
 
-        <!-- Corpo com as Opções Táticas -->
-        <div class="p-4 overflow-y-auto space-y-4 text-sm text-slate-300">
-            
-            <!-- Opção 1: Stream de Check-ins (Auditoria em Tempo Real) -->
-            <div class="p-3.5 bg-slate-800/40 border border-slate-700/50 rounded-xl">
-                <h3 class="font-semibold text-amber-400 mb-1 flex items-center gap-2">
-                    <i class="fa-solid fa-list-check"></i> Stream de Check-ins (Ao Vivo)
-                </h3>
-                <p class="text-xs text-slate-400 mb-3">Auditoria rápida dos últimos parâmetros de rigidez, humor e hidratação enviados pelos alunos.</p>
-                <button onclick="carregarCheckinsRecentes()" class="px-3.5 py-2 bg-amber-500 text-slate-950 font-semibold rounded-xl text-xs hover:bg-amber-400 transition flex items-center gap-2">
-                    <i class="fa-solid fa-rotate"></i> Consultar Planilha
-                </button>
-                <div id="stream-checkins-box" class="mt-3 space-y-2 text-xs">
-                    <!-- Os dados injetados aparecerão aqui -->
+        <!-- Seletor de Alunos -->
+        <div>
+            <label class="block text-xs font-semibold text-slate-400 mb-1.5 uppercase tracking-wider">Selecionar Aluno</label>
+            <select id="aluno-select" onchange="carregarDadosAluno()" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-amber-400">
+                <option value="">-- Escolher Aluno --</option>
+                <option value="marcia">Marcia Vieira</option>
+                <option value="debora">Debora Duarte</option>
+                <option value="fatima">Fátima Vargas</option>
+            </select>
+        </div>
+
+        <!-- Painel de Métricas Cruzadas (Hidratação, Nutrição vs Rigidez) -->
+        <div id="painel-aluno-detalhes" class="hidden space-y-3 pt-2">
+            <div class="grid grid-cols-3 gap-2 text-center">
+                <div class="bg-slate-800/60 p-2.5 rounded-xl border border-slate-700/50">
+                    <span class="block text-[10px] text-slate-400 uppercase">Hidratação</span>
+                    <span id="stat-hidratacao" class="text-sm font-bold text-sky-400">--</span>
+                </div>
+                <div class="bg-slate-800/60 p-2.5 rounded-xl border border-slate-700/50">
+                    <span class="block text-[10px] text-slate-400 uppercase">Alimentação</span>
+                    <span id="stat-alimentacao" class="text-sm font-bold text-emerald-400">--</span>
+                </div>
+                <div class="bg-slate-800/60 p-2.5 rounded-xl border border-slate-700/50">
+                    <span class="block text-[10px] text-slate-400 uppercase">Rigidez Média</span>
+                    <span id="stat-rigidez" class="text-sm font-bold text-rose-400">--</span>
                 </div>
             </div>
 
-            <!-- Opção 2: Indicadores e Alertas de Alunos -->
-            <div class="p-3.5 bg-slate-800/40 border border-slate-700/50 rounded-xl">
-                <h3 class="font-semibold text-emerald-400 mb-1 flex items-center gap-2">
-                    <i class="fa-solid fa-chart-line"></i> Painel de Alertas Biomecânicos
-                </h3>
-                <p class="text-xs text-slate-400">Monitoramento de alunos em zona de atenção (pontuação de rigidez/dor persistente ou ingestão hídrica abaixo da média).</p>
-                <div class="mt-2 text-xs text-slate-400 bg-slate-900/60 p-2.5 rounded-lg border border-slate-800">
-                    🟢 Nenhum alerta crítico nas últimas 24h. Base regulada.
-                </div>
+            <!-- Cruzamento Tático -->
+            <div class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-3 text-xs text-slate-300">
+                <strong class="text-amber-400 block mb-1"><i class="fa-solid fa-chart-line"></i> Análise de Cruzamento Tático:</strong>
+                <p id="cruzamento-texto">Selecione um aluno para gerar o cruzamento entre hábitos e o índice de rigidez corporal.</p>
             </div>
 
-            <!-- Opção 3: Atalhos Operacionais / Grupo de Estudos -->
-            <div class="p-3.5 bg-slate-800/40 border border-slate-700/50 rounded-xl">
-                <h3 class="font-semibold text-sky-400 mb-1 flex items-center gap-2">
-                    <i class="fa-solid fa-bullhorn"></i> Gestão de Comunicados & Fiat Lux
-                </h3>
-                <p class="text-xs text-slate-400 mb-3">Atalhos rápidos para disparar diretrizes e programar encontros da comunidade.</p>
-                <a href="https://t.me" target="_blank" class="inline-flex items-center gap-2 px-3 py-2 bg-sky-500/10 border border-sky-500/30 text-sky-400 font-semibold rounded-xl text-xs hover:bg-sky-500/20 transition">
-                    <i class="fa-brands fa-telegram"></i> Acessar Canal de Gestão
+            <!-- Link para a Planilha do Mês Ativo -->
+            <div class="pt-2">
+                <a id="link-planilha" href="#" target="_blank" class="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white font-medium py-2.5 px-4 rounded-xl transition-all text-sm shadow-lg shadow-emerald-900/30">
+                    <i class="fa-solid fa-file-excel"></i> Abrir Planilha de Presença (Mês Ativo)
                 </a>
             </div>
-
         </div>
-        <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const MEU_CHAT_ID = "7202627825"; // O teu ID exclusivo do Telegram
 
-        const tgUser = window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user;
-        
-        if (tgUser && String(tgUser.id) === MEU_CHAT_ID) {
-            const adminBtn = document.getElementById('admin-bussola-btn');
-            if (adminBtn) {
-                adminBtn.classList.remove('hidden');
-                adminBtn.classList.add('flex'); // Libera o botão apenas para ti
-            }
-        }
-    });
-
-    function abrirCentralAlunos() {
-        if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.HapticFeedback) {
-            window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');
-        }
-        const modal = document.getElementById('central-alunos-modal');
-        if (modal) modal.classList.remove('hidden');
-    }
-
-    function fecharCentralAlunos() {
-        const modal = document.getElementById('central-alunos-modal');
-        if (modal) modal.classList.add('hidden');
-    }
-
-    async function carregarCheckinsRecentes() {
-        const box = document.getElementById('stream-checkins-box');
-        box.innerHTML = '<p class="text-slate-400 italic">Sincronizando com a base...</p>';
-        
-        setTimeout(() => {
-            box.innerHTML = `
-                <div class="p-2.5 bg-slate-900 rounded-lg border border-slate-700 text-slate-200">
-                    <strong class="text-amber-400">Hoje</strong> — Exemplo de Aluno<br>
-                    <span class="text-slate-400">Rigidez: 1 | Humor: 5 | Água: 2.0L</span>
-                </div>
-            `;
-        }, 600);
-    }
-</script>
+        <div class="flex justify-end pt-3 border-t border-slate-800">
+            <button onclick="fecharCentralAlunos()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-medium px-4 py-2 rounded-xl">Fechar</button>
+        </div>
     </div>
 </div>
 </body>
